@@ -6,15 +6,15 @@ type UserType = {
 export type InitialStateType = {
   isAuthenticated: boolean;
   token?: string;
-  user: UserType;
+  user?: UserType;
 };
 
 const authReducer = (state: InitialStateType, action: any) => {
   switch (action.type) {
     case 'login':
       const token: string = action.payload.token;
-      const _id: string = action.payload.user._id;
       const username: string = action.payload.user.username;
+      const _id: string = action.payload.user._id;
       const user = { username, _id };
 
       localStorage.setItem('token', token);

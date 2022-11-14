@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-import { AuthProvider } from './context/context';
 
+import Login from './components/Login';
 const App = () => {
-  return <AuthProvider></AuthProvider>;
+  return <Login></Login>;
 };
 
 export default App;

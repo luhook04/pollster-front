@@ -1,6 +1,6 @@
 import React from 'react';
 import Signup from '../components/Signup';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('Signup Component', () => {
@@ -24,5 +24,20 @@ describe('Signup Component', () => {
     expect(usernameInput).toHaveValue('testuser');
     expect(passwordInput).toHaveValue('testpass');
     expect(confirmPasswordInput).toHaveValue('testpass');
+  });
+
+  it('returns error on submit failure', async () => {
+    const error = 'woosh';
+    render(<Signup></Signup>);
+    global.fetch = jest.fn().mockRejectedValue(error);
+
+    const button = screen.getByRole('button');
+    userEvent.click(button);
+    await waitFor(() => {
+      expect(
+        screen.getByText('Oops... something went wrong')
+      ).toBeInTheDocument();
+    });
+    return expect(fetch).toHaveBeenCalled();
   });
 });
