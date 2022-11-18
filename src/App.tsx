@@ -1,12 +1,13 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import './App.css';
 import Login from './components/Login';
 import { AuthContext } from './context/context';
+import Home from './components/Home';
 
 const App = () => {
-  const { state, dispatch } = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
 
-  return <div>{state.isAuthenticated ? <div>homepage</div> : <Login />}</div>;
+  return <div>{state.isAuthenticated ? <Home /> : <Login />}</div>;
 };
 
 export default App;

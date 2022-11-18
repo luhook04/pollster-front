@@ -1,4 +1,3 @@
-import e from 'express';
 import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/context';
 import Signup from './Signup';
@@ -49,6 +48,7 @@ const Login = () => {
         setError('Incorrect Login Credentials');
       } else if (req.status === 200) {
         const reqJson = await req.json();
+
         dispatch({ type: 'login', payload: reqJson });
       }
     } catch (err) {
@@ -62,9 +62,8 @@ const Login = () => {
     setShowSignup(true);
   };
 
-  const closeSignup = (e: any) => {
-    console.log('close');
-    setShowSignup(false);
+  const closeSignup = () => {
+    if (showSignup) setShowSignup(false);
   };
 
   return (

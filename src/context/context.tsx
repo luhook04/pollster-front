@@ -28,11 +28,14 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     const token: string | null = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
+    const body = localStorage.getItem('user');
 
-    if (token && user) {
+    if (token && body) {
       token &&
-        dispatch({ type: 'login', payload: { token: token, user: user } });
+        dispatch({
+          type: 'remainLoggedIn',
+          payload: { token: token, body: body },
+        });
     }
   }, []);
 

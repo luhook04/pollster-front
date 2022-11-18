@@ -13,10 +13,9 @@ const authReducer = (state: InitialStateType, action: any) => {
   switch (action.type) {
     case 'login':
       console.log(action.payload);
-      const token: string = action.payload.token;
-      const _id: string = action.payload.body._id;
-      const username: string = action.payload.body.username;
-      const user = { username, _id };
+      let token: string = action.payload.token;
+      let user = action.payload.body;
+      console.log(user);
 
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
@@ -25,10 +24,20 @@ const authReducer = (state: InitialStateType, action: any) => {
         ...state,
         isAuthenticated: true,
         token: token,
-        user: {
-          _id: _id,
-          username: username,
-        },
+        user: user,
+      };
+
+    case 'remainLoggedIn':
+      const savedUser = action.payload.body;
+      const parsedUser = JSON.parse(savedUser);
+      const savedToken = action.payload.token;
+      localStorage.setItem('token', savedToken);
+      localStorage.setItem('user', JSON.stringify(parsedUser));
+      return {
+        ...state,
+        token: savedToken,
+        isAuthenticated: true,
+        user: savedUser,
       };
 
     case 'logout':
