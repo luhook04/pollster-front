@@ -1,8 +1,11 @@
-import React, { useContext, useState } from 'react';
+import e from 'express';
+import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/context';
+import Signup from './Signup';
 
 const Login = () => {
-  const { state, dispatch } = useContext(AuthContext);
+  const { dispatch } = useContext(AuthContext);
+  const [showSignup, setShowSignup] = useState<boolean>(false);
 
   const [error, setError] = useState<string>('');
   const [user, setUser] = useState<{
@@ -12,6 +15,14 @@ const Login = () => {
     username: '',
     password: '',
   });
+
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError('');
+      }, 3000);
+    }
+  }, [error]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -36,37 +47,58 @@ const Login = () => {
 
       if (req.status !== 200) {
         setError('Incorrect Login Credentials');
+      } else if (req.status === 200) {
+        const reqJson = await req.json();
+        dispatch({ type: 'login', payload: reqJson });
       }
-      const reqJson = await req.json();
-      dispatch({ type: 'login', payload: reqJson });
     } catch (err) {
-      return err;
+      return setError('Incorrect Login Credentials');
     }
   };
 
+  const openSignup = (e: any) => {
+    e.stopPropagation();
+    console.log('open');
+    setShowSignup(true);
+  };
+
+  const closeSignup = (e: any) => {
+    console.log('close');
+    setShowSignup(false);
+  };
+
   return (
-    <form onSubmit={handleLogin} action="POST">
-      <div>
-        <input
-          type="text"
-          placeholder="Enter Username"
-          name="username"
-          onChange={handleChange}
-          value={user.username}
-        />
-        <input
-          type="text"
-          placeholder="Enter Password"
-          name="password"
-          onChange={handleChange}
-          value={user.password}
-        />
+    <div className="login-signup-container">
+      <div className="login-container" onClick={closeSignup}>
+        <form onSubmit={handleLogin} action="POST">
+          <div>
+            <input
+              type="text"
+              placeholder="Enter Username"
+              name="username"
+              onChange={handleChange}
+              value={user.username}
+            />
+            <input
+              type="text"
+              placeholder="Enter Password"
+              name="password"
+              onChange={handleChange}
+              value={user.password}
+            />
+          </div>
+          <div>
+            <button type="submit">Login</button>
+            <span>or</span>
+            <button onClick={openSignup} type="button">
+              Create New Account
+            </button>
+          </div>
+          {error ? <div>{error}</div> : null}
+        </form>
       </div>
-      <div>
-        <button type="submit">Login</button>
-      </div>
-      {error ? <div>{error}</div> : null}
-    </form>
+      {showSignup ? <Signup closeSignup={closeSignup}></Signup> : null}
+    </div>
   );
 };
 

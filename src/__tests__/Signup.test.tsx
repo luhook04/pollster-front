@@ -27,10 +27,8 @@ describe('Signup Component', () => {
   });
 
   it('returns error on submit failure', async () => {
-    const error = 'woosh';
     render(<Signup></Signup>);
-    global.fetch = jest.fn().mockRejectedValue(error);
-
+    global.fetch = jest.fn();
     const button = screen.getByRole('button');
     userEvent.click(button);
     await waitFor(() => {
@@ -38,6 +36,6 @@ describe('Signup Component', () => {
         screen.getByText('Oops... something went wrong')
       ).toBeInTheDocument();
     });
-    return expect(fetch).toHaveBeenCalled();
+    expect(fetch).toHaveBeenCalled();
   });
 });

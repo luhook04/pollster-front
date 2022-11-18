@@ -1,5 +1,5 @@
 import Login from '../components/Login';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('Signup Component', () => {
@@ -21,5 +21,27 @@ describe('Signup Component', () => {
     userEvent.type(passwordInput, 'testpass');
     expect(usernameInput).toHaveValue('testuser');
     expect(passwordInput).toHaveValue('testpass');
+  });
+
+  it('renders error on incorrect login', async () => {
+    render(<Login></Login>);
+    global.fetch = jest.fn();
+    const button = screen.getByRole('button', { name: 'Login' });
+    userEvent.click(button);
+    await waitFor(() => {
+      expect(
+        screen.getByText('Incorrect Login Credentials')
+      ).toBeInTheDocument();
+    });
+  });
+
+  it('renders signup on create account button click', () => {
+    render(<Login></Login>);
+    const button = screen.getByRole('button', { name: 'Create New Account' });
+    expect(
+      screen.queryByRole('heading', { name: 'Signup' })
+    ).not.toBeInTheDocument();
+    userEvent.click(button);
+    expect(screen.getByRole('heading', { name: 'Signup' })).toBeInTheDocument();
   });
 });

@@ -12,9 +12,10 @@ export type InitialStateType = {
 const authReducer = (state: InitialStateType, action: any) => {
   switch (action.type) {
     case 'login':
+      console.log(action.payload);
       const token: string = action.payload.token;
-      const username: string = action.payload.user.username;
-      const _id: string = action.payload.user._id;
+      const _id: string = action.payload.body._id;
+      const username: string = action.payload.body.username;
       const user = { username, _id };
 
       localStorage.setItem('token', token);

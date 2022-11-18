@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
-const Signup = () => {
+const Signup = ({ closeSignup }: any) => {
   const [newUser, setNewUser] = useState<{
     username: string;
     password: string;
@@ -22,7 +22,7 @@ const Signup = () => {
     try {
       const formData = JSON.stringify(newUser);
 
-      await fetch(
+      const res = await fetch(
         'https://pollster-api-production.up.railway.app/api/sign-up',
         {
           method: 'POST',
@@ -33,6 +33,10 @@ const Signup = () => {
           },
         }
       );
+
+      if (res.status === 404) {
+        setError('Oops... something went wrong');
+      }
     } catch (err) {
       return setError('Oops... something went wrong');
     }
@@ -48,8 +52,8 @@ const Signup = () => {
 
   return (
     <div>
-      <span>&times;</span>
       <h3>Signup</h3>
+      <span onClick={closeSignup}>&times;</span>
       <form action="POST" onSubmit={handleSignup}>
         <div>
           <input
