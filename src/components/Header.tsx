@@ -1,8 +1,9 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { AuthContext } from '../context/context';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
-  const value = useContext(AuthContext);
+  const { state, dispatch } = useContext(AuthContext);
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside, true);
@@ -19,7 +20,7 @@ const Header = () => {
   };
 
   const handleLogout = (): void => {
-    value?.dispatch({ type: 'logout' });
+    dispatch({ type: 'logout' });
   };
 
   const handleClickOutside = (event: MouseEvent): void => {
@@ -39,7 +40,9 @@ const Header = () => {
             <div className="header-dropdown" ref={ref}>
               <nav>
                 <ul>
-                  <li>View Profile</li>
+                  <li>
+                    <Link to={`/users/${state.user?._id}`}>View Profile</Link>
+                  </li>
                   <li>
                     <button onClick={handleLogout}>Logout</button>
                   </li>

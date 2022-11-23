@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { AuthContext } from '../context/context';
 import Login from './Login';
 import Header from './Header';
@@ -8,7 +8,7 @@ const Home = () => {
   const { state } = useContext(AuthContext);
 
   return (
-    <BrowserRouter basename="/">
+    <div>
       {state.isAuthenticated && <Header />}
       <Routes>
         <Route
@@ -24,7 +24,7 @@ const Home = () => {
           element={state.isAuthenticated ? <div>view account</div> : <Login />}
         ></Route>
       </Routes>
-    </BrowserRouter>
+    </div>
   );
 };
 

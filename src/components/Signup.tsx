@@ -1,4 +1,3 @@
-import { error } from 'console';
 import React, { useState, useEffect } from 'react';
 
 const Signup = ({ closeSignup }: any) => {

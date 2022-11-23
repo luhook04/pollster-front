@@ -2,7 +2,7 @@ import Login from '../components/Login';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-describe('Signup Component', () => {
+describe('Login Component', () => {
   it('contains the proper html', () => {
     render(<Login />);
     expect(screen.getByPlaceholderText(/Username/i)).toBeInTheDocument();
@@ -25,7 +25,11 @@ describe('Signup Component', () => {
 
   it('renders error on incorrect login', async () => {
     render(<Login></Login>);
-    global.fetch = jest.fn();
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.reject({ status: 404 }),
+      })
+    ) as jest.Mock;
     const button = screen.getByRole('button', { name: 'Login' });
     userEvent.click(button);
     await waitFor(() => {

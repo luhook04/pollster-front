@@ -13,7 +13,7 @@ describe('Signup Component', () => {
   });
 
   it('calls the onChange function on user type events', () => {
-    render(<Signup></Signup>);
+    render(<Signup />);
     const usernameInput = screen.getByPlaceholderText(/Username/i);
     const passwordInput = screen.getByPlaceholderText('Enter Password');
     const confirmPasswordInput =
@@ -27,7 +27,7 @@ describe('Signup Component', () => {
   });
 
   it('calls the fetch method', async () => {
-    render(<Signup></Signup>);
+    render(<Signup />);
     global.fetch = jest.fn();
     const button = screen.getByRole('button');
     userEvent.click(button);

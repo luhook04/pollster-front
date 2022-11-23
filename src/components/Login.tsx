@@ -52,7 +52,7 @@ const Login = () => {
         dispatch({ type: 'login', payload: reqJson });
       }
     } catch (err) {
-      return setError('Incorrect Login Credentials');
+      return err;
     }
   };
 
