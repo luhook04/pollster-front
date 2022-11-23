@@ -6,12 +6,12 @@ import Header from '../components/Header';
 describe('Header Component', () => {
   it('does not render the dropdown menu until menu click', () => {
     render(<Header />);
-    const menu = screen.queryByRole('Headerigation');
+    const menu = screen.queryByRole('navigation');
     expect(menu).not.toBeInTheDocument();
 
     const button = screen.getByRole('button');
     userEvent.click(button);
-    expect(screen.getByRole('Headerigation')).toBeInTheDocument();
+    expect(screen.getByRole('navigation')).toBeInTheDocument();
   });
 
   it('closes dropdown menu on outside click', () => {
@@ -20,13 +20,13 @@ describe('Header Component', () => {
     const heading = screen.getByRole('heading');
     // button click
     userEvent.click(button);
-    const Header = screen.getByRole('Headerigation');
-    expect(Header).toBeInTheDocument();
+    const nav = screen.getByRole('navigation');
+    expect(nav).toBeInTheDocument();
     // click inside
-    userEvent.click(Header);
-    expect(Header).toBeInTheDocument();
+    userEvent.click(nav);
+    expect(nav).toBeInTheDocument();
     // click outside
     userEvent.click(heading);
-    expect(screen.queryByRole('Headerigation')).not.toBeInTheDocument();
+    expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
   });
 });
