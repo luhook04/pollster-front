@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { AuthContext } from '../context/context';
+import Login from './Login';
 import Nav from './Nav';
 
 const Home = () => {
@@ -10,9 +11,18 @@ const Home = () => {
     <BrowserRouter basename="/">
       {state.isAuthenticated && <Nav />}
       <Routes>
-        <Route path="/" element={<div>cool</div>}></Route>
-        <Route path="/newpoll" element={<div>create poll</div>}></Route>
-        <Route path="/users/:userId" element={<div>view account</div>}></Route>
+        <Route
+          path="/"
+          element={state.isAuthenticated ? <div>homepage/feed</div> : <Login />}
+        ></Route>
+        <Route
+          path="/newpoll"
+          element={state.isAuthenticated ? <div>create poll</div> : <Login />}
+        ></Route>
+        <Route
+          path="/users/:userId"
+          element={state.isAuthenticated ? <div>view account</div> : <Login />}
+        ></Route>
       </Routes>
     </BrowserRouter>
   );
