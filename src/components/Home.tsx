@@ -2,14 +2,14 @@ import React, { useContext } from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { AuthContext } from '../context/context';
 import Login from './Login';
-import Nav from './Nav';
+import Header from './Header';
 
 const Home = () => {
   const { state } = useContext(AuthContext);
 
   return (
     <BrowserRouter basename="/">
-      {state.isAuthenticated && <Nav />}
+      {state.isAuthenticated && <Header />}
       <Routes>
         <Route
           path="/"
