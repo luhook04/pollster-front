@@ -25,7 +25,6 @@ const Header = () => {
   };
 
   const handleClickOutside = (event: MouseEvent): void => {
-    event.preventDefault();
     if (ref.current && !ref.current.contains(event.target as Node)) {
       setShowDropdown(false);
     }

@@ -2,14 +2,14 @@ import React, { useContext } from 'react';
 import './App.css';
 import Login from './components/Login';
 import { AuthContext } from './context/context';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 
 const App = () => {
   const { state } = useContext(AuthContext);
 
   return (
-    <BrowserRouter basename="/">
+    <>
       {state.isAuthenticated && <Header />}
       <Routes>
         <Route
@@ -25,7 +25,7 @@ const App = () => {
           element={state.isAuthenticated ? <div>About</div> : <Login />}
         ></Route>
       </Routes>
-    </BrowserRouter>
+    </>
   );
 };
 
