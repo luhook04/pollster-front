@@ -1,3 +1,4 @@
+import { error } from 'console';
 import React, { useState, useEffect } from 'react';
 
 const Signup = ({ closeSignup }: any) => {
@@ -11,7 +12,7 @@ const Signup = ({ closeSignup }: any) => {
     'confirm-password': '',
   });
 
-  const [error, setError] = useState<string>('');
+  const [errors, setErrors] = useState<string[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
@@ -22,7 +23,7 @@ const Signup = ({ closeSignup }: any) => {
     try {
       const formData = JSON.stringify(newUser);
 
-      const res = await fetch(
+      const req = await fetch(
         'https://pollster-api-production.up.railway.app/api/sign-up',
         {
           method: 'POST',
@@ -33,22 +34,28 @@ const Signup = ({ closeSignup }: any) => {
           },
         }
       );
-
-      if (res.status === 404) {
-        setError('Oops... something went wrong');
+      if (req.ok) {
+        closeSignup();
+      }
+      if (!req.ok) {
+        const reqJson = await req.json();
+        reqJson.errors.forEach((element: any) => {
+          let msg = element.msg;
+          setErrors((errors) => [...errors, msg]);
+        });
       }
     } catch (err) {
-      return setError('Oops... something went wrong');
+      return err;
     }
   };
 
   useEffect(() => {
-    if (error) {
+    if (errors.length > 0) {
       setTimeout(() => {
-        setError('');
+        setErrors([]);
       }, 3000);
     }
-  }, [error]);
+  }, [errors]);
 
   return (
     <div>
@@ -81,7 +88,11 @@ const Signup = ({ closeSignup }: any) => {
         <div>
           <button type="submit">Create Account</button>
         </div>
-        {error ? <div>{error}</div> : null}
+        {errors.length > 0
+          ? errors.map((error, index) => {
+              return <p key={index}>{error}</p>;
+            })
+          : null}
       </form>
     </div>
   );
