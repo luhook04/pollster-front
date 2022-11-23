@@ -29,10 +29,9 @@ const authReducer = (state: InitialStateType, action: any) => {
 
     case 'remainLoggedIn':
       const savedUser = action.payload.body;
-      const parsedUser = JSON.parse(savedUser);
       const savedToken = action.payload.token;
       localStorage.setItem('token', savedToken);
-      localStorage.setItem('user', JSON.stringify(parsedUser));
+      localStorage.setItem('user', JSON.stringify(savedUser));
       return {
         ...state,
         token: savedToken,

@@ -28,13 +28,13 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     const token: string | null = localStorage.getItem('token');
-    const body = localStorage.getItem('user');
-
+    const body: any = localStorage.getItem('user');
+    const parsedBody = JSON.parse(body);
     if (token && body) {
       token &&
         dispatch({
           type: 'remainLoggedIn',
-          payload: { token: token, body: body },
+          payload: { token: token, body: parsedBody },
         });
     }
   }, []);
