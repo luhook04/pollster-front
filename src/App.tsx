@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import './App.css';
 import Login from './components/Login';
+import Home from './components/Home';
 import { AuthContext } from './context/context';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -14,7 +15,7 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={state.isAuthenticated ? <div>homepage/feed</div> : <Login />}
+          element={state.isAuthenticated ? <Home /> : <Login />}
         ></Route>
         <Route
           path="/newpoll"

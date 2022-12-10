@@ -1,31 +1,50 @@
-// import React, { useContext } from 'react';
-// import { Routes, Route, BrowserRouter } from 'react-router-dom';
-// import { AuthContext } from '../context/context';
-// import Login from './Login';
-// import Header from './Header';
+import React, { useContext, useEffect } from 'react';
+import { AuthContext } from '../context/context';
 
-// const Home = () => {
-//   const { state } = useContext(AuthContext);
+const Home = () => {
+  const { state } = useContext(AuthContext);
 
-//   return (
-//     <BrowserRouter basename="/">
-//       {state.isAuthenticated && <Header />}
-//       <Routes>
-//         <Route
-//           path="/"
-//           element={state.isAuthenticated ? <div>homepage/feed</div> : <Login />}
-//         ></Route>
-//         <Route
-//           path="/newpoll"
-//           element={state.isAuthenticated ? <div>create poll</div> : <Login />}
-//         ></Route>
-//         <Route
-//           path="/users/:userId"
-//           element={state.isAuthenticated ? <div>About</div> : <Login />}
-//         ></Route>
-//       </Routes>
-//     </BrowserRouter>
-//   );
-// };
-export {};
-// export default Home;
+  useEffect(() => {
+    const getPolls = async () => {
+      try {
+        const req = await fetch(
+          'https://pollster-api-production.up.railway.app/api/polls',
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${state.token}`,
+            },
+          }
+        );
+        const reqJson = await req.json();
+        console.log(reqJson);
+      } catch (err) {
+        return err;
+      }
+    };
+    getPolls();
+
+    const getHomeUser = async () => {
+      try {
+        const req = await fetch(
+          `https://pollster-api-production.up.railway.app/api/home`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${state.token}`,
+            },
+          }
+        );
+
+        const reqJson = await req.json();
+        console.log(reqJson);
+      } catch (err) {
+        return err;
+      }
+    };
+    getHomeUser();
+  });
+  return <div></div>;
+};
+
+export default Home;
