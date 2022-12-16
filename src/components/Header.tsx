@@ -12,7 +12,6 @@ const Header = () => {
     };
   }, []);
 
-  console.log(state);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
 
