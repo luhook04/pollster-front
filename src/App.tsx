@@ -33,7 +33,7 @@ const App = () => {
       }
     };
     getHomeUser();
-  }, [state, currentUser]);
+  }, [state]);
 
   return (
     <>

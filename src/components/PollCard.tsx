@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/context';
 
-const PollCard = ({ poll }: any) => {
+const PollCard = ({ poll, deletePoll }: any) => {
   const { state } = useContext(AuthContext);
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    setTimeout(() => setError(''), 2000);
+    setTimeout(() => setError(''), 3000);
   }, [error]);
 
   return (
@@ -45,7 +45,7 @@ const PollCard = ({ poll }: any) => {
       </div>
       {error ? <div>{error}</div> : null}
       {poll.author.username === state.user?.username ? (
-        <button>Delete</button>
+        <button onClick={() => deletePoll(poll._id)}>Delete</button>
       ) : null}
     </div>
   );
