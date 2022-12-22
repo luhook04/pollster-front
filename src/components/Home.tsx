@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/context';
 import PollCard from './PollCard';
 import FriendReqCard from './FriendReqCard';
+import SearchBar from './SearchBar';
 
 const Home = ({ createPollForm, setCreatePollForm, currentUser }: any) => {
   const { state } = useContext(AuthContext);
@@ -129,6 +130,7 @@ const Home = ({ createPollForm, setCreatePollForm, currentUser }: any) => {
   return (
     <div className="home-container">
       <div>
+        <SearchBar></SearchBar>
         <div>
           <button onClick={toggleForm}>Create Poll</button>
           {createPollForm ? (
