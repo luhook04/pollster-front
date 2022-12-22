@@ -11,7 +11,7 @@ const PollCard = ({ poll, deletePoll }: any) => {
 
   return (
     <div className="poll-card">
-      <h3>{poll.author.username}</h3>
+      <p>{poll.author.username}</p>
       <p>{poll.question}</p>
       <div className="answers">
         {poll.answers.map((answer: any, index: number) => {

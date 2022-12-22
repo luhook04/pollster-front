@@ -12,6 +12,10 @@ const App = () => {
   }>({});
 
   const { state } = useContext(AuthContext);
+  const [createPollForm, setCreatePollForm] = useState<boolean>(false);
+  const closeForm = (): void => {
+    setCreatePollForm(false);
+  };
 
   useEffect(() => {
     const getHomeUser = async () => {
@@ -36,12 +40,22 @@ const App = () => {
   }, [state]);
 
   return (
-    <>
+    <div className="app" onClick={closeForm}>
       {state.isAuthenticated && <Header />}
       <Routes>
         <Route
           path="/"
-          element={state.isAuthenticated ? <Home /> : <Login />}
+          element={
+            state.isAuthenticated ? (
+              <Home
+                createPollForm={createPollForm}
+                setCreatePollForm={setCreatePollForm}
+                currentUser={currentUser}
+              />
+            ) : (
+              <Login />
+            )
+          }
         ></Route>
         <Route
           path="/newpoll"
@@ -52,7 +66,7 @@ const App = () => {
           element={state.isAuthenticated ? <div>About</div> : <Login />}
         ></Route>
       </Routes>
-    </>
+    </div>
   );
 };
 
