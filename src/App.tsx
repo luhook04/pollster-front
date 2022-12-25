@@ -5,6 +5,7 @@ import Home from './components/Home';
 import { AuthContext } from './context/context';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
+import UserPage from './components/UserPage';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState<{
@@ -63,7 +64,7 @@ const App = () => {
         ></Route>
         <Route
           path="/users/:userId"
-          element={state.isAuthenticated ? <div>About</div> : <Login />}
+          element={state.isAuthenticated ? <UserPage /> : <Login />}
         ></Route>
       </Routes>
     </div>

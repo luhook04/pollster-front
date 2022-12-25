@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/context';
 import PollCard from './PollCard';
-import FriendReqCard from './FriendReqCard';
+import FriendRequestSection from './FriendRequestSection';
 import SearchBar from './SearchBar';
 
 const Home = ({ createPollForm, setCreatePollForm, currentUser }: any) => {
@@ -15,7 +15,7 @@ const Home = ({ createPollForm, setCreatePollForm, currentUser }: any) => {
     option3: '',
     option4: '',
   });
-  console.log(currentUser);
+
   useEffect(() => {
     const getPolls = async () => {
       try {
@@ -227,16 +227,7 @@ const Home = ({ createPollForm, setCreatePollForm, currentUser }: any) => {
           </div>
         ) : null}
       </div>
-      {currentUser.friendRequests ? (
-        <div className="friend-req-panel">
-          <h3>Friend Requests</h3>
-          {currentUser.friendRequests.map((friendReq: any, index: number) => {
-            return (
-              <FriendReqCard key={index} friendReq={friendReq}></FriendReqCard>
-            );
-          })}
-        </div>
-      ) : null}
+      <FriendRequestSection currentUser={currentUser}></FriendRequestSection>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/context';
+import { Link } from 'react-router-dom';
 const SearchBar = () => {
   const { state } = useContext(AuthContext);
   const [users, setUsers]: any = useState<[]>([]);
@@ -32,11 +33,13 @@ const SearchBar = () => {
     user.username.toLocaleLowerCase().includes(filterText)
   );
 
+  console.log(users);
+
   return (
     <div>
       <input
         type="text"
-        placeholder="Filter items by keyword"
+        placeholder="Search users"
         value={filterText}
         onChange={(e) => setFilterText(e.target.value.toLocaleLowerCase())}
       />
@@ -44,11 +47,12 @@ const SearchBar = () => {
       {!filterText ? (
         <div>There are no items to display adjust your filter criteria</div>
       ) : (
-        filteredItems.map((item: any) => (
-          <div key={item.username}>
-            <h3>{item.username}</h3>
-            <button>Add Friend</button>
-          </div>
+        filteredItems.map((item: any, index: number) => (
+          <Link to={`/users/${item._id}`}>
+            <div key={index}>
+              <p>{item.username}</p>
+            </div>
+          </Link>
         ))
       )}
     </div>

@@ -1,14 +1,54 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../context/context';
 
-const FriendReqCard = ({ friendReq }: any) => {
-  const acceptRequest = () => {};
+const FriendReqCard = ({ friendReq, reqList, setReqList }: any) => {
+  const { state } = useContext(AuthContext);
 
-  const declineRequest = () => {};
+  const acceptRequest = async () => {
+    try {
+      const newReqList = reqList.filter(
+        (req: any) => req._id !== friendReq._id
+      );
+      fetch(
+        `https://pollster-api-production.up.railway.app/api/users/${state.user?._id}/requests/${friendReq._id}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        }
+      );
+      setReqList(newReqList);
+    } catch (err) {
+      return err;
+    }
+  };
+
+  const declineRequest = async () => {
+    try {
+      const newReqList = reqList.filter(
+        (req: any) => req._id !== friendReq._id
+      );
+      fetch(
+        `https://pollster-api-production.up.railway.app/api/users/${state.user?._id}/requests/${friendReq._id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        }
+      );
+      setReqList(newReqList);
+    } catch (err) {
+      return err;
+    }
+  };
+
   return (
     <div className="friend-request">
       <p>{friendReq.username}</p>
-      <button>Accept</button>
-      <button>Decline</button>
+      <button onClick={acceptRequest}>Accept</button>
+      <button onClick={declineRequest}>Decline</button>
     </div>
   );
 };
