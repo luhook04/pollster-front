@@ -31,7 +31,9 @@ const Header = () => {
 
   return (
     <div className="header-container">
-      <h1>Pollster</h1>
+      <Link to={'/'}>
+        <h1>Pollster</h1>
+      </Link>
       <div className="header-account-section">
         <div className="header-menu">
           <button onClick={openDropdown}>Nav</button>
@@ -39,10 +41,18 @@ const Header = () => {
             <div className="header-dropdown" ref={ref}>
               <nav>
                 <ul>
-                  <li>
+                  <li
+                    onClick={() => {
+                      setShowDropdown(false);
+                    }}
+                  >
                     <Link to={`/users/${state.user?._id}`}>View Profile</Link>
                   </li>
-                  <li>
+                  <li
+                    onClick={() => {
+                      setShowDropdown(false);
+                    }}
+                  >
                     <button onClick={handleLogout}>Logout</button>
                   </li>
                 </ul>

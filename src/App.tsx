@@ -18,6 +18,11 @@ const App = () => {
     setCreatePollForm(false);
   };
 
+  const toggleForm = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.stopPropagation();
+    setCreatePollForm(!createPollForm);
+  };
+
   useEffect(() => {
     const getHomeUser = async () => {
       try {
@@ -49,8 +54,9 @@ const App = () => {
           element={
             state.isAuthenticated ? (
               <Home
+                toggleForm={toggleForm}
+                closeForm={closeForm}
                 createPollForm={createPollForm}
-                setCreatePollForm={setCreatePollForm}
                 currentUser={currentUser}
               />
             ) : (

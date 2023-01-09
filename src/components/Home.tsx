@@ -4,7 +4,7 @@ import PollCard from './PollCard';
 import FriendRequestSection from './FriendRequestSection';
 import SearchBar from './SearchBar';
 
-const Home = ({ createPollForm, setCreatePollForm, currentUser }: any) => {
+const Home = ({ toggleForm, closeForm, createPollForm, currentUser }: any) => {
   const { state } = useContext(AuthContext);
   const [polls, setPolls]: any = useState<[]>([]);
   const [inputAmount, setInputAmount] = useState<number>(0);
@@ -60,11 +60,6 @@ const Home = ({ createPollForm, setCreatePollForm, currentUser }: any) => {
     setNewPoll({ ...newPoll, [e.target.name]: e.target.value });
   };
 
-  const toggleForm = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    e.stopPropagation();
-    setCreatePollForm(!createPollForm);
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -103,29 +98,29 @@ const Home = ({ createPollForm, setCreatePollForm, currentUser }: any) => {
         option4: '',
       });
       setInputAmount(0);
-      setCreatePollForm(false);
+      closeForm();
     } catch (err) {
       return err;
     }
   };
 
-  const deletePoll = async (pollId: any) => {
-    try {
-      const newPollList = polls.filter((poll: any) => poll._id !== pollId);
-      await fetch(
-        `https://pollster-api-production.up.railway.app/api/polls/${pollId}`,
-        {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${state.token}`,
-          },
-        }
-      );
-      setPolls(newPollList);
-    } catch (err) {
-      return err;
-    }
-  };
+  // const deletePoll = async (pollId: any) => {
+  //   try {
+  //     const newPollList = polls.filter((poll: any) => poll._id !== pollId);
+  //     await fetch(
+  //       `https://pollster-api-production.up.railway.app/api/polls/${pollId}`,
+  //       {
+  //         method: 'DELETE',
+  //         headers: {
+  //           Authorization: `Bearer ${state.token}`,
+  //         },
+  //       }
+  //     );
+  //     setPolls(newPollList);
+  //   } catch (err) {
+  //     return err;
+  //   }
+  // };
 
   return (
     <div className="home-container">
@@ -218,8 +213,9 @@ const Home = ({ createPollForm, setCreatePollForm, currentUser }: any) => {
             {polls.map((poll: any, index: number) => {
               return (
                 <PollCard
+                  user={currentUser}
                   key={index}
-                  deletePoll={deletePoll}
+                  // deletePoll={deletePoll}
                   poll={poll}
                 ></PollCard>
               );

@@ -33,8 +33,6 @@ const SearchBar = () => {
     user.username.toLocaleLowerCase().includes(filterText)
   );
 
-  console.log(users);
-
   return (
     <div>
       <input

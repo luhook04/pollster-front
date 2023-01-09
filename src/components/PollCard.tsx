@@ -1,17 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/context';
 
-const PollCard = ({ poll, deletePoll }: any) => {
+const PollCard = ({ poll, deletePoll, user }: any) => {
   const { state } = useContext(AuthContext);
   const [error, setError] = useState<string>('');
 
-  useEffect(() => {
-    setTimeout(() => setError(''), 3000);
-  }, [error]);
-
   return (
     <div className="poll-card">
-      <p>{poll.author.username}</p>
+      {poll.author.username ? (
+        <p>{poll.author.username}</p>
+      ) : (
+        <p>{user.username}</p>
+      )}
       <p>{poll.question}</p>
       <div className="answers">
         {poll.answers.map((answer: any, index: number) => {
@@ -30,6 +30,9 @@ const PollCard = ({ poll, deletePoll }: any) => {
               if (req.status !== 200) {
                 const err = await req.json();
                 setError(err.message);
+                setTimeout(() => {
+                  setError('');
+                }, 3000);
               }
             } catch (err) {
               return err;
@@ -44,7 +47,8 @@ const PollCard = ({ poll, deletePoll }: any) => {
         })}
       </div>
       {error ? <div>{error}</div> : null}
-      {poll.author.username === state.user?.username ? (
+      {poll.author.username === state.user?.username ||
+      user.username === state.user?.username ? (
         <button onClick={() => deletePoll(poll._id)}>Delete</button>
       ) : null}
     </div>

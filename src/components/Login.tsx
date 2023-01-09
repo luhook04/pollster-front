@@ -58,7 +58,7 @@ const Login = () => {
 
   const openSignup = (e: any) => {
     e.stopPropagation();
-    console.log('open');
+
     setShowSignup(true);
   };
 
