@@ -1,12 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/context';
 import PollCard from './PollCard';
 import FriendRequestSection from './FriendRequestSection';
 import SearchBar from './SearchBar';
 
-const Home = ({ toggleForm, closeForm, createPollForm, currentUser }: any) => {
+const Home = ({
+  toggleForm,
+  closeForm,
+  createPollForm,
+  currentUser,
+  polls,
+  updatePolls,
+  deletePoll,
+}: any) => {
   const { state } = useContext(AuthContext);
-  const [polls, setPolls]: any = useState<[]>([]);
+  // const [polls, setPolls]: any = useState<[]>([]);
   const [inputAmount, setInputAmount] = useState<number>(0);
   const [newPoll, setNewPoll] = useState({
     question: '',
@@ -15,28 +23,6 @@ const Home = ({ toggleForm, closeForm, createPollForm, currentUser }: any) => {
     option3: '',
     option4: '',
   });
-
-  useEffect(() => {
-    const getPolls = async () => {
-      try {
-        const req = await fetch(
-          'https://pollster-api-production.up.railway.app/api/polls',
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${state.token}`,
-            },
-          }
-        );
-
-        const reqJson = await req.json();
-        setPolls(reqJson.polls);
-      } catch (err) {
-        return err;
-      }
-    };
-    getPolls();
-  }, [state]);
 
   const addInputField = () => {
     if (inputAmount <= 2) setInputAmount(inputAmount + 1);
@@ -84,8 +70,9 @@ const Home = ({ toggleForm, closeForm, createPollForm, currentUser }: any) => {
       const reqJson = await req.json();
       const pollJson = reqJson.poll;
       pollJson.author = state.user;
-      const updatedPolls = [...polls, reqJson.poll];
-      setPolls(updatedPolls);
+      const updatedPolls = [pollJson, ...polls];
+      console.log(polls);
+      updatePolls(updatedPolls);
 
       if (req.status !== 200) {
         return;
@@ -213,9 +200,8 @@ const Home = ({ toggleForm, closeForm, createPollForm, currentUser }: any) => {
             {polls.map((poll: any, index: number) => {
               return (
                 <PollCard
-                  user={currentUser}
                   key={index}
-                  // deletePoll={deletePoll}
+                  deletePoll={deletePoll}
                   poll={poll}
                 ></PollCard>
               );
@@ -223,7 +209,10 @@ const Home = ({ toggleForm, closeForm, createPollForm, currentUser }: any) => {
           </div>
         ) : null}
       </div>
-      <FriendRequestSection currentUser={currentUser}></FriendRequestSection>
+      <FriendRequestSection
+        updatePolls={updatePolls}
+        currentUser={currentUser}
+      ></FriendRequestSection>
     </div>
   );
 };

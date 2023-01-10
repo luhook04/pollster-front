@@ -46,8 +46,8 @@ const SearchBar = () => {
         <div>There are no items to display adjust your filter criteria</div>
       ) : (
         filteredItems.map((item: any, index: number) => (
-          <Link to={`/users/${item._id}`}>
-            <div key={index}>
+          <Link key={index} to={`/users/${item._id}`}>
+            <div>
               <p>{item.username}</p>
             </div>
           </Link>

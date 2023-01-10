@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import FriendReqCard from './FriendReqCard';
 
-const FriendRequestSection = ({ currentUser }: any) => {
+const FriendRequestSection = ({ currentUser, updatePolls }: any) => {
   const [reqList, setReqList] = useState<[]>([]);
 
   useEffect(() => {
     setReqList(currentUser.friendRequests);
   }, [currentUser.friendRequests]);
+
+  const handleReqChange = (newList: any) => {
+    setReqList(newList);
+  };
 
   return (
     <div className="friend-req-panel">
@@ -17,8 +21,9 @@ const FriendRequestSection = ({ currentUser }: any) => {
               <FriendReqCard
                 key={index}
                 reqList={reqList}
-                setReqList={setReqList}
                 friendReq={friendReq}
+                updatePolls={updatePolls}
+                handleReqChange={handleReqChange}
               ></FriendReqCard>
             );
           })

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../context/context';
 import PollCard from './PollCard';
-const UserPage = () => {
+const UserPage = ({ deletePoll, polls }: any) => {
   let { userId } = useParams();
 
   const { state } = useContext(AuthContext);
@@ -23,7 +23,7 @@ const UserPage = () => {
     const getUser = async () => {
       try {
         const req = await fetch(
-          `https://pollster-api-production.up.railway.app/api/home`,
+          `https://pollster-api-production.up.railway.app/api/users/${userId}`,
           {
             method: 'GET',
             headers: {
@@ -46,7 +46,11 @@ const UserPage = () => {
     getUser();
   }, [state, userId]);
 
-  console.log(user);
+  const myPolls = () => {
+    console.log(polls);
+    console.log(user);
+    // polls.filter((poll: any) => poll.author.username);
+  };
 
   const sendFriendReq = async () => {
     try {
@@ -90,16 +94,22 @@ const UserPage = () => {
       ) : (
         <div>
           <p>{user.username}</p>
-          <button>Delete Account</button>
+          <button onClick={myPolls}>Delete Account</button>
         </div>
       )}
-      <div className="user-polls">
-        {user.polls
-          ? user.polls.map((poll: any, index: number) => {
-              return <PollCard key={index} poll={poll} user={user}></PollCard>;
-            })
-          : null}
-      </div>
+      {polls ? (
+        <div className="polls-container">
+          {polls.map((poll: any, index: number) => {
+            return (
+              <PollCard
+                key={index}
+                deletePoll={deletePoll}
+                poll={poll}
+              ></PollCard>
+            );
+          })}
+        </div>
+      ) : null}
     </>
   );
 };
