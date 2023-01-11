@@ -5,6 +5,7 @@ import FriendRequestSection from './FriendRequestSection';
 import SearchBar from './SearchBar';
 
 const Home = ({
+  updateVote,
   toggleForm,
   closeForm,
   createPollForm,
@@ -68,11 +69,10 @@ const Home = ({
         }
       );
       const reqJson = await req.json();
-      const pollJson = reqJson.poll;
+      let pollJson = reqJson.poll;
       pollJson.author = state.user;
-      const updatedPolls = [pollJson, ...polls];
-      console.log(polls);
-      updatePolls(updatedPolls);
+
+      updatePolls(pollJson);
 
       if (req.status !== 200) {
         return;
@@ -90,24 +90,6 @@ const Home = ({
       return err;
     }
   };
-
-  // const deletePoll = async (pollId: any) => {
-  //   try {
-  //     const newPollList = polls.filter((poll: any) => poll._id !== pollId);
-  //     await fetch(
-  //       `https://pollster-api-production.up.railway.app/api/polls/${pollId}`,
-  //       {
-  //         method: 'DELETE',
-  //         headers: {
-  //           Authorization: `Bearer ${state.token}`,
-  //         },
-  //       }
-  //     );
-  //     setPolls(newPollList);
-  //   } catch (err) {
-  //     return err;
-  //   }
-  // };
 
   return (
     <div className="home-container">
@@ -203,6 +185,7 @@ const Home = ({
                   key={index}
                   deletePoll={deletePoll}
                   poll={poll}
+                  updateVote={updateVote}
                 ></PollCard>
               );
             })}

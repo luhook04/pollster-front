@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../context/context';
 import PollCard from './PollCard';
-const UserPage = ({ deletePoll, polls }: any) => {
+
+const UserPage = ({ deletePoll, polls, updateVote }: any) => {
   let { userId } = useParams();
 
   const { state } = useContext(AuthContext);
@@ -46,11 +47,9 @@ const UserPage = ({ deletePoll, polls }: any) => {
     getUser();
   }, [state, userId]);
 
-  const myPolls = () => {
-    console.log(polls);
-    console.log(user);
-    // polls.filter((poll: any) => poll.author.username);
-  };
+  const myPolls = polls.filter(
+    (poll: any) => poll.author.username === user.username
+  );
 
   const sendFriendReq = async () => {
     try {
@@ -94,7 +93,7 @@ const UserPage = ({ deletePoll, polls }: any) => {
       ) : (
         <div>
           <p>{user.username}</p>
-          <button onClick={myPolls}>Delete Account</button>
+          <button>Delete Account</button>
         </div>
       )}
       {polls ? (
@@ -105,6 +104,7 @@ const UserPage = ({ deletePoll, polls }: any) => {
                 key={index}
                 deletePoll={deletePoll}
                 poll={poll}
+                updateVote={updateVote}
               ></PollCard>
             );
           })}

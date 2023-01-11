@@ -1,39 +1,54 @@
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/context';
 
-const Vote = ({ answer, showError, poll }: any) => {
-  const [count, setCount] = useState<number>(answer.votes.length);
+const Vote = ({ answer, showError, poll, updateVote }: any) => {
+  const [allowVote, setAllowVote] = useState<boolean>(false);
   const { state } = useContext(AuthContext);
+  let allVotes: any = [];
   const vote = async () => {
-    try {
-      const req = await fetch(
-        `https://pollster-api-production.up.railway.app/api/polls/${poll._id}/answers/${answer._id}`,
-        {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${state.token}`,
-          },
-        }
-      );
-      const reqJson = await req.json();
+    poll.answers.map((answer: any) => {
+      allVotes.push(...answer.votes);
+    });
+    if (!allVotes.includes(state.user?._id)) {
+      try {
+        const req = await fetch(
+          `https://pollster-api-production.up.railway.app/api/polls/${poll._id}/answers/${answer._id}`,
+          {
+            method: 'PUT',
+            headers: {
+              Authorization: `Bearer ${state.token}`,
+            },
+          }
+        );
+        const reqJson = await req.json();
 
-      if (req.status !== 200) {
-        showError(reqJson.message);
-        setTimeout(() => {
-          showError('');
-        }, 3000);
+        if (req.status !== 200) {
+          showError(reqJson.message);
+          setTimeout(() => {
+            showError('');
+          }, 3000);
+          console.log(poll);
+        }
+        if (req.status === 200) {
+          updateVote(poll, answer);
+          console.log('coo');
+        }
+      } catch (err) {
+        return err;
       }
-      if (req.status === 200) {
-        setCount(count + 1);
-      }
-    } catch (err) {
-      return err;
+    } else {
+      showError("Can't vote twice");
+      setTimeout(() => {
+        showError('');
+      }, 3000);
+      return;
     }
   };
+
   return (
     <button onClick={vote}>
       <span>{answer.answer}</span>
-      <span> - {count}</span>
+      <span> - {answer.votes.length}</span>
     </button>
   );
 };

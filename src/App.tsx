@@ -69,7 +69,6 @@ const App = () => {
         }
       );
       setPolls(newPollList);
-      console.log(polls);
     } catch (err) {
       return err;
     }
@@ -84,9 +83,26 @@ const App = () => {
     setCreatePollForm(!createPollForm);
   };
 
-  const updatePolls = (updatedPolls: any) => {
-    setPolls(updatedPolls);
-    console.log(updatedPolls);
+  const updatePolls = (addedPoll: any) => {
+    setPolls([addedPoll, ...polls]);
+  };
+
+  const updateVote = (poll: any, answer: any) => {
+    let updatedPoll = polls.find((element: any) => element === poll);
+    let updatedAnswer = updatedPoll.answers.find(
+      (element: any) => element === answer
+    );
+    updatedAnswer.votes.push(state.user?._id);
+    let newArray = [...polls];
+    console.log(newArray);
+    let index = newArray.indexOf(poll);
+    if (index !== -1) {
+      newArray.splice(index, 1, updatedPoll);
+    }
+    console.log(updatedPoll);
+    console.log(updatedAnswer.votes);
+    console.log(newArray);
+    setPolls(newArray);
   };
 
   return (
@@ -104,6 +120,7 @@ const App = () => {
                 createPollForm={createPollForm}
                 currentUser={currentUser}
                 updatePolls={updatePolls}
+                updateVote={updateVote}
                 deletePoll={deletePoll}
               />
             ) : (
@@ -119,6 +136,7 @@ const App = () => {
                 polls={polls}
                 deletePoll={deletePoll}
                 updatePolls={updatePolls}
+                updateVote={updateVote}
               />
             ) : (
               <Login />

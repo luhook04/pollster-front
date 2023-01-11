@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/context';
 import Vote from './Vote';
 
-const PollCard = ({ poll, deletePoll }: any) => {
+const PollCard = ({ poll, deletePoll, updateVote }: any) => {
   const { state } = useContext(AuthContext);
   const [error, setError] = useState<string>('');
 
@@ -46,6 +46,7 @@ const PollCard = ({ poll, deletePoll }: any) => {
               poll={poll}
               answer={answer}
               showError={showError}
+              updateVote={updateVote}
             ></Vote>
           );
         })}
