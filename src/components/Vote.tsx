@@ -1,12 +1,11 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from '../context/context';
 
 const Vote = ({ answer, showError, poll, updateVote }: any) => {
-  const [allowVote, setAllowVote] = useState<boolean>(false);
   const { state } = useContext(AuthContext);
   let allVotes: any = [];
   const vote = async () => {
-    poll.answers.map((answer: any) => {
+    poll.answers.forEach((answer: any) => {
       allVotes.push(...answer.votes);
     });
     if (!allVotes.includes(state.user?._id)) {
