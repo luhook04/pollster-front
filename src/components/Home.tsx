@@ -72,7 +72,7 @@ const Home = ({
       let pollJson = reqJson.poll;
       pollJson.author = state.user;
 
-      updatePolls(pollJson);
+      updatePolls([pollJson, ...polls]);
 
       if (req.status !== 200) {
         return;
@@ -180,6 +180,7 @@ const Home = ({
         {polls ? (
           <div className="polls-container">
             {polls.map((poll: any, index: number) => {
+              console.log(poll);
               return (
                 <PollCard
                   key={index}

@@ -83,8 +83,11 @@ const App = () => {
     setCreatePollForm(!createPollForm);
   };
 
-  const updatePolls = (addedPoll: any) => {
-    setPolls([addedPoll, ...polls]);
+  // const updatePolls = (addedPoll: any) => {
+  //   setPolls([addedPoll, ...polls]);
+  // };
+  const updatePolls = (pollList: any) => {
+    setPolls([...pollList]);
   };
 
   const updateVote = (poll: any, answer: any) => {

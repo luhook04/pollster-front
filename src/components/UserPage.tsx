@@ -96,9 +96,9 @@ const UserPage = ({ deletePoll, polls, updateVote }: any) => {
           <button>Delete Account</button>
         </div>
       )}
-      {polls ? (
+      {myPolls ? (
         <div className="polls-container">
-          {polls.map((poll: any, index: number) => {
+          {myPolls.map((poll: any, index: number) => {
             return (
               <PollCard
                 key={index}

@@ -35,7 +35,7 @@ const FriendReqCard = ({
       const newPolls = await req.json();
       handleReqChange(newReqList);
       console.log(newPolls.polls);
-      await updatePolls(newPolls.polls);
+      updatePolls(newPolls.polls);
     } catch (err) {
       return err;
     }
