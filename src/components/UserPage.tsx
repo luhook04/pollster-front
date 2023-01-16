@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../context/context';
 import PollCard from './PollCard';
 
@@ -11,8 +11,8 @@ const UserPage = ({
   currentUser,
 }: any) => {
   let { userId } = useParams();
-
-  const { state } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { state, dispatch } = useContext(AuthContext);
   const [user, setUser] = useState<{ [key: string]: any }>({});
   const [isRequested, setIsRequested] = useState<boolean>();
   const [isFriend, setIsFriend] = useState<boolean>();
@@ -101,21 +101,23 @@ const UserPage = ({
     }
   };
 
-  // const deleteAccount = async () => {
-  //   try {
-  //     await fetch(
-  //       `https://pollster-api-production.up.railway.app/api/users/${state.user?._id}/friends/${userId}`,
-  //       {
-  //         method: 'DELETE',
-  //         headers: {
-  //           Authorization: `Bearer ${state.token}`,
-  //         },
-  //       }
-  //     );
-  //   } catch (err) {
-  //     return err;
-  //   }
-  // };
+  const deleteAccount = async () => {
+    try {
+      navigate('/');
+      dispatch({ type: 'logout' });
+      await fetch(
+        `https://pollster-api-production.up.railway.app/api/users/${state.user?._id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        }
+      );
+    } catch (err) {
+      return err;
+    }
+  };
 
   return (
     <>
@@ -133,7 +135,7 @@ const UserPage = ({
       ) : (
         <div>
           <p>{user.username}</p>
-          <button>Delete Account</button>
+          <button onClick={deleteAccount}>Delete Account</button>
         </div>
       )}
       {myPolls ? (
