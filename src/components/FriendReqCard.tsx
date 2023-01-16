@@ -6,6 +6,7 @@ const FriendReqCard = ({
   reqList,
   updatePolls,
   handleReqChange,
+  updateUser,
 }: any) => {
   const { state } = useContext(AuthContext);
 
@@ -32,9 +33,21 @@ const FriendReqCard = ({
           },
         }
       );
+      const currentUserUpdated = await fetch(
+        `https://pollster-api-production.up.railway.app/api/home`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        }
+      );
+
       const newPolls = await req.json();
+      const updatedUser = await currentUserUpdated.json();
+
       handleReqChange(newReqList);
-      console.log(newPolls.polls);
+      updateUser(updatedUser.user);
       updatePolls(newPolls.polls);
     } catch (err) {
       return err;

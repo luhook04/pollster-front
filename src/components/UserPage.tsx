@@ -3,7 +3,13 @@ import { useParams } from 'react-router-dom';
 import { AuthContext } from '../context/context';
 import PollCard from './PollCard';
 
-const UserPage = ({ deletePoll, polls, updateVote }: any) => {
+const UserPage = ({
+  deletePoll,
+  polls,
+  updateVote,
+  updateUser,
+  currentUser,
+}: any) => {
   let { userId } = useParams();
 
   const { state } = useContext(AuthContext);
@@ -73,9 +79,43 @@ const UserPage = ({ deletePoll, polls, updateVote }: any) => {
     }
   };
 
-  const deleteFriend = async () => {};
+  const deleteFriend = async () => {
+    try {
+      const newFriendList = currentUser.friends.filter(
+        (friend: any) => friend._id !== userId
+      );
+      currentUser.friends = newFriendList;
+      await fetch(
+        `https://pollster-api-production.up.railway.app/api/users/${state.user?._id}/friends/${userId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        }
+      );
+      updateUser(currentUser);
+      setIsFriend(false);
+    } catch (err) {
+      return err;
+    }
+  };
 
-  const deleteAccount = async () => {};
+  // const deleteAccount = async () => {
+  //   try {
+  //     await fetch(
+  //       `https://pollster-api-production.up.railway.app/api/users/${state.user?._id}/friends/${userId}`,
+  //       {
+  //         method: 'DELETE',
+  //         headers: {
+  //           Authorization: `Bearer ${state.token}`,
+  //         },
+  //       }
+  //     );
+  //   } catch (err) {
+  //     return err;
+  //   }
+  // };
 
   return (
     <>
@@ -83,7 +123,7 @@ const UserPage = ({ deletePoll, polls, updateVote }: any) => {
         <div className="user-panel">
           <p>{user.username}</p>
           {isFriend ? (
-            <button>Delete Friend</button>
+            <button onClick={deleteFriend}>Delete Friend</button>
           ) : (
             <button disabled={isRequested} onClick={sendFriendReq}>
               Add Friend

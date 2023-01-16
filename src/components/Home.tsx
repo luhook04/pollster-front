@@ -6,6 +6,7 @@ import SearchBar from './SearchBar';
 
 const Home = ({
   updateVote,
+  updateUser,
   toggleForm,
   closeForm,
   createPollForm,
@@ -15,7 +16,7 @@ const Home = ({
   deletePoll,
 }: any) => {
   const { state } = useContext(AuthContext);
-  // const [polls, setPolls]: any = useState<[]>([]);
+
   const [inputAmount, setInputAmount] = useState<number>(0);
   const [newPoll, setNewPoll] = useState({
     question: '',
@@ -24,9 +25,14 @@ const Home = ({
     option3: '',
     option4: '',
   });
+  const [showFriends, setShowFriends] = useState<boolean>(false);
 
   const addInputField = () => {
     if (inputAmount <= 2) setInputAmount(inputAmount + 1);
+  };
+
+  const friendListFunc = () => {
+    setShowFriends(!showFriends);
   };
 
   const removeInputField = () => {
@@ -196,7 +202,21 @@ const Home = ({
       <FriendRequestSection
         updatePolls={updatePolls}
         currentUser={currentUser}
+        updateUser={updateUser}
       ></FriendRequestSection>
+      {showFriends ? (
+        <button onClick={friendListFunc}>Hide Friend List</button>
+      ) : (
+        <button onClick={friendListFunc}>Show Friend List</button>
+      )}
+      {currentUser.friends && showFriends ? (
+        <div className="friend-list">
+          <h3>Friend List</h3>
+          {currentUser.friends.map((friend: any, index: number) => {
+            return <p key={index}>{friend.username}</p>;
+          })}
+        </div>
+      ) : null}
     </div>
   );
 };

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import FriendReqCard from './FriendReqCard';
 
-const FriendRequestSection = ({ currentUser, updatePolls }: any) => {
+const FriendRequestSection = ({
+  currentUser,
+  updatePolls,
+  updateUser,
+}: any) => {
   const [reqList, setReqList] = useState<[]>([]);
 
   useEffect(() => {
@@ -15,19 +19,22 @@ const FriendRequestSection = ({ currentUser, updatePolls }: any) => {
   return (
     <div className="friend-req-panel">
       <h3>Friend Requests</h3>
-      {reqList
-        ? reqList.map((friendReq: any, index: number) => {
-            return (
-              <FriendReqCard
-                key={index}
-                reqList={reqList}
-                friendReq={friendReq}
-                updatePolls={updatePolls}
-                handleReqChange={handleReqChange}
-              ></FriendReqCard>
-            );
-          })
-        : null}
+      {currentUser.friendRequests > 0 ? (
+        reqList.map((friendReq: any, index: number) => {
+          return (
+            <FriendReqCard
+              updateUser={updateUser}
+              key={index}
+              reqList={reqList}
+              friendReq={friendReq}
+              updatePolls={updatePolls}
+              handleReqChange={handleReqChange}
+            ></FriendReqCard>
+          );
+        })
+      ) : (
+        <p>No friend requests</p>
+      )}
     </div>
   );
 };

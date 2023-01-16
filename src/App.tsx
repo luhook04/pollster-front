@@ -48,6 +48,7 @@ const App = () => {
         );
 
         const reqJson = await req.json();
+
         setCurrentUser(reqJson.user);
       } catch (err) {
         return err;
@@ -83,11 +84,12 @@ const App = () => {
     setCreatePollForm(!createPollForm);
   };
 
-  // const updatePolls = (addedPoll: any) => {
-  //   setPolls([addedPoll, ...polls]);
-  // };
   const updatePolls = (pollList: any) => {
     setPolls([...pollList]);
+  };
+
+  const updateUser = (user: any) => {
+    setCurrentUser(user);
   };
 
   const updateVote = (poll: any, answer: any) => {
@@ -97,14 +99,12 @@ const App = () => {
     );
     updatedAnswer.votes.push(state.user?._id);
     let newArray = [...polls];
-    console.log(newArray);
+
     let index = newArray.indexOf(poll);
     if (index !== -1) {
       newArray.splice(index, 1, updatedPoll);
     }
-    console.log(updatedPoll);
-    console.log(updatedAnswer.votes);
-    console.log(newArray);
+
     setPolls(newArray);
   };
 
@@ -124,6 +124,7 @@ const App = () => {
                 currentUser={currentUser}
                 updatePolls={updatePolls}
                 updateVote={updateVote}
+                updateUser={updateUser}
                 deletePoll={deletePoll}
               />
             ) : (
@@ -140,6 +141,8 @@ const App = () => {
                 deletePoll={deletePoll}
                 updatePolls={updatePolls}
                 updateVote={updateVote}
+                updateUser={updateUser}
+                currentUser={currentUser}
               />
             ) : (
               <Login />
