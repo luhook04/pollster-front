@@ -67,11 +67,12 @@ const Login = () => {
   };
 
   return (
-    <div className="login-signup-container">
+    <div className="login-signup-container text-center">
       <div className="login-container" onClick={closeSignup}>
         <form onSubmit={handleLogin} action="POST">
-          <div>
+          <div className="flex flex-col items-center">
             <input
+              className="mt-3 shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-1/2"
               type="text"
               placeholder="Enter Username"
               name="username"
@@ -79,6 +80,7 @@ const Login = () => {
               value={user.username}
             />
             <input
+              className="mb-3 shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
               placeholder="Enter Password"
               name="password"
@@ -86,10 +88,19 @@ const Login = () => {
               value={user.password}
             />
           </div>
-          <div>
-            <button type="submit">Login</button>
-            <span>or</span>
-            <button onClick={openSignup} type="button">
+          <div className="flex flex-row justify-center gap-2">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              type="submit"
+            >
+              Login
+            </button>
+
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              onClick={openSignup}
+              type="button"
+            >
               Create New Account
             </button>
           </div>
