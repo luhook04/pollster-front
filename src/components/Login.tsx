@@ -81,7 +81,7 @@ const Login = () => {
             />
             <input
               className="mb-3 shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
+              type="password"
               placeholder="Enter Password"
               name="password"
               onChange={handleChange}
