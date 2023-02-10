@@ -109,7 +109,7 @@ const App = () => {
   };
 
   return (
-    <div className="app" onClick={closeForm}>
+    <div className="app bg-blue-500" onClick={closeForm}>
       {state.isAuthenticated && <Header />}
       <Routes>
         <Route

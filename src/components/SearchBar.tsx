@@ -34,25 +34,32 @@ const SearchBar = () => {
   );
 
   return (
-    <div>
+    <div className="mt-5 w-5/6 mx-auto">
       <input
+        className="mx-auto w-full block px-1 rounded-sm"
         type="text"
         placeholder="Search users"
         value={filterText}
         onChange={(e) => setFilterText(e.target.value.toLocaleLowerCase())}
       />
-      <hr />
-      {!filterText ? (
-        <div>There are no items to display adjust your filter criteria</div>
-      ) : (
-        filteredItems.map((item: any, index: number) => (
-          <Link key={index} to={`/users/${item._id}`}>
-            <div>
-              <p>{item.username}</p>
-            </div>
-          </Link>
-        ))
-      )}
+      <div className="mt-1">
+        {filteredItems.length === 0 && (
+          <p className="text-[14px] text-center bg-white border-b text-slate-500">
+            There are no items to display adjust your filter criteria
+          </p>
+        )}
+        {filteredItems.length !== 0 &&
+          filterText &&
+          filteredItems.map((item: any, index: number) => (
+            <Link key={index} to={`/users/${item._id}`}>
+              <div className="bg-white border-b border-slate-400">
+                <p className="p-1 hover:bg-blue-400 hover:text-white">
+                  {item.username}
+                </p>
+              </div>
+            </Link>
+          ))}
+      </div>
     </div>
   );
 };

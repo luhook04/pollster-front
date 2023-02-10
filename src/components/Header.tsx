@@ -3,6 +3,7 @@ import { AuthContext } from '../context/context';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import DropdownSmall from './DropdownSmall';
 
 const Header = () => {
   const { state, dispatch } = useContext(AuthContext);
@@ -15,6 +16,7 @@ const Header = () => {
   }, []);
 
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [mobileMenu, setMobileMenu] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
 
   const handleLogout = (): void => {
@@ -28,12 +30,15 @@ const Header = () => {
   };
   console.log(showDropdown);
   return (
-    <div className="bg-blue-500 flex align-center py-5">
-      <Link className="md:grow md:block md:pl-20" to={'/'}>
+    <div className="bg-blue-500 flex flex-col sm:flex-row sm:py-5 pt-5">
+      <Link className="mx-auto sm:mr-auto sm:pl-20 " to={'/'}>
         <h1 className="text-4xl text-white">Pollster</h1>
       </Link>
-      <div className="flex justify-center align-center md:pr-32">
-        <div className="my-auto" ref={ref}>
+      <div className="absolute right-4 top-1 text-4xl text-white sm:hidden">
+        <button onClick={() => setMobileMenu(!mobileMenu)}>&#9776;</button>
+      </div>
+      <div className="hidden justify-center align-center sm:flex sm:pr-20">
+        <div className="mt-auto mb-0.5" ref={ref}>
           <button
             onClick={() => {
               setShowDropdown(!showDropdown);
@@ -44,13 +49,12 @@ const Header = () => {
               icon={faUser}
             ></FontAwesomeIcon>
           </button>
-
           {showDropdown !== false && (
-            <div className="absolute">
+            <div className="sm:absolute  text-center text-sm">
               <nav>
                 <ul>
                   <li
-                    className="border-black border-2 bg-slate-100"
+                    className="border-t border-x bg-slate-100 p-1 hover:bg-blue-400  hover:text-white"
                     onClick={() => {
                       setShowDropdown(false);
                     }}
@@ -58,7 +62,7 @@ const Header = () => {
                     <Link to={`/users/${state.user?._id}`}>View Profile</Link>
                   </li>
                   <li
-                    className="border-black border-2 bg-slate-100"
+                    className="border-y-2 border-x bg-slate-100 p-1 hover:bg-blue-400 hover:text-white "
                     onClick={() => {
                       setShowDropdown(false);
                     }}
@@ -71,6 +75,12 @@ const Header = () => {
           )}
         </div>
       </div>
+      {mobileMenu && (
+        <DropdownSmall
+          state={state}
+          handleLogout={handleLogout}
+        ></DropdownSmall>
+      )}
     </div>
   );
 };
