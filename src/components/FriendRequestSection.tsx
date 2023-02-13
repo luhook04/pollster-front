@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../context/context';
 import FriendReqCard from './FriendReqCard';
 
-const FriendRequestSection = ({
-  currentUser,
-  updatePolls,
-  updateUser,
-}: any) => {
-  const [reqList, setReqList] = useState<[]>([]);
-
+const FriendRequestSection = ({ updatePolls, updateUser }: any) => {
+  const [reqList, setReqList] = useState<string[]>([]);
+  const { state } = useContext(AuthContext);
+  console.log(state);
   useEffect(() => {
-    setReqList(currentUser.friendRequests);
-  }, [currentUser.friendRequests]);
+    if (state.user?.friendRequests.length > 0) {
+      setReqList(state.user?.friendRequests);
+    }
+  }, [state]);
 
   const handleReqChange = (newList: any) => {
     setReqList(newList);
@@ -19,7 +19,7 @@ const FriendRequestSection = ({
   return (
     <div className="friend-req-panel">
       <h3>Friend Requests</h3>
-      {currentUser.friendRequests > 0 ? (
+      {state.user?.friendRequests ? (
         reqList.map((friendReq: any, index: number) => {
           return (
             <FriendReqCard

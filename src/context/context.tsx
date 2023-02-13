@@ -1,10 +1,22 @@
 import React, { createContext, useReducer, useEffect } from 'react';
-import authReducer from './authReducer';
+import authReducer, { User } from './authReducer';
 import { InitialStateType } from './authReducer';
 
 type Props = {
   children?: React.ReactNode;
 };
+
+type Answer = {
+  answer: string;
+  votes: string[];
+};
+
+// type Poll = {
+//   author: string;
+//   question: string;
+//   answers: Answer[];
+//   timestamp: Date;
+// };
 
 const initialState = {
   isAuthenticated: false,
@@ -12,6 +24,10 @@ const initialState = {
   user: {
     username: '',
     _id: '',
+    profilePicUrl: '',
+    polls: [],
+    friendRequests: [],
+    friends: [],
   },
 };
 
@@ -28,13 +44,13 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     const token: string | null = localStorage.getItem('token');
-    const body: any = localStorage.getItem('user');
-    const parsedBody = JSON.parse(body);
+    const body: string | null = localStorage.getItem('user');
+
     if (token && body) {
       token &&
         dispatch({
           type: 'remainLoggedIn',
-          payload: { token: token, body: parsedBody },
+          payload: { token: token, body: body },
         });
     }
   }, []);

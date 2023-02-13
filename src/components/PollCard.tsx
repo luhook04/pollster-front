@@ -1,10 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/context';
 import Vote from './Vote';
 
 const PollCard = ({ poll, deletePoll, updateVote }: any) => {
   const { state } = useContext(AuthContext);
   const [error, setError] = useState<string>('');
+  const [totalVotes, setTotalVotes]: any = useState<[]>([]);
+
+  useEffect(() => {
+    poll.answers.forEach((answer: any) => {
+      setTotalVotes([...answer.votes]);
+    });
+  }, [poll]);
 
   const showError = (msg: string) => {
     setError(msg);
@@ -16,34 +23,12 @@ const PollCard = ({ poll, deletePoll, updateVote }: any) => {
       <p>{poll.question}</p>
       <div className="answers">
         {poll.answers.map((answer: any, index: number) => {
-          // const vote = async () => {
-          //   try {
-          //     const req = await fetch(
-          //       `https://pollster-api-production.up.railway.app/api/polls/${poll._id}/answers/${answer._id}`,
-          //       {
-          //         method: 'PUT',
-          //         headers: {
-          //           Authorization: `Bearer ${state.token}`,
-          //         },
-          //       }
-          //     );
-          //     const reqJson = await req.json();
-
-          //     if (req.status !== 200) {
-          //       setError(reqJson.message);
-          //       setTimeout(() => {
-          //         setError('');
-          //       }, 3000);
-          //     }
-          //   } catch (err) {
-          //     return err;
-          //   }
-          // };
-
           return (
             <Vote
               key={index}
               poll={poll}
+              totalVotes={totalVotes}
+              setTotalVotes={setTotalVotes}
               answer={answer}
               showError={showError}
               updateVote={updateVote}

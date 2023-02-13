@@ -1,40 +1,43 @@
-type UserType = {
+export type User = {
   username: string;
   _id: string;
+  profilePicUrl: string;
+  polls: string[];
+  friends: string[];
+  friendRequests: string[];
 };
 
 export type InitialStateType = {
   isAuthenticated: boolean;
-  token?: string;
-  user?: UserType;
+  token: string;
+  user: User;
 };
 
 const authReducer = (state: InitialStateType, action: any) => {
+  let user;
   switch (action.type) {
     case 'login':
-      let token: string = action.payload.token;
-      let user = action.payload.body;
-
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      user = JSON.stringify(action.payload.body);
+      localStorage.setItem('token', action.payload.token);
+      localStorage.setItem('user', user);
 
       return {
         ...state,
         isAuthenticated: true,
-        token: token,
-        user: user,
+        token: action.payload.token,
+        user: action.payload.body,
       };
 
     case 'remainLoggedIn':
-      const savedUser = action.payload.body;
-      const savedToken = action.payload.token;
-      localStorage.setItem('token', savedToken);
-      localStorage.setItem('user', JSON.stringify(savedUser));
+      user = JSON.parse(action.payload.body);
+      localStorage.setItem('token', action.payload.token);
+      localStorage.setItem('user', action.payload.body);
+
       return {
         ...state,
-        token: savedToken,
         isAuthenticated: true,
-        user: savedUser,
+        token: action.payload.token,
+        user: user,
       };
 
     case 'logout':

@@ -48,7 +48,7 @@ const Login = () => {
         setError('Incorrect Login Credentials');
       } else if (req.status === 200) {
         const reqJson = await req.json();
-        JSON.stringify(reqJson);
+        console.log(reqJson);
         dispatch({ type: 'login', payload: reqJson });
       }
     } catch (err) {

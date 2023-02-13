@@ -1,14 +1,18 @@
 import { useContext } from 'react';
 import { AuthContext } from '../context/context';
 
-const Vote = ({ answer, showError, poll, updateVote }: any) => {
+const Vote = ({
+  answer,
+  showError,
+  poll,
+  updateVote,
+  totalVotes,
+  setTotalVotes,
+}: any) => {
   const { state } = useContext(AuthContext);
-  let allVotes: any = [];
+
   const vote = async () => {
-    poll.answers.forEach((answer: any) => {
-      allVotes.push(...answer.votes);
-    });
-    if (!allVotes.includes(state.user?._id)) {
+    if (!totalVotes.includes(state.user?._id)) {
       try {
         const req = await fetch(
           `https://pollster-api-production.up.railway.app/api/polls/${poll._id}/answers/${answer._id}`,
@@ -30,7 +34,7 @@ const Vote = ({ answer, showError, poll, updateVote }: any) => {
         }
         if (req.status === 200) {
           updateVote(poll, answer);
-          console.log('coo');
+          setTotalVotes(...totalVotes, state.user?._id);
         }
       } catch (err) {
         return err;
@@ -47,7 +51,10 @@ const Vote = ({ answer, showError, poll, updateVote }: any) => {
   return (
     <button onClick={vote}>
       <span>{answer.answer}</span>
-      <span> - {answer.votes.length}</span>
+      {(totalVotes.includes(state.user?._id) ||
+        poll.author._id === state.user?._id) && (
+        <span> - {answer.votes.length}</span>
+      )}
     </button>
   );
 };
