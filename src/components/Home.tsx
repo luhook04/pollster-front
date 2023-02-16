@@ -6,17 +6,15 @@ import SearchBar from './SearchBar';
 
 const Home = ({
   updateVote,
-  updateUser,
-  toggleForm,
-  closeForm,
   createPollForm,
+  setCreatePollForm,
   currentUser,
   setCurrentUser,
   polls,
   setPolls,
 }: any) => {
   const { state } = useContext(AuthContext);
-  console.log(state);
+
   const [inputAmount, setInputAmount] = useState<number>(0);
   const [newPoll, setNewPoll] = useState({
     question: '',
@@ -109,7 +107,7 @@ const Home = ({
         option4: '',
       });
       setInputAmount(0);
-      closeForm();
+      setCreatePollForm(false);
     } catch (err) {
       return err;
     }
@@ -120,7 +118,14 @@ const Home = ({
       <div>
         <SearchBar></SearchBar>
         <div>
-          <button onClick={toggleForm}>Create Poll</button>
+          <button
+            onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
+              e.stopPropagation();
+              setCreatePollForm(!createPollForm);
+            }}
+          >
+            Create Poll
+          </button>
           {createPollForm ? (
             <div className="form-popup" onClick={(e) => e.stopPropagation()}>
               <form onSubmit={handleSubmit} className="form-container">
@@ -191,7 +196,9 @@ const Home = ({
                 </button>
                 <button type="submit">Post Poll</button>
                 <button
-                  onClick={toggleForm}
+                  onClick={(): void => {
+                    setCreatePollForm(!createPollForm);
+                  }}
                   type="button"
                   className="btn cancel"
                 >
@@ -216,10 +223,7 @@ const Home = ({
           </div>
         ) : null}
       </div>
-      <FriendRequestSection
-        currentUser={currentUser}
-        updateUser={updateUser}
-      ></FriendRequestSection>
+      <FriendRequestSection currentUser={currentUser}></FriendRequestSection>
       {showFriends ? (
         <button onClick={friendListFunc}>Hide Friend List</button>
       ) : (

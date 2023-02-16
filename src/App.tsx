@@ -55,14 +55,14 @@ const App = () => {
     getHomeUser();
   }, [state]);
 
-  const closeForm = (): void => {
-    setCreatePollForm(false);
-  };
+  // const closeForm = (): void => {
+  //   setCreatePollForm(false);
+  // };
 
-  const toggleForm = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    e.stopPropagation();
-    setCreatePollForm(!createPollForm);
-  };
+  // const toggleForm = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  //   e.stopPropagation();
+  //   setCreatePollForm(!createPollForm);
+  // };
 
   const updateVote = (poll: any, answer: any) => {
     let updatedPoll = homePolls.find((element: any) => element === poll);
@@ -81,7 +81,10 @@ const App = () => {
   };
 
   return (
-    <div className="app bg-blue-500" onClick={closeForm}>
+    <div
+      className="app bg-blue-500"
+      onClick={(): void => setCreatePollForm(false)}
+    >
       {state.isAuthenticated && <Header />}
       <Routes>
         <Route
@@ -91,9 +94,8 @@ const App = () => {
               <Home
                 polls={homePolls}
                 setPolls={setHomePolls}
-                toggleForm={toggleForm}
-                closeForm={closeForm}
                 createPollForm={createPollForm}
+                setCreatePollForm={setCreatePollForm}
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
                 updateVote={updateVote}
