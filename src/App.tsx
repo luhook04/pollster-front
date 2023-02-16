@@ -11,7 +11,7 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState<{
     [key: string]: any;
   }>({});
-  const [polls, setPolls]: any = useState<[]>([]);
+  const [homePolls, setHomePolls]: any = useState<[]>([]);
   const { state } = useContext(AuthContext);
   const [createPollForm, setCreatePollForm] = useState<boolean>(false);
 
@@ -27,53 +27,37 @@ const App = () => {
             },
           }
         );
-
         const reqJson = await req.json();
-        setPolls(reqJson.polls);
+
+        setHomePolls(reqJson.polls);
+        setCurrentUser(state.user);
       } catch (err) {
         return err;
       }
     };
     getPolls();
-    const getHomeUser = async () => {
-      try {
-        const req = await fetch(
-          `https://pollster-api-production.up.railway.app/api/home`,
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${state.token}`,
-            },
-          }
-        );
 
-        const reqJson = await req.json();
+    // const getHomeUser = async () => {
+    //   try {
+    //     const req = await fetch(
+    //       `https://pollster-api-production.up.railway.app/api/home`,
+    //       {
+    //         method: 'GET',
+    //         headers: {
+    //           Authorization: `Bearer ${state.token}`,
+    //         },
+    //       }
+    //     );
 
-        setCurrentUser(reqJson.user);
-      } catch (err) {
-        return err;
-      }
-    };
-    getHomeUser();
+    //     const reqJson = await req.json();
+
+    //     setCurrentUser(reqJson.user);
+    //   } catch (err) {
+    //     return err;
+    //   }
+    // };
+    // getHomeUser();
   }, [state]);
-
-  const deletePoll = async (pollId: any) => {
-    try {
-      const newPollList = polls.filter((poll: any) => poll._id !== pollId);
-      await fetch(
-        `https://pollster-api-production.up.railway.app/api/polls/${pollId}`,
-        {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${state.token}`,
-          },
-        }
-      );
-      setPolls(newPollList);
-    } catch (err) {
-      return err;
-    }
-  };
 
   const closeForm = (): void => {
     setCreatePollForm(false);
@@ -84,28 +68,20 @@ const App = () => {
     setCreatePollForm(!createPollForm);
   };
 
-  const updatePolls = (pollList: any) => {
-    setPolls([...pollList]);
-  };
-
-  const updateUser = (user: any) => {
-    setCurrentUser(user);
-  };
-
   const updateVote = (poll: any, answer: any) => {
-    let updatedPoll = polls.find((element: any) => element === poll);
+    let updatedPoll = homePolls.find((element: any) => element === poll);
     let updatedAnswer = updatedPoll.answers.find(
       (element: any) => element === answer
     );
     updatedAnswer.votes.push(state.user?._id);
-    let newArray = [...polls];
+    let newArray = [...homePolls];
 
     let index = newArray.indexOf(poll);
     if (index !== -1) {
       newArray.splice(index, 1, updatedPoll);
     }
 
-    setPolls(newArray);
+    setHomePolls(newArray);
   };
 
   return (
@@ -117,15 +93,14 @@ const App = () => {
           element={
             state.isAuthenticated ? (
               <Home
-                polls={polls}
+                polls={homePolls}
+                setPolls={setHomePolls}
                 toggleForm={toggleForm}
                 closeForm={closeForm}
                 createPollForm={createPollForm}
                 currentUser={currentUser}
-                updatePolls={updatePolls}
+                setCurrentUser={setCurrentUser}
                 updateVote={updateVote}
-                updateUser={updateUser}
-                deletePoll={deletePoll}
               />
             ) : (
               <Login />
@@ -137,12 +112,11 @@ const App = () => {
           element={
             state.isAuthenticated ? (
               <UserPage
-                polls={polls}
-                deletePoll={deletePoll}
-                updatePolls={updatePolls}
+                polls={homePolls}
+                setPolls={setHomePolls}
                 updateVote={updateVote}
-                updateUser={updateUser}
                 currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
               />
             ) : (
               <Login />

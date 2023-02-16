@@ -11,12 +11,12 @@ const Home = ({
   closeForm,
   createPollForm,
   currentUser,
+  setCurrentUser,
   polls,
-  updatePolls,
-  deletePoll,
+  setPolls,
 }: any) => {
   const { state } = useContext(AuthContext);
-
+  console.log(state);
   const [inputAmount, setInputAmount] = useState<number>(0);
   const [newPoll, setNewPoll] = useState({
     question: '',
@@ -49,6 +49,24 @@ const Home = ({
     }
   };
 
+  const deletePoll = async (pollId: any) => {
+    try {
+      const newPollList = polls.filter((poll: any) => poll._id !== pollId);
+      await fetch(
+        `https://pollster-api-production.up.railway.app/api/polls/${pollId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        }
+      );
+      setPolls(newPollList);
+    } catch (err) {
+      return err;
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPoll({ ...newPoll, [e.target.name]: e.target.value });
   };
@@ -78,7 +96,7 @@ const Home = ({
       let pollJson = reqJson.poll;
       pollJson.author = state.user;
 
-      updatePolls([pollJson, ...polls]);
+      setPolls([pollJson, ...polls]);
 
       if (req.status !== 200) {
         return;
@@ -186,7 +204,6 @@ const Home = ({
         {polls ? (
           <div className="polls-container">
             {polls.map((poll: any, index: number) => {
-              console.log(poll);
               return (
                 <PollCard
                   key={index}
@@ -200,7 +217,6 @@ const Home = ({
         ) : null}
       </div>
       <FriendRequestSection
-        updatePolls={updatePolls}
         currentUser={currentUser}
         updateUser={updateUser}
       ></FriendRequestSection>

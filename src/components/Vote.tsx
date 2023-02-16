@@ -5,11 +5,30 @@ const Vote = ({
   answer,
   showError,
   poll,
-  updateVote,
+  currentUser,
+  setCurrentUser,
   totalVotes,
   setTotalVotes,
 }: any) => {
   const { state } = useContext(AuthContext);
+
+  const updateVote = (poll: any, answer: any) => {
+    let updatedPoll = currentUser.polls.find(
+      (element: any) => element === poll
+    );
+    let updatedAnswer = updatedPoll.answers.find(
+      (element: any) => element === answer
+    );
+    updatedAnswer.votes.push(state.user?._id);
+    let newArray = [...currentUser.polls];
+
+    let index = newArray.indexOf(poll);
+    if (index !== -1) {
+      newArray.splice(index, 1, updatedPoll);
+    }
+    currentUser.polls = newArray;
+    setCurrentUser(currentUser);
+  };
 
   const vote = async () => {
     if (!totalVotes.includes(state.user?._id)) {

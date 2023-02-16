@@ -1,22 +1,10 @@
 import React, { createContext, useReducer, useEffect } from 'react';
-import authReducer, { User } from './authReducer';
+import authReducer from './authReducer';
 import { InitialStateType } from './authReducer';
 
 type Props = {
   children?: React.ReactNode;
 };
-
-type Answer = {
-  answer: string;
-  votes: string[];
-};
-
-// type Poll = {
-//   author: string;
-//   question: string;
-//   answers: Answer[];
-//   timestamp: Date;
-// };
 
 const initialState = {
   isAuthenticated: false,
@@ -24,10 +12,6 @@ const initialState = {
   user: {
     username: '',
     _id: '',
-    profilePicUrl: '',
-    polls: [],
-    friendRequests: [],
-    friends: [],
   },
 };
 

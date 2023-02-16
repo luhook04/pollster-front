@@ -1,10 +1,6 @@
 export type User = {
   username: string;
   _id: string;
-  profilePicUrl: string;
-  polls: string[];
-  friends: string[];
-  friendRequests: string[];
 };
 
 export type InitialStateType = {
@@ -14,18 +10,20 @@ export type InitialStateType = {
 };
 
 const authReducer = (state: InitialStateType, action: any) => {
-  let user;
+  let user: User;
   switch (action.type) {
     case 'login':
-      user = JSON.stringify(action.payload.body);
+      const _id: string = action.payload.body._id;
+      const username: string = action.payload.body.username;
+      user = { username, _id };
       localStorage.setItem('token', action.payload.token);
-      localStorage.setItem('user', user);
+      localStorage.setItem('user', JSON.stringify(user));
 
       return {
         ...state,
         isAuthenticated: true,
         token: action.payload.token,
-        user: action.payload.body,
+        user: user,
       };
 
     case 'remainLoggedIn':
