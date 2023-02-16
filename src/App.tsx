@@ -28,35 +28,31 @@ const App = () => {
           }
         );
         const reqJson = await req.json();
-
         setHomePolls(reqJson.polls);
-        setCurrentUser(state.user);
       } catch (err) {
         return err;
       }
     };
     getPolls();
 
-    // const getHomeUser = async () => {
-    //   try {
-    //     const req = await fetch(
-    //       `https://pollster-api-production.up.railway.app/api/home`,
-    //       {
-    //         method: 'GET',
-    //         headers: {
-    //           Authorization: `Bearer ${state.token}`,
-    //         },
-    //       }
-    //     );
-
-    //     const reqJson = await req.json();
-
-    //     setCurrentUser(reqJson.user);
-    //   } catch (err) {
-    //     return err;
-    //   }
-    // };
-    // getHomeUser();
+    const getHomeUser = async () => {
+      try {
+        const req = await fetch(
+          `https://pollster-api-production.up.railway.app/api/home`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${state.token}`,
+            },
+          }
+        );
+        const reqJson = await req.json();
+        setCurrentUser(reqJson.user);
+      } catch (err) {
+        return err;
+      }
+    };
+    getHomeUser();
   }, [state]);
 
   const closeForm = (): void => {
