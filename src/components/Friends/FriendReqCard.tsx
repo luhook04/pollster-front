@@ -3,16 +3,15 @@ import { AuthContext } from '../../context/context';
 
 const FriendReqCard = ({
   friendReq,
-  reqList,
-  updatePolls,
-  handleReqChange,
-  updateUser,
+  currentUser,
+  setCurrentUser,
+  setPolls,
 }: any) => {
   const { state } = useContext(AuthContext);
 
   const acceptRequest = async () => {
     try {
-      const newReqList = reqList.filter(
+      const newReqList = currentUser.friendRequests.filter(
         (req: any) => req._id !== friendReq._id
       );
       await fetch(
@@ -33,22 +32,11 @@ const FriendReqCard = ({
           },
         }
       );
-      const currentUserUpdated = await fetch(
-        `https://pollster-api-production.up.railway.app/api/home`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${state.token}`,
-          },
-        }
-      );
 
       const newPolls = await req.json();
-      const updatedUser = await currentUserUpdated.json();
-
-      handleReqChange(newReqList);
-      updateUser(updatedUser.user);
-      updatePolls(newPolls.polls);
+      currentUser.friendRequests = newReqList;
+      setCurrentUser(currentUser);
+      setPolls(newPolls.polls);
     } catch (err) {
       return err;
     }
@@ -56,7 +44,7 @@ const FriendReqCard = ({
 
   const declineRequest = async () => {
     try {
-      const newReqList = reqList.filter(
+      const newReqList = currentUser.friendRequests.filter(
         (req: any) => req._id !== friendReq._id
       );
       fetch(
@@ -68,7 +56,8 @@ const FriendReqCard = ({
           },
         }
       );
-      handleReqChange(newReqList);
+      currentUser.friendRequests = newReqList;
+      setCurrentUser(currentUser);
     } catch (err) {
       return err;
     }

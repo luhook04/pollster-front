@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/context';
 import PollCard from './PollCard';
-import FriendRequestSection from './Friends/FriendRequestSection';
+import FriendReqCard from './Friends/FriendReqCard';
 import SearchBar from './SearchBar';
 
 const Home = ({
@@ -223,7 +223,25 @@ const Home = ({
           </div>
         ) : null}
       </div>
-      <FriendRequestSection currentUser={currentUser}></FriendRequestSection>
+      <div className="friend-req-panel">
+        <h3>Friend Requests</h3>
+        {currentUser.friendRequests > 0 ? (
+          currentUser.friendRequests.map((friendReq: any, index: number) => {
+            return (
+              <FriendReqCard
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                setPolls={setPolls}
+                friendReq={friendReq}
+                key={index}
+                // handleReqChange={handleReqChange}
+              ></FriendReqCard>
+            );
+          })
+        ) : (
+          <p>No friend requests</p>
+        )}
+      </div>
       {/* <FriendSection></FriendSection> */}
       {/* {showFriends ? (
         <button onClick={friendListFunc}>Hide Friend List</button>

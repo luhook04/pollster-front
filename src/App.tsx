@@ -105,7 +105,7 @@ const App = () => {
                 setPolls={setHomePolls}
                 updateVote={updateVote}
                 currentUser={currentUser}
-                setCurrentUser={setCurrentUser}
+                setCurrentUser={currentUser}
               />
             ) : (
               <Login />

@@ -7,8 +7,8 @@ const UserPage = ({
   deletePoll,
   polls,
   updateVote,
-  updateUser,
   currentUser,
+  setCurrentUser,
 }: any) => {
   let { userId } = useParams();
   const navigate = useNavigate();
@@ -17,14 +17,14 @@ const UserPage = ({
   const [isRequested, setIsRequested] = useState<boolean>();
   const [isFriend, setIsFriend] = useState<boolean>();
 
-  const isFriendFunc = () => {
-    if (
-      Object.keys(user).length > 0 &&
-      user.friendRequests.includes(state.user?._id)
-    ) {
-      setIsRequested(true);
-    } else setIsRequested(false);
-  };
+  // const isFriendFunc = () => {
+  //   if (
+  //     Object.keys(user).length > 0 &&
+  //     user.friendRequests.includes(state.user?._id)
+  //   ) {
+  //     setIsRequested(true);
+  //   } else setIsRequested(false);
+  // };
 
   useEffect(() => {
     const getUser = async () => {
@@ -72,7 +72,7 @@ const UserPage = ({
         let updatedUser = user;
         updatedUser.friendRequests.push(state.user?._id);
         setUser(updatedUser);
-        isFriendFunc();
+        setIsRequested(true);
       }
     } catch (err) {
       return err;
@@ -94,7 +94,7 @@ const UserPage = ({
           },
         }
       );
-      updateUser(currentUser);
+      setCurrentUser(currentUser);
       setIsFriend(false);
     } catch (err) {
       return err;
@@ -104,6 +104,7 @@ const UserPage = ({
   const deleteAccount = async () => {
     try {
       navigate('/');
+      dispatch({ type: 'logout' });
       await fetch(
         `https://pollster-api-production.up.railway.app/api/users/${state.user?._id}`,
         {
@@ -113,7 +114,6 @@ const UserPage = ({
           },
         }
       );
-      dispatch({ type: 'logout' });
     } catch (err) {
       return err;
     }
@@ -144,8 +144,8 @@ const UserPage = ({
             return (
               <PollCard
                 key={index}
-                deletePoll={deletePoll}
                 poll={poll}
+                deletePoll={deletePoll}
                 updateVote={updateVote}
               ></PollCard>
             );

@@ -1,34 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import FriendReqCard from './FriendReqCard';
 
 const FriendRequestSection = ({
   currentUser,
-  updatePolls,
-  updateUser,
+  setCurrentUser,
+  setPolls,
 }: any) => {
-  const [reqList, setReqList] = useState<[]>([]);
-
-  useEffect(() => {
-    setReqList(currentUser.friendRequests);
-  }, [currentUser.friendRequests]);
-
-  const handleReqChange = (newList: any) => {
-    setReqList(newList);
-  };
+  // const handleReqChange = (newList: any) => {
+  //   setReqList(newList);
+  // };
 
   return (
     <div className="friend-req-panel">
       <h3>Friend Requests</h3>
       {currentUser.friendRequests > 0 ? (
-        reqList.map((friendReq: any, index: number) => {
+        currentUser.friendRequests.map((friendReq: any, index: number) => {
           return (
             <FriendReqCard
-              updateUser={updateUser}
-              key={index}
-              reqList={reqList}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+              setPolls={setPolls}
               friendReq={friendReq}
-              updatePolls={updatePolls}
-              handleReqChange={handleReqChange}
+              key={index}
+              // handleReqChange={handleReqChange}
             ></FriendReqCard>
           );
         })
