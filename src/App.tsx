@@ -4,7 +4,7 @@ import Login from './components/Login';
 import Home from './components/Home';
 import { AuthContext } from './context/context';
 import { Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
+import Header from './components/Header/Header';
 import UserPage from './components/UserPage';
 
 const App = () => {
@@ -54,15 +54,6 @@ const App = () => {
     };
     getHomeUser();
   }, [state]);
-
-  // const closeForm = (): void => {
-  //   setCreatePollForm(false);
-  // };
-
-  // const toggleForm = (e: React.MouseEvent<HTMLButtonElement>): void => {
-  //   e.stopPropagation();
-  //   setCreatePollForm(!createPollForm);
-  // };
 
   const updateVote = (poll: any, answer: any) => {
     let updatedPoll = homePolls.find((element: any) => element === poll);

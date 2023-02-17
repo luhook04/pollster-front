@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/context';
 import PollCard from './PollCard';
-import FriendRequestSection from './FriendRequestSection';
+import FriendRequestSection from './Friends/FriendRequestSection';
 import SearchBar from './SearchBar';
 
 const Home = ({
@@ -115,8 +115,8 @@ const Home = ({
 
   return (
     <div>
+      <SearchBar></SearchBar>
       <div>
-        <SearchBar></SearchBar>
         <div>
           <button
             onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
@@ -224,7 +224,8 @@ const Home = ({
         ) : null}
       </div>
       <FriendRequestSection currentUser={currentUser}></FriendRequestSection>
-      {showFriends ? (
+      {/* <FriendSection></FriendSection> */}
+      {/* {showFriends ? (
         <button onClick={friendListFunc}>Hide Friend List</button>
       ) : (
         <button onClick={friendListFunc}>Show Friend List</button>
@@ -236,7 +237,7 @@ const Home = ({
             return <p key={index}>{friend.username}</p>;
           })}
         </div>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };

@@ -104,7 +104,6 @@ const UserPage = ({
   const deleteAccount = async () => {
     try {
       navigate('/');
-      dispatch({ type: 'logout' });
       await fetch(
         `https://pollster-api-production.up.railway.app/api/users/${state.user?._id}`,
         {
@@ -114,6 +113,7 @@ const UserPage = ({
           },
         }
       );
+      dispatch({ type: 'logout' });
     } catch (err) {
       return err;
     }
