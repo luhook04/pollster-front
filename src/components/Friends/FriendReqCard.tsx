@@ -35,6 +35,7 @@ const FriendReqCard = ({
 
       const newPolls = await req.json();
       currentUser.friendRequests = newReqList;
+      currentUser.friends = [...currentUser.friends, friendReq];
       setCurrentUser(currentUser);
       setPolls(newPolls.polls);
     } catch (err) {

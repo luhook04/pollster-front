@@ -15,7 +15,6 @@ const Home = ({
   setPolls,
 }: any) => {
   const { state } = useContext(AuthContext);
-
   const [showFriends, setShowFriends] = useState<boolean>(false);
 
   const friendListFunc = () => {
@@ -67,7 +66,7 @@ const Home = ({
       </div>
       <div className="friend-req-panel">
         <h3>Friend Requests</h3>
-        {currentUser.friendRequests > 0 ? (
+        {currentUser.friendRequests ? (
           currentUser.friendRequests.map((friendReq: any, index: number) => {
             return (
               <FriendReqCard
@@ -76,7 +75,6 @@ const Home = ({
                 setPolls={setPolls}
                 friendReq={friendReq}
                 key={index}
-                // handleReqChange={handleReqChange}
               ></FriendReqCard>
             );
           })
