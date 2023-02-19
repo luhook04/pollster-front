@@ -6,6 +6,7 @@ import PollCard from './PollCard';
 const UserPage = ({
   deletePoll,
   polls,
+  setPolls,
   updateVote,
   currentUser,
   setCurrentUser,
@@ -14,17 +15,7 @@ const UserPage = ({
   const navigate = useNavigate();
   const { state, dispatch } = useContext(AuthContext);
   const [user, setUser] = useState<{ [key: string]: any }>({});
-  const [isRequested, setIsRequested] = useState<boolean>();
-  const [isFriend, setIsFriend] = useState<boolean>();
-
-  // const isFriendFunc = () => {
-  //   if (
-  //     Object.keys(user).length > 0 &&
-  //     user.friendRequests.includes(state.user?._id)
-  //   ) {
-  //     setIsRequested(true);
-  //   } else setIsRequested(false);
-  // };
+  const [status, setStatus] = useState<string>('');
 
   useEffect(() => {
     const getUser = async () => {
@@ -40,10 +31,10 @@ const UserPage = ({
         );
         const reqJson = await req.json();
         if (reqJson.user.friendRequests.includes(state.user?._id)) {
-          setIsRequested(true);
+          setStatus('requested');
         }
         if (reqJson.user.friends.includes(state.user?._id)) {
-          setIsFriend(true);
+          setStatus('friend');
         }
         setUser(reqJson.user);
       } catch (err) {
@@ -52,10 +43,6 @@ const UserPage = ({
     };
     getUser();
   }, [state, userId]);
-
-  const myPolls = polls.filter(
-    (poll: any) => poll.author.username === user.username
-  );
 
   const sendFriendReq = async () => {
     try {
@@ -72,7 +59,7 @@ const UserPage = ({
         let updatedUser = user;
         updatedUser.friendRequests.push(state.user?._id);
         setUser(updatedUser);
-        setIsRequested(true);
+        setStatus('requested');
       }
     } catch (err) {
       return err;
@@ -83,6 +70,9 @@ const UserPage = ({
     try {
       const newFriendList = currentUser.friends.filter(
         (friend: any) => friend._id !== userId
+      );
+      const newPollList = polls.filter(
+        (poll: any) => poll.author._id !== userId
       );
       currentUser.friends = newFriendList;
       await fetch(
@@ -95,7 +85,8 @@ const UserPage = ({
         }
       );
       setCurrentUser(currentUser);
-      setIsFriend(false);
+      setPolls(newPollList);
+      setStatus('stranger');
     } catch (err) {
       return err;
     }
@@ -124,10 +115,10 @@ const UserPage = ({
       {userId !== state.user?._id ? (
         <div className="user-panel">
           <p>{user.username}</p>
-          {isFriend ? (
+          {status === 'friend' ? (
             <button onClick={deleteFriend}>Delete Friend</button>
           ) : (
-            <button disabled={isRequested} onClick={sendFriendReq}>
+            <button disabled={status === 'requested'} onClick={sendFriendReq}>
               Add Friend
             </button>
           )}
@@ -138,19 +129,21 @@ const UserPage = ({
           <button onClick={deleteAccount}>Delete Account</button>
         </div>
       )}
-      {myPolls ? (
-        <div className="polls-container">
-          {myPolls.map((poll: any, index: number) => {
-            return (
-              <PollCard
-                key={index}
-                poll={poll}
-                deletePoll={deletePoll}
-                updateVote={updateVote}
-              ></PollCard>
-            );
-          })}
-        </div>
+      {status !== 'requested' && status !== 'stranger' ? (
+        user.polls ? (
+          <div className="polls-container">
+            {user.polls.map((poll: any, index: number) => {
+              return (
+                <PollCard
+                  key={index}
+                  poll={poll}
+                  deletePoll={deletePoll}
+                  updateVote={updateVote}
+                ></PollCard>
+              );
+            })}
+          </div>
+        ) : null
       ) : null}
     </>
   );

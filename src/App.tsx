@@ -54,7 +54,7 @@ const App = () => {
     };
     getHomeUser();
   }, [state]);
-  console.log(currentUser);
+
   const updateVote = (poll: any, answer: any) => {
     let updatedPoll = homePolls.find((element: any) => element === poll);
     let updatedAnswer = updatedPoll.answers.find(
@@ -105,7 +105,7 @@ const App = () => {
                 setPolls={setHomePolls}
                 updateVote={updateVote}
                 currentUser={currentUser}
-                setCurrentUser={currentUser}
+                setCurrentUser={setCurrentUser}
               />
             ) : (
               <Login />
