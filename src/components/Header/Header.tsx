@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import DropdownSmall from './DropdownSmall';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const { state, dispatch } = useContext(AuthContext);
-
+  const navigate = useNavigate();
   useEffect(() => {
     document.addEventListener('click', handleClickOutside, true);
     return () => {
@@ -20,6 +21,7 @@ const Header = () => {
   const ref = useRef<HTMLDivElement>(null);
 
   const handleLogout = (): void => {
+    navigate('/');
     dispatch({ type: 'logout' });
   };
 
