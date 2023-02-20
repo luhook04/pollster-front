@@ -137,7 +137,6 @@ const UserPage = ({
                 <PollCard
                   key={index}
                   poll={poll}
-                  setPolls={setPolls}
                   deletePoll={deletePoll}
                   updateVote={updateVote}
                 ></PollCard>

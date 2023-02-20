@@ -37,12 +37,14 @@ const Header = () => {
         <h1 className="text-4xl text-white">Pollster</h1>
       </Link>
       <div className="absolute right-4 top-1 text-4xl text-white sm:hidden">
-        <button onClick={() => setMobileMenu(!mobileMenu)}>&#9776;</button>
+        <button onClick={(): void => setMobileMenu(!mobileMenu)}>
+          &#9776;
+        </button>
       </div>
       <div className="hidden justify-center align-center sm:flex sm:pr-20">
         <div className="mt-auto mb-0.5" ref={ref}>
           <button
-            onClick={() => {
+            onClick={(): void => {
               setShowDropdown(!showDropdown);
             }}
           >
@@ -57,7 +59,7 @@ const Header = () => {
                 <ul>
                   <li
                     className="border-t border-x bg-slate-100 p-1 hover:bg-blue-400  hover:text-white"
-                    onClick={() => {
+                    onClick={(): void => {
                       setShowDropdown(false);
                     }}
                   >
