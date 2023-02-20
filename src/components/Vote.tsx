@@ -1,34 +1,15 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from '../context/context';
 
 const Vote = ({
   answer,
-  showError,
+  setError,
   poll,
-  currentUser,
-  setCurrentUser,
+  updateVote,
   totalVotes,
   setTotalVotes,
 }: any) => {
   const { state } = useContext(AuthContext);
-
-  const updateVote = (poll: any, answer: any) => {
-    let updatedPoll = currentUser.polls.find(
-      (element: any) => element === poll
-    );
-    let updatedAnswer = updatedPoll.answers.find(
-      (element: any) => element === answer
-    );
-    updatedAnswer.votes.push(state.user?._id);
-    let newArray = [...currentUser.polls];
-
-    let index = newArray.indexOf(poll);
-    if (index !== -1) {
-      newArray.splice(index, 1, updatedPoll);
-    }
-    currentUser.polls = newArray;
-    setCurrentUser(currentUser);
-  };
 
   const vote = async () => {
     if (!totalVotes.includes(state.user?._id)) {
@@ -45,9 +26,9 @@ const Vote = ({
         const reqJson = await req.json();
 
         if (req.status !== 200) {
-          showError(reqJson.message);
+          setError(reqJson.message);
           setTimeout(() => {
-            showError('');
+            setError('');
           }, 3000);
           console.log(poll);
         }
@@ -59,22 +40,24 @@ const Vote = ({
         return err;
       }
     } else {
-      showError("Can't vote twice");
+      setError("Can't vote twice");
       setTimeout(() => {
-        showError('');
+        setError('');
       }, 3000);
       return;
     }
   };
 
   return (
-    <button onClick={vote}>
-      <span>{answer.answer}</span>
-      {(totalVotes.includes(state.user?._id) ||
-        poll.author._id === state.user?._id) && (
-        <span> - {answer.votes.length}</span>
-      )}
-    </button>
+    <div>
+      <button onClick={vote}>
+        <span>{answer.answer}</span>
+        {(totalVotes.includes(state.user?._id) ||
+          poll.author._id === state.user?._id) && (
+          <span> - {answer.votes.length}</span>
+        )}
+      </button>
+    </div>
   );
 };
 
