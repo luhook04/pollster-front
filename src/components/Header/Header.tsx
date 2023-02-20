@@ -32,7 +32,7 @@ const Header = () => {
   };
 
   return (
-    <div className="bg-blue-500 flex flex-col sm:flex-row sm:py-5 pt-5">
+    <div className="bg-blue-500 flex flex-col sm:flex-row py-5 pt-5">
       <Link className="mx-auto sm:mr-auto sm:pl-20 " to={'/'}>
         <h1 className="text-4xl text-white">Pollster</h1>
       </Link>
