@@ -34,7 +34,7 @@ const SearchBar = () => {
   );
 
   return (
-    <div className="w-5/6 mx-auto">
+    <div className="w-5/6 mx-auto mb-3">
       <input
         className="mx-auto w-full block px-1 rounded-sm"
         type="text"
@@ -42,8 +42,8 @@ const SearchBar = () => {
         value={filterText}
         onChange={(e) => setFilterText(e.target.value.toLocaleLowerCase())}
       />
-      <div className="mt-1">
-        {filteredItems.length === 0 && (
+      <div className="mt-1 absolute w-5/6">
+        {filteredItems.length === 0 && filterText && (
           <p className="text-[14px] text-center bg-white border-b text-slate-500">
             There are no items to display adjust your filter criteria
           </p>

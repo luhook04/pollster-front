@@ -52,7 +52,7 @@ const Header = () => {
             ></FontAwesomeIcon>
           </button>
           {showDropdown !== false && (
-            <div className="sm:absolute  text-center text-sm">
+            <div className="sm:absolute text-center text-sm">
               <nav>
                 <ul>
                   <li
