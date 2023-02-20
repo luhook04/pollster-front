@@ -3,7 +3,6 @@ import { AuthContext } from '../context/context';
 import PollCard from './PollCard';
 import PollForm from './PollForm';
 import FriendReqCard from './Friends/FriendReqCard';
-import SearchBar from './SearchBar';
 
 const Home = ({
   updateVote,
@@ -41,7 +40,6 @@ const Home = ({
 
   return (
     <div>
-      <SearchBar></SearchBar>
       <div>
         <PollForm
           createPollForm={createPollForm}

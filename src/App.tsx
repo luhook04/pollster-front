@@ -6,6 +6,7 @@ import { AuthContext } from './context/context';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import UserPage from './components/UserPage';
+import SearchBar from './components/SearchBar';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState<{
@@ -77,6 +78,7 @@ const App = () => {
       onClick={(): void => setCreatePollForm(false)}
     >
       {state.isAuthenticated && <Header />}
+      {state.isAuthenticated && <SearchBar />}
       <Routes>
         <Route
           path="/"

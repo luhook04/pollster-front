@@ -34,7 +34,7 @@ const SearchBar = () => {
   );
 
   return (
-    <div className="mt-5 w-5/6 mx-auto">
+    <div className="w-5/6 mx-auto">
       <input
         className="mx-auto w-full block px-1 rounded-sm"
         type="text"
