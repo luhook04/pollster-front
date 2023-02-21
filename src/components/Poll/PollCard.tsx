@@ -1,15 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/context';
-import Vote from '../Vote';
+import Vote from './Vote';
+import { Poll, Answer } from '../../App';
 
-const PollCard = ({ poll, deletePoll, updateVote }: any) => {
+interface FuncProps {
+  updateVote(poll: Poll, answer: Answer): void;
+  deletePoll(pollId: string): Promise<unknown>;
+  poll: Poll;
+}
+
+const PollCard: React.FC<FuncProps> = ({ poll, deletePoll, updateVote }) => {
   const { state } = useContext(AuthContext);
 
   const [totalVotes, setTotalVotes] = useState<string[]>([]);
-  const [error, setError]: any = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    poll.answers.forEach((answer: any) => {
+    poll.answers.forEach((answer: Answer) => {
       setTotalVotes([...answer.votes]);
     });
   }, [poll]);
@@ -19,7 +26,7 @@ const PollCard = ({ poll, deletePoll, updateVote }: any) => {
       {poll.author.username ? <p>{poll.author.username}</p> : null}
       <p>{poll.question}</p>
       <div className="answers">
-        {poll.answers.map((answer: any, index: number) => {
+        {poll.answers.map((answer: Answer, index: number) => {
           return (
             <Vote
               key={index}

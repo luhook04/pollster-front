@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { AuthContext } from '../../context/context';
-import { CurrentUser, Poll } from '../../App';
+import { AuthContext } from '../context/context';
+import { CurrentUser, Poll } from '../App';
 
 interface FuncProps {
   createPollForm: boolean;

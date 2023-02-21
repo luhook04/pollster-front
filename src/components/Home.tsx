@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/context';
 import PollCard from './Poll/PollCard';
-import PollForm from './Poll/PollForm';
+import PollForm from './PollForm';
 import FriendReqCard from './Friends/FriendReqCard';
 import { CurrentUser, Poll, Answer, User } from '../App';
 
@@ -27,12 +27,11 @@ const Home: React.FC<FuncProps> = ({
   const { state } = useContext(AuthContext);
   const [showFriends, setShowFriends] = useState<boolean>(false);
 
-  const friendListFunc = () => {
+  const friendListFunc = (): void => {
     setShowFriends(!showFriends);
   };
 
-  console.log(currentUser.friendRequests);
-  const deletePoll = async (pollId: string) => {
+  const deletePoll = async (pollId: string): Promise<unknown> => {
     try {
       const newPollList = polls.filter((poll: Poll) => poll._id !== pollId);
       await fetch(
