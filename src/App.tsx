@@ -8,14 +8,43 @@ import Header from './components/Header/Header';
 import UserPage from './components/UserPage';
 import SearchBar from './components/SearchBar';
 
+interface User {
+  _id: string;
+  username: string;
+  profilePicUrl: string;
+  friends: string[];
+  friendRequests: string[];
+  polls: string[];
+}
+
+interface Poll {
+  _id: string;
+  id: string;
+  timestamp: string;
+  date: string;
+  author: User;
+}
+
 const App = () => {
   const [currentUser, setCurrentUser] = useState<{
-    [key: string]: any;
-  }>({});
+    _id: string;
+    username: string;
+    profilePicUrl: string;
+    friends: User[];
+    friendRequests: User[];
+    polls: string[];
+  }>({
+    username: '',
+    profilePicUrl: '',
+    _id: '',
+    friends: [],
+    friendRequests: [],
+    polls: [],
+  });
   const [homePolls, setHomePolls]: any = useState<[]>([]);
   const { state } = useContext(AuthContext);
   const [createPollForm, setCreatePollForm] = useState<boolean>(false);
-
+  console.log(homePolls);
   useEffect(() => {
     const getPolls = async () => {
       try {
@@ -29,6 +58,7 @@ const App = () => {
           }
         );
         const reqJson = await req.json();
+
         setHomePolls(reqJson.polls);
       } catch (err) {
         return err;

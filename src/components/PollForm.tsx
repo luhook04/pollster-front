@@ -4,6 +4,7 @@ import { AuthContext } from '../context/context';
 const PollForm = ({
   setCreatePollForm,
   createPollForm,
+  currentUser,
   polls,
   setPolls,
 }: any) => {
@@ -62,7 +63,7 @@ const PollForm = ({
       );
       const reqJson = await req.json();
       let pollJson = reqJson.poll;
-      pollJson.author = state.user;
+      pollJson.author = currentUser;
 
       setPolls([pollJson, ...polls]);
 

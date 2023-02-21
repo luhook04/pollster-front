@@ -30,7 +30,6 @@ const Vote = ({
           setTimeout(() => {
             setError('');
           }, 3000);
-          console.log(poll);
         }
         if (req.status === 200) {
           updateVote(poll, answer);

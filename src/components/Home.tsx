@@ -44,6 +44,7 @@ const Home = ({
         <PollForm
           createPollForm={createPollForm}
           setCreatePollForm={setCreatePollForm}
+          currentUser={currentUser}
           polls={polls}
           setPolls={setPolls}
         ></PollForm>
@@ -70,6 +71,7 @@ const Home = ({
               <FriendReqCard
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
+                polls={polls}
                 setPolls={setPolls}
                 friendReq={friendReq}
                 key={index}

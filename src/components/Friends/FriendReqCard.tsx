@@ -23,6 +23,16 @@ const FriendReqCard = ({
           },
         }
       );
+
+      await fetch(
+        `https://pollster-api-production.up.railway.app/api/users/${state.user?._id}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        }
+      );
       const req = await fetch(
         'https://pollster-api-production.up.railway.app/api/polls',
         {
@@ -32,7 +42,6 @@ const FriendReqCard = ({
           },
         }
       );
-
       const newPolls = await req.json();
       currentUser.friendRequests = newReqList;
       currentUser.friends = [...currentUser.friends, friendReq];
