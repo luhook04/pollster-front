@@ -8,32 +8,41 @@ import Header from './components/Header/Header';
 import UserPage from './components/UserPage';
 import SearchBar from './components/SearchBar';
 
+interface Answer {
+  answer: string;
+  _id: string;
+  votes: string[];
+}
+interface Poll {
+  _id: string;
+  id: string;
+  timestamp: string;
+  date: string;
+  question: string;
+  answers: Answer[];
+  author: User | CurrentUser;
+}
+
 interface User {
   _id: string;
   username: string;
   profilePicUrl: string;
   friends: string[];
   friendRequests: string[];
+  polls: Poll[];
+}
+
+interface CurrentUser {
+  _id: string;
+  username: string;
+  profilePicUrl: string;
+  friends: User[];
+  friendRequests: User[];
   polls: string[];
 }
 
-interface Poll {
-  _id: string;
-  id: string;
-  timestamp: string;
-  date: string;
-  author: User;
-}
-
 const App = () => {
-  const [currentUser, setCurrentUser] = useState<{
-    _id: string;
-    username: string;
-    profilePicUrl: string;
-    friends: User[];
-    friendRequests: User[];
-    polls: string[];
-  }>({
+  const [currentUser, setCurrentUser] = useState<CurrentUser>({
     username: '',
     profilePicUrl: '',
     _id: '',
@@ -41,10 +50,10 @@ const App = () => {
     friendRequests: [],
     polls: [],
   });
-  const [homePolls, setHomePolls]: any = useState<[]>([]);
+  const [homePolls, setHomePolls] = useState<Poll[]>([]);
   const { state } = useContext(AuthContext);
   const [createPollForm, setCreatePollForm] = useState<boolean>(false);
-  console.log(homePolls);
+  console.log(currentUser);
   useEffect(() => {
     const getPolls = async () => {
       try {
@@ -86,12 +95,17 @@ const App = () => {
     getHomeUser();
   }, [state]);
 
-  const updateVote = (poll: any, answer: any) => {
-    let updatedPoll = homePolls.find((element: any) => element === poll);
-    let updatedAnswer = updatedPoll.answers.find(
+  const updateVote = (poll: Poll, answer: Answer) => {
+    let updatedPoll = homePolls.find((element: Poll) => element === poll);
+
+    if (updatedPoll === undefined) {
+      throw new TypeError('The value should be there');
+    }
+
+    let updatedAnswer = updatedPoll!.answers.find(
       (element: any) => element === answer
     );
-    updatedAnswer.votes.push(state.user?._id);
+    updatedAnswer?.votes.push(state.user?._id);
     let newArray = [...homePolls];
 
     let index = newArray.indexOf(poll);
