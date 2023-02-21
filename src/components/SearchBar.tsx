@@ -1,11 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/context';
 import { Link } from 'react-router-dom';
+
+interface SearchUser {
+  _id: string;
+  username: string;
+  profilePicUrl: string;
+  friends: string[];
+  friendRequests: string[];
+  polls: string[];
+}
+
 const SearchBar = () => {
   const { state } = useContext(AuthContext);
-  const [users, setUsers]: any = useState<[]>([]);
+  const [users, setUsers] = useState<SearchUser[]>([]);
   const [filterText, setFilterText] = useState('');
-
+  console.log(users);
   useEffect(() => {
     const getUsers = async () => {
       try {
@@ -29,7 +39,7 @@ const SearchBar = () => {
     getUsers();
   }, [state]);
 
-  const filteredItems = users.filter((user: any) =>
+  const filteredItems = users.filter((user: SearchUser) =>
     user.username.toLocaleLowerCase().includes(filterText)
   );
 
@@ -50,7 +60,7 @@ const SearchBar = () => {
         )}
         {filteredItems.length !== 0 &&
           filterText &&
-          filteredItems.map((item: any, index: number) => (
+          filteredItems.map((item: SearchUser, index: number) => (
             <Link key={index} to={`/users/${item._id}`}>
               <div className="bg-white border-b border-slate-400">
                 <p className="p-1 hover:bg-blue-400 hover:text-white">

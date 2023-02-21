@@ -53,7 +53,7 @@ const App: React.FC = () => {
   const [homePolls, setHomePolls] = useState<Poll[]>([]);
   const { state } = useContext(AuthContext);
   const [createPollForm, setCreatePollForm] = useState<boolean>(false);
-  console.log(currentUser);
+
   useEffect(() => {
     const getPolls = async () => {
       try {
