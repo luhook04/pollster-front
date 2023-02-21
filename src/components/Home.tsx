@@ -1,10 +1,21 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/context';
-import PollCard from './PollCard';
-import PollForm from './PollForm';
+import PollCard from './Poll/PollCard';
+import PollForm from './Poll/PollForm';
 import FriendReqCard from './Friends/FriendReqCard';
+import { CurrentUser, Poll, Answer, User } from '../App';
 
-const Home = ({
+interface FuncProps {
+  updateVote(poll: Poll, answer: Answer): void;
+  createPollForm: boolean;
+  setCreatePollForm: React.Dispatch<React.SetStateAction<boolean>>;
+  currentUser: CurrentUser;
+  setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUser>>;
+  polls: Poll[];
+  setPolls: React.Dispatch<React.SetStateAction<Poll[]>>;
+}
+
+const Home: React.FC<FuncProps> = ({
   updateVote,
   createPollForm,
   setCreatePollForm,
@@ -12,7 +23,7 @@ const Home = ({
   setCurrentUser,
   polls,
   setPolls,
-}: any) => {
+}) => {
   const { state } = useContext(AuthContext);
   const [showFriends, setShowFriends] = useState<boolean>(false);
 
@@ -20,9 +31,10 @@ const Home = ({
     setShowFriends(!showFriends);
   };
 
-  const deletePoll = async (pollId: any) => {
+  console.log(currentUser.friendRequests);
+  const deletePoll = async (pollId: string) => {
     try {
-      const newPollList = polls.filter((poll: any) => poll._id !== pollId);
+      const newPollList = polls.filter((poll: Poll) => poll._id !== pollId);
       await fetch(
         `https://pollster-api-production.up.railway.app/api/polls/${pollId}`,
         {
@@ -50,7 +62,7 @@ const Home = ({
         ></PollForm>
         {polls ? (
           <div className="polls-container">
-            {polls.map((poll: any, index: number) => {
+            {polls.map((poll: Poll, index: number) => {
               return (
                 <PollCard
                   key={index}
@@ -66,7 +78,7 @@ const Home = ({
       <div className="friend-req-panel">
         <h3>Friend Requests</h3>
         {currentUser.friendRequests ? (
-          currentUser.friendRequests.map((friendReq: any, index: number) => {
+          currentUser.friendRequests.map((friendReq: User, index: number) => {
             return (
               <FriendReqCard
                 currentUser={currentUser}
@@ -90,7 +102,7 @@ const Home = ({
       {currentUser.friends && showFriends ? (
         <div className="friend-list">
           <h3>Friend List</h3>
-          {currentUser.friends.map((friend: any, index: number) => {
+          {currentUser.friends.map((friend: User, index: number) => {
             return <p key={index}>{friend.username}</p>;
           })}
         </div>

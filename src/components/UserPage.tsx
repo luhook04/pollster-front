@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../context/context';
-import PollCard from './PollCard';
+import PollCard from './Poll/PollCard';
 
 const UserPage = ({
   deletePoll,

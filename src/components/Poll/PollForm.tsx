@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { AuthContext } from '../context/context';
+import { AuthContext } from '../../context/context';
 
 const PollForm = ({
   setCreatePollForm,

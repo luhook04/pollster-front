@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../context/context';
-import Vote from './Vote';
+import { AuthContext } from '../../context/context';
+import Vote from '../Vote';
 
 const PollCard = ({ poll, deletePoll, updateVote }: any) => {
   const { state } = useContext(AuthContext);

@@ -11,7 +11,7 @@ interface SearchUser {
   polls: string[];
 }
 
-const SearchBar = () => {
+const SearchBar: React.FC = () => {
   const { state } = useContext(AuthContext);
   const [users, setUsers] = useState<SearchUser[]>([]);
   const [filterText, setFilterText] = useState('');

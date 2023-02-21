@@ -8,12 +8,12 @@ import Header from './components/Header/Header';
 import UserPage from './components/UserPage';
 import SearchBar from './components/SearchBar';
 
-interface Answer {
+export interface Answer {
   answer: string;
   _id: string;
   votes: string[];
 }
-interface Poll {
+export interface Poll {
   _id: string;
   id: string;
   timestamp: string;
@@ -23,7 +23,7 @@ interface Poll {
   author: User | CurrentUser;
 }
 
-interface User {
+export interface User {
   _id: string;
   username: string;
   profilePicUrl: string;
@@ -32,7 +32,7 @@ interface User {
   polls: Poll[];
 }
 
-interface CurrentUser {
+export interface CurrentUser {
   _id: string;
   username: string;
   profilePicUrl: string;
