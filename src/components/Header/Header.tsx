@@ -1,14 +1,14 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { AuthContext } from '../../context/context';
-import { Link } from 'react-router-dom';
+import { Link, NavigateFunction } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import DropdownSmall from './DropdownSmall';
 import { useNavigate } from 'react-router-dom';
 
-const Header = () => {
+const Header: React.FC = () => {
   const { state, dispatch } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
   useEffect(() => {
     document.addEventListener('click', handleClickOutside, true);
     return () => {
@@ -80,10 +80,7 @@ const Header = () => {
         </div>
       </div>
       {mobileMenu && (
-        <DropdownSmall
-          state={state}
-          handleLogout={handleLogout}
-        ></DropdownSmall>
+        <DropdownSmall handleLogout={handleLogout}></DropdownSmall>
       )}
     </div>
   );

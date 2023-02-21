@@ -41,7 +41,7 @@ interface CurrentUser {
   polls: string[];
 }
 
-const App = () => {
+const App: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<CurrentUser>({
     username: '',
     profilePicUrl: '',

@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../context/context';
 
-const DropdownSmall = ({ state, handleLogout }: any) => {
+interface FuncProps {
+  handleLogout(): void;
+}
+
+const DropdownSmall: React.FC<FuncProps> = ({ handleLogout }) => {
+  const { state } = useContext(AuthContext);
   return (
     <div className="sm:hidden mx-auto text-center w-full mt-2">
       <nav>
