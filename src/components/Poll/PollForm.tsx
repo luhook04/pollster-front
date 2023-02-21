@@ -1,13 +1,22 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../context/context';
+import { CurrentUser, Poll } from '../../App';
 
-const PollForm = ({
+interface FuncProps {
+  createPollForm: boolean;
+  setCreatePollForm: React.Dispatch<React.SetStateAction<boolean>>;
+  currentUser: CurrentUser;
+  polls: Poll[];
+  setPolls: React.Dispatch<React.SetStateAction<Poll[]>>;
+}
+
+const PollForm: React.FC<FuncProps> = ({
   setCreatePollForm,
   createPollForm,
   currentUser,
   polls,
   setPolls,
-}: any) => {
+}) => {
   const { state } = useContext(AuthContext);
   const [inputAmount, setInputAmount] = useState<number>(0);
   const [newPoll, setNewPoll] = useState({
@@ -18,11 +27,11 @@ const PollForm = ({
     option4: '',
   });
 
-  const addInputField = () => {
+  const addInputField = (): void => {
     if (inputAmount <= 2) setInputAmount(inputAmount + 1);
   };
 
-  const removeInputField = () => {
+  const removeInputField = (): void => {
     if (inputAmount === 1) {
       let poll = newPoll;
       poll.option3 = '';
@@ -36,11 +45,13 @@ const PollForm = ({
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setNewPoll({ ...newPoll, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<unknown> => {
     e.preventDefault();
     try {
       const req = await fetch(
@@ -95,7 +106,7 @@ const PollForm = ({
         Create Poll
       </button>
       {createPollForm ? (
-        <div className="form-popup" onClick={(e) => e.stopPropagation()}>
+        <div className="form-popup" onClick={(e): void => e.stopPropagation()}>
           <form onSubmit={handleSubmit} className="form-container">
             <div className="form-group">
               <label htmlFor="question">Question: </label>
