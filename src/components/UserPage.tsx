@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../context/context';
-import PollCard from './Poll/PollCard';
+import PollCard from './PollCard';
 
 const UserPage = ({
   deletePoll,
@@ -32,10 +32,12 @@ const UserPage = ({
         const reqJson = await req.json();
         if (reqJson.user.friendRequests.includes(state.user?._id)) {
           setStatus('requested');
-        }
-        if (reqJson.user.friends.includes(state.user?._id)) {
+        } else if (reqJson.user.friends.includes(state.user?._id)) {
           setStatus('friend');
+        } else if (userId !== state.user?._id) {
+          setStatus('stranger');
         }
+
         setUser(reqJson.user);
       } catch (err) {
         return err;

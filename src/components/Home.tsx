@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/context';
-import PollCard from './Poll/PollCard';
+import PollCard from './PollCard';
 import PollForm from './PollForm';
 import FriendReqCard from './Friends/FriendReqCard';
 import { CurrentUser, Poll, Answer, User } from '../App';

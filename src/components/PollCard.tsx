@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../context/context';
+import { AuthContext } from '../context/context';
 import Vote from './Vote';
-import { Poll, Answer } from '../../App';
+import { Poll, Answer } from '../App';
 
 interface FuncProps {
   updateVote(poll: Poll, answer: Answer): void;
   deletePoll(pollId: string): Promise<unknown>;
   poll: Poll;
 }
-
 const PollCard: React.FC<FuncProps> = ({ poll, deletePoll, updateVote }) => {
   const { state } = useContext(AuthContext);
 
@@ -16,11 +15,12 @@ const PollCard: React.FC<FuncProps> = ({ poll, deletePoll, updateVote }) => {
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
+    let totalVoteArray: string[] = [];
     poll.answers.forEach((answer: Answer) => {
-      setTotalVotes([...answer.votes]);
+      totalVoteArray.push(...answer.votes);
     });
+    setTotalVotes(totalVoteArray);
   }, [poll]);
-
   return (
     <div className="poll-card">
       {poll.author.username ? <p>{poll.author.username}</p> : null}

@@ -18,6 +18,7 @@ export interface Poll {
   id: string;
   timestamp: string;
   date: string;
+  time: string;
   question: string;
   answers: Answer[];
   author: User | CurrentUser;
