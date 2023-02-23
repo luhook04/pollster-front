@@ -36,6 +36,7 @@ const Vote: React.FC<FuncProps> = ({
         const reqJson = await req.json();
 
         if (req.status !== 200) {
+          console.log(totalVotes);
           setError(reqJson.message);
           setTimeout(() => {
             setError('');
@@ -45,8 +46,8 @@ const Vote: React.FC<FuncProps> = ({
           updateVote(poll, answer);
           let newVoteArray = [...totalVotes, state.user?._id];
           setTotalVotes(newVoteArray);
+          console.log(totalVotes);
         }
-        console.log(totalVotes);
       } catch (err) {
         return err;
       }

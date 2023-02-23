@@ -37,7 +37,6 @@ const UserPage = ({
         } else if (userId !== state.user?._id) {
           setStatus('stranger');
         }
-
         setUser(reqJson.user);
       } catch (err) {
         return err;

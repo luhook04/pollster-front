@@ -82,7 +82,6 @@ const Home: React.FC<FuncProps> = ({
               <FriendReqCard
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
-                polls={polls}
                 setPolls={setPolls}
                 friendReq={friendReq}
                 key={index}
