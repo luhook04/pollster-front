@@ -17,21 +17,28 @@ const FriendReqCard: React.FC<FuncProps> = ({
 }) => {
   const { state } = useContext(AuthContext);
 
-  const getNewPolls = async () => {
-    const req = await fetch(
-      'https://pollster-api-production.up.railway.app/api/polls',
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${state.token}`,
-        },
+  const getNewPolls = async (): Promise<void> => {
+    try {
+      const res = await fetch(
+        'https://pollster-api-production.up.railway.app/api/polls',
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        }
+      );
+      if (!res.ok) {
+        throw new Error('Network response error');
       }
-    );
-    const newPolls = await req.json();
-    setPolls(newPolls.polls);
+      const newPolls = await res.json();
+      setPolls(newPolls.polls);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
-  const updateFriendList = async () => {
+  const updateFriendList = async (): Promise<void> => {
     try {
       const newReqList = currentUser.friendRequests.filter(
         (req: User) => req._id !== friendReq._id
@@ -45,31 +52,29 @@ const FriendReqCard: React.FC<FuncProps> = ({
           },
         }
       );
-      if (res.ok) {
-        currentUser.friendRequests = newReqList;
-        currentUser.friends = [...currentUser.friends, friendReq];
-        setCurrentUser(currentUser);
+
+      if (!res.ok) {
+        throw new Error('Network response error');
       }
-    } catch (err) {
-      return err;
+      currentUser.friendRequests = newReqList;
+      currentUser.friends = [...currentUser.friends, friendReq];
+      setCurrentUser(currentUser);
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 
-  const acceptRequest = async (): Promise<unknown> => {
-    try {
-      getNewPolls();
-      updateFriendList();
-    } catch (err) {
-      return err;
-    }
+  const acceptRequest = (): void => {
+    getNewPolls();
+    updateFriendList();
   };
 
-  const declineRequest = async () => {
+  const declineRequest = async (): Promise<void> => {
     try {
       const newReqList = currentUser.friendRequests.filter(
-        (req: any) => req._id !== friendReq._id
+        (req: User) => req._id !== friendReq._id
       );
-      fetch(
+      const res = await fetch(
         `https://pollster-api-production.up.railway.app/api/users/${state.user?._id}/requests/${friendReq._id}`,
         {
           method: 'DELETE',
@@ -78,10 +83,13 @@ const FriendReqCard: React.FC<FuncProps> = ({
           },
         }
       );
+      if (!res.ok) {
+        throw new Error('Network response error');
+      }
       currentUser.friendRequests = newReqList;
       setCurrentUser(currentUser);
-    } catch (err) {
-      return err;
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 
