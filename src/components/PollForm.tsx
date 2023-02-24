@@ -96,7 +96,7 @@ const PollForm: React.FC<FuncProps> = ({
   };
 
   return (
-    <div>
+    <div className="flex flex-col text-center">
       <button
         onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
           e.stopPropagation();
@@ -106,7 +106,7 @@ const PollForm: React.FC<FuncProps> = ({
         Create Poll
       </button>
       {createPollForm ? (
-        <div className="form-popup" onClick={(e): void => e.stopPropagation()}>
+        <div onClick={(e): void => e.stopPropagation()}>
           <form onSubmit={handleSubmit} className="form-container">
             <div className="form-group">
               <label htmlFor="question">Question: </label>
