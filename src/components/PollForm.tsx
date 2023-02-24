@@ -98,7 +98,7 @@ const PollForm: React.FC<FuncProps> = ({
   return (
     <>
       {createPollForm ? (
-        <div className="mx-auto w-11/12 flex flex-col text-center bg-blue-400 border-blue-900 border-2 py-5">
+        <div className="mx-auto w-11/12 flex flex-col text-center bg-slate-100 border-blue-900 border-2 py-5 rounded">
           <div className="text-right">
             <button
               className="bg-red-700 hover:bg-red-900 text-white ml-auto px-2 rounded-full mr-5 sm:mr-10"
@@ -123,6 +123,7 @@ const PollForm: React.FC<FuncProps> = ({
               <div className="flex flex-col mb-2">
                 <label htmlFor="question">Question: </label>
                 <input
+                  className="border-2 border-slate-400 px-1"
                   type="text"
                   id="question"
                   name="question"
@@ -134,6 +135,7 @@ const PollForm: React.FC<FuncProps> = ({
               <div className="flex flex-col mb-2">
                 <label htmlFor="option1">Choice 1: </label>
                 <input
+                  className="border-2 border-slate-400 px-1"
                   type="text"
                   id="option1"
                   name="option1"
@@ -145,6 +147,7 @@ const PollForm: React.FC<FuncProps> = ({
               <div className="flex flex-col mb-2">
                 <label htmlFor="option2">Choice 2: </label>
                 <input
+                  className="border-2 border-slate-400 px-1"
                   type="text"
                   id="option2"
                   name="option2"
@@ -157,6 +160,7 @@ const PollForm: React.FC<FuncProps> = ({
                 <div className="flex flex-col mb-2">
                   <label htmlFor="option3">Choice 3 (Optional): </label>
                   <input
+                    className="border-2 border-slate-400 px-1"
                     type="text"
                     id="option3"
                     name="option3"
@@ -169,6 +173,7 @@ const PollForm: React.FC<FuncProps> = ({
                 <div className="flex flex-col mb-2">
                   <label htmlFor="option4">Choice 4 (Optional): </label>
                   <input
+                    className="border-2 border-slate-400 px-1"
                     type="text"
                     id="option4"
                     name="option4"
