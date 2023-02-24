@@ -28,7 +28,7 @@ const PollForm: React.FC<FuncProps> = ({
   });
 
   const addInputField = (): void => {
-    if (inputAmount <= 2) setInputAmount(inputAmount + 1);
+    if (inputAmount < 2) setInputAmount(inputAmount + 1);
   };
 
   const removeInputField = (): void => {
@@ -97,18 +97,39 @@ const PollForm: React.FC<FuncProps> = ({
 
   return (
     <div className="flex flex-col text-center">
-      <button
-        onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
-          e.stopPropagation();
-          setCreatePollForm(!createPollForm);
-        }}
-      >
-        Create Poll
-      </button>
+      {!createPollForm ? (
+        <button
+          className="bg-blue-700 text-white font-bold w-1/4 mx-auto mb-5 py-1 px-4 rounded-full"
+          onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
+            e.stopPropagation();
+            setCreatePollForm(!createPollForm);
+          }}
+        >
+          Create Poll
+        </button>
+      ) : (
+        <button
+          className="bg-blue-700 text-white font-bold w-1/4 mx-auto py-1 px-4 rounded-full"
+          onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
+            e.stopPropagation();
+            setCreatePollForm(!createPollForm);
+            setNewPoll({
+              question: '',
+              option1: '',
+              option2: '',
+              option3: '',
+              option4: '',
+            });
+            setInputAmount(0);
+          }}
+        >
+          Close Poll
+        </button>
+      )}
       {createPollForm ? (
         <div onClick={(e): void => e.stopPropagation()}>
-          <form onSubmit={handleSubmit} className="form-container">
-            <div className="form-group">
+          <form className="w-5/6 mx-auto text-left" onSubmit={handleSubmit}>
+            <div className="flex flex-col mb-2">
               <label htmlFor="question">Question: </label>
               <input
                 type="text"
@@ -119,7 +140,7 @@ const PollForm: React.FC<FuncProps> = ({
                 required
               />
             </div>
-            <div className="form-group">
+            <div className="flex flex-col mb-2">
               <label htmlFor="option1">Choice 1: </label>
               <input
                 type="text"
@@ -130,7 +151,7 @@ const PollForm: React.FC<FuncProps> = ({
                 required
               />
             </div>
-            <div className="form-group">
+            <div className="flex flex-col mb-2">
               <label htmlFor="option2">Choice 2: </label>
               <input
                 type="text"
@@ -142,7 +163,7 @@ const PollForm: React.FC<FuncProps> = ({
               />
             </div>
             {inputAmount >= 1 ? (
-              <div className="form-group">
+              <div className="flex flex-col mb-2">
                 <label htmlFor="option3">Choice 3: </label>
                 <input
                   type="text"
@@ -155,7 +176,7 @@ const PollForm: React.FC<FuncProps> = ({
               </div>
             ) : null}
             {inputAmount >= 2 ? (
-              <div className="form-group">
+              <div className="flex flex-col mb-2">
                 <label htmlFor="option4">Choice 4: </label>
                 <input
                   type="text"
@@ -167,22 +188,15 @@ const PollForm: React.FC<FuncProps> = ({
                 />
               </div>
             ) : null}
-            <button type="button" onClick={addInputField}>
-              Add Field
-            </button>
-            <button type="button" onClick={removeInputField}>
-              Remove Field
-            </button>
-            <button type="submit">Post Poll</button>
-            <button
-              onClick={(): void => {
-                setCreatePollForm(!createPollForm);
-              }}
-              type="button"
-              className="btn cancel"
-            >
-              Close
-            </button>
+            <div className="text-center flex flex-col">
+              <button type="button" onClick={addInputField}>
+                Add Field
+              </button>
+              <button type="button" onClick={removeInputField}>
+                Remove Field
+              </button>
+              <button type="submit">Post Poll</button>
+            </div>
           </form>
         </div>
       ) : null}
