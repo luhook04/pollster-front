@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import PollCard from './PollCard';
+
 import PollForm from './PollForm';
 import FriendReqCard from './FriendReqCard';
 import { CurrentUser, Poll, Answer, User } from '../App';
 import PollDisplay from './PollDisplay';
+import FriendRequests from './FriendRequests';
 
 interface FuncProps {
   updateVote(poll: Poll, answer: Answer): void;
@@ -46,24 +47,11 @@ const Home: React.FC<FuncProps> = ({
         polls={polls}
         updateVote={updateVote}
       ></PollDisplay>
-      <div className="friend-req-panel">
-        <h3>Friend Requests</h3>
-        {currentUser.friendRequests ? (
-          currentUser.friendRequests.map((friendReq: User) => {
-            return (
-              <FriendReqCard
-                currentUser={currentUser}
-                setCurrentUser={setCurrentUser}
-                setPolls={setPolls}
-                friendReq={friendReq}
-                key={friendReq._id}
-              ></FriendReqCard>
-            );
-          })
-        ) : (
-          <p>No friend requests</p>
-        )}
-      </div>
+      <FriendRequests
+        currentUser={currentUser}
+        setPolls={setPolls}
+        setCurrentUser={setCurrentUser}
+      ></FriendRequests>
       {showFriends ? (
         <button onClick={friendListFunc}>Hide Friend List</button>
       ) : (
