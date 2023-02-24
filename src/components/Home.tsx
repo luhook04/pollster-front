@@ -3,7 +3,7 @@ import PollCard from './PollCard';
 import PollForm from './PollForm';
 import FriendReqCard from './FriendReqCard';
 import { CurrentUser, Poll, Answer, User } from '../App';
-import { create } from 'domain';
+import PollDisplay from './PollDisplay';
 
 interface FuncProps {
   updateVote(poll: Poll, answer: Answer): void;
@@ -34,56 +34,42 @@ const Home: React.FC<FuncProps> = ({
 
   return (
     <div>
-      <div>
-        <PollForm
-          createPollForm={createPollForm}
-          setCreatePollForm={setCreatePollForm}
-          currentUser={currentUser}
-          polls={polls}
-          setPolls={setPolls}
-        ></PollForm>
-        {polls && !createPollForm ? (
-          <div className="polls-container">
-            {polls.map((poll: Poll) => {
-              return (
-                <PollCard
-                  key={poll._id}
-                  deletePoll={deletePoll}
-                  poll={poll}
-                  updateVote={updateVote}
-                ></PollCard>
-              );
-            })}
-          </div>
-        ) : null}
+      <PollForm
+        createPollForm={createPollForm}
+        setCreatePollForm={setCreatePollForm}
+        currentUser={currentUser}
+        polls={polls}
+        setPolls={setPolls}
+      ></PollForm>
+      <PollDisplay
+        deletePoll={deletePoll}
+        polls={polls}
+        updateVote={updateVote}
+      ></PollDisplay>
+      <div className="friend-req-panel">
+        <h3>Friend Requests</h3>
+        {currentUser.friendRequests ? (
+          currentUser.friendRequests.map((friendReq: User) => {
+            return (
+              <FriendReqCard
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                setPolls={setPolls}
+                friendReq={friendReq}
+                key={friendReq._id}
+              ></FriendReqCard>
+            );
+          })
+        ) : (
+          <p>No friend requests</p>
+        )}
       </div>
-      {!createPollForm && (
-        <div className="friend-req-panel">
-          <h3>Friend Requests</h3>
-          {currentUser.friendRequests && !createPollForm ? (
-            currentUser.friendRequests.map((friendReq: User) => {
-              return (
-                <FriendReqCard
-                  currentUser={currentUser}
-                  setCurrentUser={setCurrentUser}
-                  setPolls={setPolls}
-                  friendReq={friendReq}
-                  key={friendReq._id}
-                ></FriendReqCard>
-              );
-            })
-          ) : (
-            <p>No friend requests</p>
-          )}
-        </div>
-      )}
-      {showFriends && !createPollForm && (
+      {showFriends ? (
         <button onClick={friendListFunc}>Hide Friend List</button>
-      )}
-      {!showFriends && !createPollForm && (
+      ) : (
         <button onClick={friendListFunc}>Show Friend List</button>
       )}
-      {currentUser.friends && showFriends && !createPollForm ? (
+      {currentUser.friends && showFriends ? (
         <div className="friend-list">
           <h3>Friend List</h3>
           {currentUser.friends.map((friend: User) => {
