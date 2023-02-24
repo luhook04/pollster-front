@@ -5,7 +5,7 @@ import { Poll, Answer } from '../App';
 
 interface FuncProps {
   updateVote(poll: Poll, answer: Answer): void;
-  deletePoll(pollId: string): Promise<unknown>;
+  deletePoll(pollId: string): Promise<void>;
   poll: Poll;
 }
 const PollCard: React.FC<FuncProps> = ({ poll, deletePoll, updateVote }) => {
@@ -15,21 +15,22 @@ const PollCard: React.FC<FuncProps> = ({ poll, deletePoll, updateVote }) => {
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    let totalVoteArray: string[] = [];
+    const totalVoteArray: string[] = [];
     poll.answers.forEach((answer: Answer) => {
       totalVoteArray.push(...answer.votes);
     });
     setTotalVotes(totalVoteArray);
   }, [poll]);
+
   return (
     <div className="poll-card">
       {poll.author.username ? <p>{poll.author.username}</p> : null}
       <p>{poll.question}</p>
       <div className="answers">
-        {poll.answers.map((answer: Answer, index: number) => {
+        {poll.answers.map((answer: Answer) => {
           return (
             <Vote
-              key={index}
+              key={answer._id}
               setError={setError}
               poll={poll}
               totalVotes={totalVotes}

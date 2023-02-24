@@ -21,10 +21,10 @@ const Vote: React.FC<FuncProps> = ({
 }) => {
   const { state } = useContext(AuthContext);
 
-  const vote = async (): Promise<unknown> => {
+  const vote = async (): Promise<void> => {
     if (!totalVotes.includes(state.user?._id)) {
       try {
-        const req = await fetch(
+        const res = await fetch(
           `https://pollster-api-production.up.railway.app/api/polls/${poll._id}/answers/${answer._id}`,
           {
             method: 'PUT',
@@ -33,27 +33,25 @@ const Vote: React.FC<FuncProps> = ({
             },
           }
         );
-        const reqJson = await req.json();
+        const resJson = await res.json();
 
-        if (req.status !== 200) {
-          console.log(totalVotes);
-          setError(reqJson.message);
+        if (res.status !== 200) {
+          setError(resJson.message);
           setTimeout(() => {
             setError('');
           }, 3000);
+          throw new Error('Network response error');
         }
-        if (req.status === 200) {
+        if (res.status === 200) {
           updateVote(poll, answer);
           let newVoteArray = [...totalVotes, state.user?._id];
           setTotalVotes(newVoteArray);
-          console.log(totalVotes);
         }
-      } catch (err) {
-        return err;
+      } catch (error) {
+        console.error('Error:', error);
       }
     } else {
       setError("Can't vote twice");
-      console.log(totalVotes);
       setTimeout(() => {
         setError('');
       }, 3000);

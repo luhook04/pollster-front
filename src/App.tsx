@@ -56,9 +56,9 @@ const App: React.FC = () => {
   const [createPollForm, setCreatePollForm] = useState<boolean>(false);
 
   useEffect(() => {
-    const getPolls = async () => {
+    const getPolls = async (): Promise<void> => {
       try {
-        const req = await fetch(
+        const res = await fetch(
           'https://pollster-api-production.up.railway.app/api/polls',
           {
             method: 'GET',
@@ -67,18 +67,20 @@ const App: React.FC = () => {
             },
           }
         );
-        const reqJson = await req.json();
-
-        setHomePolls(reqJson.polls);
-      } catch (err) {
-        return err;
+        if (!res.ok) {
+          throw new Error('Network response error');
+        }
+        const resJson = await res.json();
+        setHomePolls(resJson.polls);
+      } catch (error) {
+        console.error('Error:', error);
       }
     };
     getPolls();
 
-    const getHomeUser = async () => {
+    const getHomeUser = async (): Promise<void> => {
       try {
-        const req = await fetch(
+        const res = await fetch(
           `https://pollster-api-production.up.railway.app/api/home`,
           {
             method: 'GET',
@@ -87,33 +89,53 @@ const App: React.FC = () => {
             },
           }
         );
-        const reqJson = await req.json();
-        setCurrentUser(reqJson.user);
-      } catch (err) {
-        return err;
+        if (!res.ok) {
+          throw new Error('Network response error');
+        }
+        const resJson = await res.json();
+        setCurrentUser(resJson.user);
+      } catch (error) {
+        console.error('Error:', error);
       }
     };
     getHomeUser();
   }, [state]);
 
-  const updateVote = (poll: Poll, answer: Answer) => {
-    let updatedPoll = homePolls.find((element: Poll) => element === poll);
+  const deletePoll = async (pollId: string): Promise<void> => {
+    try {
+      const newPollList = homePolls.filter((poll: Poll) => poll._id !== pollId);
+      const res = await fetch(
+        `https://pollster-api-production.up.railway.app/api/polls/${pollId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        }
+      );
+      if (!res.ok) {
+        throw new Error('Network response error');
+      }
+      setHomePolls(newPollList);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
+  const updateVote = (poll: Poll, answer: Answer): void => {
+    let updatedPoll = homePolls.find((element: Poll) => element === poll);
     if (updatedPoll === undefined) {
       throw new TypeError('The value should be there');
     }
-
     let updatedAnswer = updatedPoll!.answers.find(
       (element: any) => element === answer
     );
     updatedAnswer?.votes.push(state.user?._id);
     let newArray = [...homePolls];
-
     let index = newArray.indexOf(poll);
     if (index !== -1) {
       newArray.splice(index, 1, updatedPoll);
     }
-
     setHomePolls(newArray);
   };
 
@@ -137,6 +159,7 @@ const App: React.FC = () => {
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
                 updateVote={updateVote}
+                deletePoll={deletePoll}
               />
             ) : (
               <Login />
@@ -153,6 +176,7 @@ const App: React.FC = () => {
                 updateVote={updateVote}
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
+                deletePoll={deletePoll}
               />
             ) : (
               <Login />

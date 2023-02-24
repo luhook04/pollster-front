@@ -51,10 +51,10 @@ const PollForm: React.FC<FuncProps> = ({
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
-  ): Promise<unknown> => {
+  ): Promise<void> => {
     e.preventDefault();
     try {
-      const req = await fetch(
+      const res = await fetch(
         'https://pollster-api-production.up.railway.app/api/polls',
         {
           method: 'POST',
@@ -72,26 +72,26 @@ const PollForm: React.FC<FuncProps> = ({
           }),
         }
       );
-      const reqJson = await req.json();
-      let pollJson = reqJson.poll;
-      pollJson.author = currentUser;
+      if (!res.ok) {
+        throw new Error('Network response errror');
+      } else {
+        const reqJson = await res.json();
+        let pollJson = reqJson.poll;
+        pollJson.author = currentUser;
 
-      setPolls([pollJson, ...polls]);
-
-      if (req.status !== 200) {
-        return;
+        setPolls([pollJson, ...polls]);
+        setNewPoll({
+          question: '',
+          option1: '',
+          option2: '',
+          option3: '',
+          option4: '',
+        });
+        setInputAmount(0);
+        setCreatePollForm(false);
       }
-      setNewPoll({
-        question: '',
-        option1: '',
-        option2: '',
-        option3: '',
-        option4: '',
-      });
-      setInputAmount(0);
-      setCreatePollForm(false);
-    } catch (err) {
-      return err;
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 

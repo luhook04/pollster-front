@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { AuthContext } from '../context/context';
+import React, { useState } from 'react';
 import PollCard from './PollCard';
 import PollForm from './PollForm';
-import FriendReqCard from './Friends/FriendReqCard';
+import FriendReqCard from './FriendReqCard';
 import { CurrentUser, Poll, Answer, User } from '../App';
 
 interface FuncProps {
   updateVote(poll: Poll, answer: Answer): void;
+  deletePoll(pollId: string): Promise<void>;
   createPollForm: boolean;
   setCreatePollForm: React.Dispatch<React.SetStateAction<boolean>>;
   currentUser: CurrentUser;
@@ -17,6 +17,7 @@ interface FuncProps {
 
 const Home: React.FC<FuncProps> = ({
   updateVote,
+  deletePoll,
   createPollForm,
   setCreatePollForm,
   currentUser,
@@ -24,29 +25,10 @@ const Home: React.FC<FuncProps> = ({
   polls,
   setPolls,
 }) => {
-  const { state } = useContext(AuthContext);
   const [showFriends, setShowFriends] = useState<boolean>(false);
 
   const friendListFunc = (): void => {
     setShowFriends(!showFriends);
-  };
-
-  const deletePoll = async (pollId: string): Promise<unknown> => {
-    try {
-      const newPollList = polls.filter((poll: Poll) => poll._id !== pollId);
-      await fetch(
-        `https://pollster-api-production.up.railway.app/api/polls/${pollId}`,
-        {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${state.token}`,
-          },
-        }
-      );
-      setPolls(newPollList);
-    } catch (err) {
-      return err;
-    }
   };
 
   return (
@@ -61,10 +43,10 @@ const Home: React.FC<FuncProps> = ({
         ></PollForm>
         {polls ? (
           <div className="polls-container">
-            {polls.map((poll: Poll, index: number) => {
+            {polls.map((poll: Poll) => {
               return (
                 <PollCard
-                  key={index}
+                  key={poll._id}
                   deletePoll={deletePoll}
                   poll={poll}
                   updateVote={updateVote}
@@ -77,14 +59,14 @@ const Home: React.FC<FuncProps> = ({
       <div className="friend-req-panel">
         <h3>Friend Requests</h3>
         {currentUser.friendRequests ? (
-          currentUser.friendRequests.map((friendReq: User, index: number) => {
+          currentUser.friendRequests.map((friendReq: User) => {
             return (
               <FriendReqCard
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
                 setPolls={setPolls}
                 friendReq={friendReq}
-                key={index}
+                key={friendReq._id}
               ></FriendReqCard>
             );
           })
@@ -100,8 +82,8 @@ const Home: React.FC<FuncProps> = ({
       {currentUser.friends && showFriends ? (
         <div className="friend-list">
           <h3>Friend List</h3>
-          {currentUser.friends.map((friend: User, index: number) => {
-            return <p key={index}>{friend.username}</p>;
+          {currentUser.friends.map((friend: User) => {
+            return <p key={friend._id}>{friend.username}</p>;
           })}
         </div>
       ) : null}

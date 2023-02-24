@@ -2,25 +2,43 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../context/context';
 import PollCard from './PollCard';
+import { Poll, Answer, CurrentUser, User } from '../App';
 
-const UserPage = ({
+interface FuncProps {
+  deletePoll(pollId: string): Promise<void>;
+  updateVote(poll: Poll, answer: Answer): void;
+  currentUser: CurrentUser;
+  setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUser>>;
+  polls: Poll[];
+  setPolls: React.Dispatch<React.SetStateAction<Poll[]>>;
+}
+
+const UserPage: React.FC<FuncProps> = ({
   deletePoll,
   polls,
   setPolls,
   updateVote,
   currentUser,
   setCurrentUser,
-}: any) => {
+}) => {
   let { userId } = useParams();
   const navigate = useNavigate();
   const { state, dispatch } = useContext(AuthContext);
-  const [user, setUser] = useState<{ [key: string]: any }>({});
+  const [user, setUser] = useState<User>({
+    _id: '',
+    username: '',
+    profilePicUrl: '',
+    friends: [],
+    friendRequests: [],
+    polls: [],
+  });
+
   const [status, setStatus] = useState<string>('');
 
   useEffect(() => {
-    const getUser = async () => {
+    const getUser = async (): Promise<void> => {
       try {
-        const req = await fetch(
+        const res = await fetch(
           `https://pollster-api-production.up.railway.app/api/users/${userId}`,
           {
             method: 'GET',
@@ -29,17 +47,20 @@ const UserPage = ({
             },
           }
         );
-        const reqJson = await req.json();
-        if (reqJson.user.friendRequests.includes(state.user?._id)) {
+        if (!res.ok) {
+          throw new Error('Network response error');
+        }
+        const resJson = await res.json();
+        if (resJson.user.friendRequests.includes(state.user?._id)) {
           setStatus('requested');
-        } else if (reqJson.user.friends.includes(state.user?._id)) {
+        } else if (resJson.user.friends.includes(state.user?._id)) {
           setStatus('friend');
         } else if (userId !== state.user?._id) {
           setStatus('stranger');
         }
-        setUser(reqJson.user);
-      } catch (err) {
-        return err;
+        setUser(resJson.user);
+      } catch (error) {
+        console.error('Error:', error);
       }
     };
     getUser();
@@ -56,27 +77,27 @@ const UserPage = ({
           },
         }
       );
-      if (res.ok) {
-        let updatedUser = user;
-        updatedUser.friendRequests.push(state.user?._id);
-        setUser(updatedUser);
-        setStatus('requested');
+      if (!res.ok) {
+        throw new Error('Network response error');
       }
-    } catch (err) {
-      return err;
+      let updatedUser = user;
+      updatedUser.friendRequests.push(state.user?._id);
+      setUser(updatedUser);
+      setStatus('requested');
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 
-  const deleteFriend = async () => {
+  const deleteFriend = async (): Promise<void> => {
     try {
       const newFriendList = currentUser.friends.filter(
-        (friend: any) => friend._id !== userId
+        (friend: User) => friend._id !== userId
       );
       const newPollList = polls.filter(
-        (poll: any) => poll.author._id !== userId
+        (poll: Poll) => poll.author._id !== userId
       );
-      currentUser.friends = newFriendList;
-      await fetch(
+      const res = await fetch(
         `https://pollster-api-production.up.railway.app/api/users/${state.user?._id}/friends/${userId}`,
         {
           method: 'DELETE',
@@ -85,19 +106,23 @@ const UserPage = ({
           },
         }
       );
+      if (!res.ok) {
+        throw new Error('Network response error');
+      }
+      currentUser.friends = newFriendList;
       setCurrentUser(currentUser);
       setPolls(newPollList);
       setStatus('stranger');
-    } catch (err) {
-      return err;
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 
-  const deleteAccount = async () => {
+  const deleteAccount = async (): Promise<void> => {
     try {
       navigate('/');
       dispatch({ type: 'logout' });
-      await fetch(
+      const res = await fetch(
         `https://pollster-api-production.up.railway.app/api/users/${state.user?._id}`,
         {
           method: 'DELETE',
@@ -106,8 +131,12 @@ const UserPage = ({
           },
         }
       );
-    } catch (err) {
-      return err;
+
+      if (!res.ok) {
+        throw new Error('Network respone error');
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 
@@ -133,10 +162,10 @@ const UserPage = ({
       {status !== 'requested' && status !== 'stranger' ? (
         user.polls ? (
           <div className="polls-container">
-            {user.polls.map((poll: any, index: number) => {
+            {user.polls.map((poll: Poll) => {
               return (
                 <PollCard
-                  key={index}
+                  key={poll._id}
                   poll={poll}
                   deletePoll={deletePoll}
                   updateVote={updateVote}

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { AuthContext } from '../../context/context';
-import { User, Poll, CurrentUser } from '../../App';
+import { AuthContext } from '../context/context';
+import { User, Poll, CurrentUser } from '../App';
 
 interface FuncProps {
   friendReq: User;
