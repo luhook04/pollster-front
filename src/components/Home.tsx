@@ -26,8 +26,6 @@ const Home: React.FC<FuncProps> = ({
   polls,
   setPolls,
 }) => {
-  const [showFriends, setShowFriends] = useState<boolean>(false);
-
   return (
     <>
       <PollForm
@@ -47,11 +45,7 @@ const Home: React.FC<FuncProps> = ({
         setPolls={setPolls}
         setCurrentUser={setCurrentUser}
       ></FriendRequests>
-      <Friends
-        showFriends={showFriends}
-        setShowFriends={setShowFriends}
-        currentUser={currentUser}
-      ></Friends>
+      <Friends currentUser={currentUser}></Friends>
     </>
   );
 };

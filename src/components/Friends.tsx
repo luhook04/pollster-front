@@ -1,17 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CurrentUser, User } from '../App';
 
 interface FuncProps {
   currentUser: CurrentUser;
-  showFriends: boolean;
-  setShowFriends: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Friends: React.FC<FuncProps> = ({
-  showFriends,
-  setShowFriends,
-  currentUser,
-}) => {
+const Friends: React.FC<FuncProps> = ({ currentUser }) => {
+  const [showFriends, setShowFriends] = useState<boolean>(false);
+
   return (
     <>
       {showFriends ? (
