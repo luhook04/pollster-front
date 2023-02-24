@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-
 import PollForm from './PollForm';
-import FriendReqCard from './FriendReqCard';
-import { CurrentUser, Poll, Answer, User } from '../App';
+import { CurrentUser, Poll, Answer } from '../App';
 import PollDisplay from './PollDisplay';
 import FriendRequests from './FriendRequests';
+import Friends from './Friends';
 
 interface FuncProps {
   updateVote(poll: Poll, answer: Answer): void;
@@ -29,12 +28,8 @@ const Home: React.FC<FuncProps> = ({
 }) => {
   const [showFriends, setShowFriends] = useState<boolean>(false);
 
-  const friendListFunc = (): void => {
-    setShowFriends(!showFriends);
-  };
-
   return (
-    <div>
+    <>
       <PollForm
         createPollForm={createPollForm}
         setCreatePollForm={setCreatePollForm}
@@ -52,20 +47,12 @@ const Home: React.FC<FuncProps> = ({
         setPolls={setPolls}
         setCurrentUser={setCurrentUser}
       ></FriendRequests>
-      {showFriends ? (
-        <button onClick={friendListFunc}>Hide Friend List</button>
-      ) : (
-        <button onClick={friendListFunc}>Show Friend List</button>
-      )}
-      {currentUser.friends && showFriends ? (
-        <div className="friend-list">
-          <h3>Friend List</h3>
-          {currentUser.friends.map((friend: User) => {
-            return <p key={friend._id}>{friend.username}</p>;
-          })}
-        </div>
-      ) : null}
-    </div>
+      <Friends
+        showFriends={showFriends}
+        setShowFriends={setShowFriends}
+        currentUser={currentUser}
+      ></Friends>
+    </>
   );
 };
 
