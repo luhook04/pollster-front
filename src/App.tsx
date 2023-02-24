@@ -145,7 +145,7 @@ const App: React.FC = () => {
       onClick={(): void => setCreatePollForm(false)}
     >
       {state.isAuthenticated && <Header />}
-      {state.isAuthenticated && <SearchBar />}
+      {state.isAuthenticated && !createPollForm && <SearchBar />}
       <Routes>
         <Route
           path="/"

@@ -28,6 +28,19 @@ const Home: React.FC<FuncProps> = ({
 }) => {
   return (
     <>
+      {!createPollForm ? (
+        <div className="text-center">
+          <button
+            className="bg-blue-700 text-white border-2 border-blue-700 hover:border-white text-sm w-1/2 mx-auto mb-5 py-1 px-2 rounded-full"
+            onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
+              e.stopPropagation();
+              setCreatePollForm(!createPollForm);
+            }}
+          >
+            Create Poll
+          </button>
+        </div>
+      ) : null}
       <PollForm
         createPollForm={createPollForm}
         setCreatePollForm={setCreatePollForm}

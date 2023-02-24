@@ -96,111 +96,118 @@ const PollForm: React.FC<FuncProps> = ({
   };
 
   return (
-    <div className="flex flex-col text-center">
-      {!createPollForm ? (
-        <button
-          className="bg-blue-700 text-white font-bold w-1/4 mx-auto mb-5 py-1 px-4 rounded-full"
-          onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
-            e.stopPropagation();
-            setCreatePollForm(!createPollForm);
-          }}
-        >
-          Create Poll
-        </button>
-      ) : (
-        <button
-          className="bg-blue-700 text-white font-bold w-1/4 mx-auto py-1 px-4 rounded-full"
-          onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
-            e.stopPropagation();
-            setCreatePollForm(!createPollForm);
-            setNewPoll({
-              question: '',
-              option1: '',
-              option2: '',
-              option3: '',
-              option4: '',
-            });
-            setInputAmount(0);
-          }}
-        >
-          Close Poll
-        </button>
-      )}
+    <>
       {createPollForm ? (
-        <div onClick={(e): void => e.stopPropagation()}>
-          <form className="w-5/6 mx-auto text-left" onSubmit={handleSubmit}>
-            <div className="flex flex-col mb-2">
-              <label htmlFor="question">Question: </label>
-              <input
-                type="text"
-                id="question"
-                name="question"
-                onChange={handleChange}
-                value={newPoll.question}
-                required
-              />
-            </div>
-            <div className="flex flex-col mb-2">
-              <label htmlFor="option1">Choice 1: </label>
-              <input
-                type="text"
-                id="option1"
-                name="option1"
-                onChange={handleChange}
-                value={newPoll.option1}
-                required
-              />
-            </div>
-            <div className="flex flex-col mb-2">
-              <label htmlFor="option2">Choice 2: </label>
-              <input
-                type="text"
-                id="option2"
-                name="option2"
-                onChange={handleChange}
-                value={newPoll.option2}
-                required
-              />
-            </div>
-            {inputAmount >= 1 ? (
+        <div className="mx-auto w-11/12 flex flex-col text-center bg-blue-400 border-blue-900 border-2 py-5">
+          <div className="text-right">
+            <button
+              className="bg-red-700 hover:bg-red-900 text-white ml-auto px-2 rounded-full mr-5 sm:mr-10"
+              onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
+                e.stopPropagation();
+                setCreatePollForm(!createPollForm);
+                setNewPoll({
+                  question: '',
+                  option1: '',
+                  option2: '',
+                  option3: '',
+                  option4: '',
+                });
+                setInputAmount(0);
+              }}
+            >
+              X
+            </button>
+          </div>
+          <div onClick={(e): void => e.stopPropagation()}>
+            <form className="w-11/12 mx-auto text-left" onSubmit={handleSubmit}>
               <div className="flex flex-col mb-2">
-                <label htmlFor="option3">Choice 3: </label>
+                <label htmlFor="question">Question: </label>
                 <input
                   type="text"
-                  id="option3"
-                  name="option3"
-                  placeholder="optional"
+                  id="question"
+                  name="question"
                   onChange={handleChange}
-                  value={newPoll.option3}
+                  value={newPoll.question}
+                  required
                 />
               </div>
-            ) : null}
-            {inputAmount >= 2 ? (
               <div className="flex flex-col mb-2">
-                <label htmlFor="option4">Choice 4: </label>
+                <label htmlFor="option1">Choice 1: </label>
                 <input
                   type="text"
-                  id="option4"
-                  name="option4"
-                  placeholder="optional"
+                  id="option1"
+                  name="option1"
                   onChange={handleChange}
-                  value={newPoll.option4}
+                  value={newPoll.option1}
+                  required
                 />
               </div>
-            ) : null}
-            <div className="text-center flex flex-col">
-              <button type="button" onClick={addInputField}>
-                Add Field
-              </button>
-              <button type="button" onClick={removeInputField}>
-                Remove Field
-              </button>
-              <button type="submit">Post Poll</button>
-            </div>
-          </form>
+              <div className="flex flex-col mb-2">
+                <label htmlFor="option2">Choice 2: </label>
+                <input
+                  type="text"
+                  id="option2"
+                  name="option2"
+                  onChange={handleChange}
+                  value={newPoll.option2}
+                  required
+                />
+              </div>
+              {inputAmount >= 1 ? (
+                <div className="flex flex-col mb-2">
+                  <label htmlFor="option3">Choice 3 (Optional): </label>
+                  <input
+                    type="text"
+                    id="option3"
+                    name="option3"
+                    onChange={handleChange}
+                    value={newPoll.option3}
+                  />
+                </div>
+              ) : null}
+              {inputAmount >= 2 ? (
+                <div className="flex flex-col mb-2">
+                  <label htmlFor="option4">Choice 4 (Optional): </label>
+                  <input
+                    type="text"
+                    id="option4"
+                    name="option4"
+                    onChange={handleChange}
+                    value={newPoll.option4}
+                  />
+                </div>
+              ) : null}
+              <div className="text-center flex flex-col">
+                {inputAmount !== 2 && (
+                  <button
+                    className="bg-blue-700 hover:bg-blue-900 text-white w-1/2 mx-auto my-2 py-1 rounded-full"
+                    type="button"
+                    onClick={addInputField}
+                  >
+                    Add Field
+                  </button>
+                )}
+                {inputAmount !== 0 && (
+                  <button
+                    className="bg-blue-700 hover:bg-blue-900 text-white w-1/2 mx-auto my-2 py-1 rounded-full"
+                    type="button"
+                    onClick={removeInputField}
+                  >
+                    Remove Field
+                  </button>
+                )}
+                <button
+                  className="bg-blue-700 hover:bg-blue-900 text-white w-1/2 mx-auto my-2 py-1 rounded-full"
+                  type="submit"
+                >
+                  Post Poll
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       ) : null}
-    </div>
+    </>
   );
 };
 
