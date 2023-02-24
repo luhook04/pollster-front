@@ -35,17 +35,21 @@ const Home: React.FC<FuncProps> = ({
         polls={polls}
         setPolls={setPolls}
       ></PollForm>
-      <PollDisplay
-        deletePoll={deletePoll}
-        polls={polls}
-        updateVote={updateVote}
-      ></PollDisplay>
-      <FriendRequests
-        currentUser={currentUser}
-        setPolls={setPolls}
-        setCurrentUser={setCurrentUser}
-      ></FriendRequests>
-      <Friends currentUser={currentUser}></Friends>
+      {!createPollForm && (
+        <>
+          <PollDisplay
+            deletePoll={deletePoll}
+            polls={polls}
+            updateVote={updateVote}
+          ></PollDisplay>
+          <FriendRequests
+            currentUser={currentUser}
+            setPolls={setPolls}
+            setCurrentUser={setCurrentUser}
+          ></FriendRequests>
+          <Friends currentUser={currentUser}></Friends>
+        </>
+      )}
     </>
   );
 };
