@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../context/context';
-import { User, Poll, CurrentUser } from '../App';
+import { User, Poll } from '../App';
 
 interface FuncProps {
   friendReq: User;
-  currentUser: CurrentUser;
   setPolls: React.Dispatch<React.SetStateAction<Poll[]>>;
   friendRequests: User[];
   friends: User[];
@@ -14,7 +13,6 @@ interface FuncProps {
 
 const FriendReqCard: React.FC<FuncProps> = ({
   friendReq,
-  currentUser,
   setPolls,
   setFriends,
   setFriendRequests,

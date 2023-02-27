@@ -78,7 +78,6 @@ const PollForm: React.FC<FuncProps> = ({
         const reqJson = await res.json();
         let pollJson = reqJson.poll;
         pollJson.author = currentUser;
-
         setPolls([pollJson, ...polls]);
         setNewPoll({
           question: '',

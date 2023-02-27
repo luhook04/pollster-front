@@ -68,7 +68,6 @@ const Home: React.FC<FuncProps> = ({
               friendRequests={friendRequests}
               friends={friends}
               setFriendRequests={setFriendRequests}
-              currentUser={currentUser}
               setPolls={setPolls}
               setFriends={setFriends}
             ></FriendRequests>

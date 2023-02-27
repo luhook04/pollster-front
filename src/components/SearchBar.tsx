@@ -51,7 +51,12 @@ const SearchBar: React.FC = () => {
         value={filterText}
         onChange={(e) => setFilterText(e.target.value.toLocaleLowerCase())}
       />
-      <div className="mt-1 absolute w-5/6">
+      <div
+        className="mt-1 absolute w-5/6"
+        onClick={() => {
+          setFilterText('');
+        }}
+      >
         {filteredItems.length === 0 && filterText && (
           <p className="text-[14px] text-center bg-white border-b text-slate-500">
             There are no items to display adjust your filter criteria
