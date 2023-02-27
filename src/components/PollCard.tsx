@@ -44,7 +44,7 @@ const PollCard: React.FC<FuncProps> = ({ poll, deletePoll, updateVote }) => {
       {error ? <p className="text-center mb-2">Error: {error}</p> : null}
       {poll.author.username === state.user?.username ? (
         <button
-          className="block bg-red-700 hover:bg-red-900 text-white mx-auto px-6 rounded-full"
+          className="block bg-red-600 hover:bg-red-900 text-white mx-auto px-6 rounded-full"
           onClick={() => deletePoll(poll._id)}
         >
           Delete

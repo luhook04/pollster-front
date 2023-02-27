@@ -4,26 +4,34 @@ import { CurrentUser, User, Poll } from '../App';
 
 interface FuncProps {
   currentUser: CurrentUser;
-  setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUser>>;
   setPolls: React.Dispatch<React.SetStateAction<Poll[]>>;
+  friendRequests: User[];
+  friends: User[];
+  setFriends: React.Dispatch<React.SetStateAction<User[]>>;
+  setFriendRequests: React.Dispatch<React.SetStateAction<User[]>>;
 }
 
 const FriendRequests: React.FC<FuncProps> = ({
   currentUser,
   setPolls,
-  setCurrentUser,
+  friends,
+  setFriends,
+  setFriendRequests,
+  friendRequests,
 }) => {
-  console.log(currentUser.friendRequests);
   return (
     <>
-      <h3>Friend Requests</h3>
-      <div className="overflow-auto h-fit max-h-64 min-h-40 bg-blue-500 rounded text-white mb-2">
+      <h3 className="mb-2">Friend Requests</h3>
+      <div className="overflow-auto h-fit max-h-36 bg-blue-500 rounded text-white mb-2">
         {currentUser.friendRequests.length > 0 ? (
           currentUser.friendRequests.map((friendReq: User) => {
             return (
               <FriendReqCard
+                friends={friends}
+                setFriendRequests={setFriendRequests}
+                setFriends={setFriends}
+                friendRequests={friendRequests}
                 currentUser={currentUser}
-                setCurrentUser={setCurrentUser}
                 setPolls={setPolls}
                 friendReq={friendReq}
                 key={friendReq._id}

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PollForm from './PollForm';
-import { CurrentUser, Poll, Answer } from '../App';
+import { CurrentUser, Poll, Answer, User } from '../App';
 import PollDisplay from './PollDisplay';
 import FriendRequests from './FriendRequests';
 import Friends from './Friends';
@@ -26,6 +26,14 @@ const Home: React.FC<FuncProps> = ({
   polls,
   setPolls,
 }) => {
+  const [friends, setFriends] = useState<User[]>([]);
+  const [friendRequests, setFriendRequests] = useState<User[]>([]);
+
+  useEffect(() => {
+    setFriends(currentUser.friends);
+    setFriendRequests(currentUser.friendRequests);
+  }, [currentUser]);
+
   return (
     <>
       {!createPollForm ? (
@@ -57,11 +65,14 @@ const Home: React.FC<FuncProps> = ({
           ></PollDisplay>
           <div className="md:w-1/4 bg-white md:my-3 md:p-3 md:mr-7 text-center p-3 w-11/12 mx-auto">
             <FriendRequests
+              friendRequests={friendRequests}
+              friends={friends}
+              setFriendRequests={setFriendRequests}
               currentUser={currentUser}
               setPolls={setPolls}
-              setCurrentUser={setCurrentUser}
+              setFriends={setFriends}
             ></FriendRequests>
-            <Friends currentUser={currentUser}></Friends>
+            <Friends friends={friends}></Friends>
           </div>
         </div>
       )}

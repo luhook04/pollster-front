@@ -5,15 +5,21 @@ import { User, Poll, CurrentUser } from '../App';
 interface FuncProps {
   friendReq: User;
   currentUser: CurrentUser;
-  setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUser>>;
   setPolls: React.Dispatch<React.SetStateAction<Poll[]>>;
+  friendRequests: User[];
+  friends: User[];
+  setFriends: React.Dispatch<React.SetStateAction<User[]>>;
+  setFriendRequests: React.Dispatch<React.SetStateAction<User[]>>;
 }
 
 const FriendReqCard: React.FC<FuncProps> = ({
   friendReq,
   currentUser,
-  setCurrentUser,
   setPolls,
+  setFriends,
+  setFriendRequests,
+  friendRequests,
+  friends,
 }) => {
   const { state } = useContext(AuthContext);
 
@@ -40,7 +46,7 @@ const FriendReqCard: React.FC<FuncProps> = ({
 
   const updateFriendList = async (): Promise<void> => {
     try {
-      const newReqList = currentUser.friendRequests.filter(
+      const newReqList = friendRequests.filter(
         (req: User) => req._id !== friendReq._id
       );
       const res = await fetch(
@@ -52,26 +58,26 @@ const FriendReqCard: React.FC<FuncProps> = ({
           },
         }
       );
-
       if (!res.ok) {
         throw new Error('Network response error');
       }
-      currentUser.friendRequests = newReqList;
-      currentUser.friends = [...currentUser.friends, friendReq];
-      setCurrentUser(currentUser);
+      const friendList = [...friends];
+      friendList.push(friendReq);
+      setFriends(friendList);
+      setFriendRequests(newReqList);
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
   const acceptRequest = (): void => {
-    getNewPolls();
     updateFriendList();
+    getNewPolls();
   };
 
   const declineRequest = async (): Promise<void> => {
     try {
-      const newReqList = currentUser.friendRequests.filter(
+      const newReqList = friendRequests.filter(
         (req: User) => req._id !== friendReq._id
       );
       const res = await fetch(
@@ -86,18 +92,30 @@ const FriendReqCard: React.FC<FuncProps> = ({
       if (!res.ok) {
         throw new Error('Network response error');
       }
-      currentUser.friendRequests = newReqList;
-      setCurrentUser(currentUser);
+      const requestList = newReqList;
+      setFriendRequests(requestList);
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
   return (
-    <div className="friend-request">
+    <div className="flex my-2 items-center w-11/12 mx-auto md:w-full md:block">
       <p>{friendReq.username}</p>
-      <button onClick={acceptRequest}>Accept</button>
-      <button onClick={declineRequest}>Decline</button>
+      <div className="flex flex-row justify-center gap-8 md:gap-2 lg:gap-4 my-2 ml-auto md:mx-auto">
+        <button
+          className="bg-green-700 hover:bg-green-900 rounded px-4 md:px-2 lg:px-4 py-1"
+          onClick={acceptRequest}
+        >
+          Accept
+        </button>
+        <button
+          className="bg-red-700 hover:bg-red-900 rounded px-4 md:px-2 lg:px-4 py-1"
+          onClick={declineRequest}
+        >
+          Decline
+        </button>
+      </div>
     </div>
   );
 };

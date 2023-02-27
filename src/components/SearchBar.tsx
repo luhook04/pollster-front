@@ -15,7 +15,6 @@ const SearchBar: React.FC = () => {
   const { state } = useContext(AuthContext);
   const [users, setUsers] = useState<SearchUser[]>([]);
   const [filterText, setFilterText] = useState('');
-  console.log(users);
   useEffect(() => {
     const getUsers = async () => {
       try {
