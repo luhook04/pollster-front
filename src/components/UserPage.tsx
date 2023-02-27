@@ -60,6 +60,7 @@ const UserPage: React.FC<FuncProps> = ({
         }
         setUser(resJson.user);
         setMyPolls(resJson.polls);
+        console.log(resJson);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -156,7 +157,7 @@ const UserPage: React.FC<FuncProps> = ({
               </button>
             ) : (
               <button
-                className="text-white mb-3 bg-green-700 hover:bg-green-900 rounded px-4 py-1 text-sm"
+                className="text-white mb-3 bg-green-700 hover:bg-green-900 rounded px-4 py-1 text-sm disabled:bg-slate-300 disabled:text-slate-800 disabled:border-slate-200"
                 disabled={status === 'requested'}
                 onClick={sendFriendReq}
               >
