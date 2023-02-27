@@ -30,7 +30,7 @@ export interface User {
   profilePicUrl: string;
   friends: string[];
   friendRequests: string[];
-  polls: Poll[];
+  polls: string[];
 }
 
 export interface CurrentUser {

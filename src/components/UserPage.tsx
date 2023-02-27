@@ -32,7 +32,7 @@ const UserPage: React.FC<FuncProps> = ({
     friendRequests: [],
     polls: [],
   });
-
+  const [myPolls, setMyPolls] = useState<Poll[]>([]);
   const [status, setStatus] = useState<string>('');
 
   useEffect(() => {
@@ -59,6 +59,7 @@ const UserPage: React.FC<FuncProps> = ({
           setStatus('stranger');
         }
         setUser(resJson.user);
+        setMyPolls(resJson.polls);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -142,7 +143,7 @@ const UserPage: React.FC<FuncProps> = ({
 
   return (
     <>
-      <div className="text-center bg-white mx-auto w-5/6 md:w-1/2 py-3">
+      <div className="text-center bg-white mx-auto w-11/12 md:w-1/2 py-3">
         {userId !== state.user?._id ? (
           <div>
             <h2 className="text-xl font-bold my-3">{user.username}</h2>
@@ -176,9 +177,9 @@ const UserPage: React.FC<FuncProps> = ({
         )}
       </div>
       {status !== 'requested' && status !== 'stranger' ? (
-        user.polls ? (
+        myPolls ? (
           <div>
-            {user.polls.map((poll: Poll) => {
+            {myPolls.map((poll: Poll) => {
               return (
                 <PollCard
                   key={poll._id}
