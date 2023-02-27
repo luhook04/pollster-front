@@ -1,23 +1,19 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../context/context';
-import { User, Poll } from '../App';
+import { User, Poll, CurrentUser } from '../App';
 
 interface FuncProps {
   friendReq: User;
   setPolls: React.Dispatch<React.SetStateAction<Poll[]>>;
-  friendRequests: User[];
-  friends: User[];
-  setFriends: React.Dispatch<React.SetStateAction<User[]>>;
-  setFriendRequests: React.Dispatch<React.SetStateAction<User[]>>;
+  setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUser>>;
+  currentUser: CurrentUser;
 }
 
 const FriendReqCard: React.FC<FuncProps> = ({
   friendReq,
   setPolls,
-  setFriends,
-  setFriendRequests,
-  friendRequests,
-  friends,
+  currentUser,
+  setCurrentUser,
 }) => {
   const { state } = useContext(AuthContext);
 
@@ -44,7 +40,7 @@ const FriendReqCard: React.FC<FuncProps> = ({
 
   const updateFriendList = async (): Promise<void> => {
     try {
-      const newReqList = friendRequests.filter(
+      const newReqList = currentUser.friendRequests.filter(
         (req: User) => req._id !== friendReq._id
       );
       const res = await fetch(
@@ -59,10 +55,13 @@ const FriendReqCard: React.FC<FuncProps> = ({
       if (!res.ok) {
         throw new Error('Network response error');
       }
-      const friendList = [...friends];
+      const friendList = [...currentUser.friends];
       friendList.push(friendReq);
-      setFriends(friendList);
-      setFriendRequests(newReqList);
+      setCurrentUser({
+        ...currentUser,
+        friends: friendList,
+        friendRequests: newReqList,
+      });
     } catch (error) {
       console.error('Error:', error);
     }
@@ -75,7 +74,7 @@ const FriendReqCard: React.FC<FuncProps> = ({
 
   const declineRequest = async (): Promise<void> => {
     try {
-      const newReqList = friendRequests.filter(
+      const newReqList = currentUser.friendRequests.filter(
         (req: User) => req._id !== friendReq._id
       );
       const res = await fetch(
@@ -91,7 +90,10 @@ const FriendReqCard: React.FC<FuncProps> = ({
         throw new Error('Network response error');
       }
       const requestList = newReqList;
-      setFriendRequests(requestList);
+      setCurrentUser({
+        ...currentUser,
+        friendRequests: requestList,
+      });
     } catch (error) {
       console.error('Error:', error);
     }

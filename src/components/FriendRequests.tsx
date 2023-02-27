@@ -1,34 +1,28 @@
 import React from 'react';
 import FriendReqCard from './FriendReqCard';
-import { User, Poll } from '../App';
+import { User, Poll, CurrentUser } from '../App';
 
 interface FuncProps {
   setPolls: React.Dispatch<React.SetStateAction<Poll[]>>;
-  friendRequests: User[];
-  friends: User[];
-  setFriends: React.Dispatch<React.SetStateAction<User[]>>;
-  setFriendRequests: React.Dispatch<React.SetStateAction<User[]>>;
+  setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUser>>;
+  currentUser: CurrentUser;
 }
 
 const FriendRequests: React.FC<FuncProps> = ({
   setPolls,
-  friends,
-  setFriends,
-  setFriendRequests,
-  friendRequests,
+  currentUser,
+  setCurrentUser,
 }) => {
   return (
     <>
       <h2 className="mb-2">Friend Requests</h2>
       <div className="overflow-auto h-fit max-h-36 bg-blue-500 rounded text-white mb-2">
-        {friendRequests.length > 0 ? (
-          friendRequests.map((friendReq: User) => {
+        {currentUser.friendRequests.length > 0 ? (
+          currentUser.friendRequests.map((friendReq: User) => {
             return (
               <FriendReqCard
-                friends={friends}
-                setFriendRequests={setFriendRequests}
-                setFriends={setFriends}
-                friendRequests={friendRequests}
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
                 setPolls={setPolls}
                 friendReq={friendReq}
                 key={friendReq._id}
