@@ -76,7 +76,6 @@ const App: React.FC = () => {
         console.error('Error:', error);
       }
     };
-    getPolls();
 
     const getHomeUser = async (): Promise<void> => {
       try {
@@ -98,7 +97,10 @@ const App: React.FC = () => {
         console.error('Error:', error);
       }
     };
-    getHomeUser();
+    if (state.isAuthenticated) {
+      getPolls();
+      getHomeUser();
+    }
   }, [state]);
 
   const deletePoll = async (pollId: string): Promise<void> => {
