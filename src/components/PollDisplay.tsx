@@ -16,7 +16,7 @@ const PollDisplay: React.FC<FuncProps> = ({
   return (
     <>
       {polls ? (
-        <div>
+        <div className="md:grow">
           {polls.map((poll: Poll) => {
             return (
               <PollCard

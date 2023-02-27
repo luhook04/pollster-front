@@ -31,7 +31,7 @@ const Home: React.FC<FuncProps> = ({
       {!createPollForm ? (
         <div className="text-center">
           <button
-            className="bg-blue-700 text-white border-2 border-blue-700 hover:border-white text-sm w-1/2 mx-auto mb-5 py-1 px-2 rounded-full"
+            className="bg-blue-700 text-white border-2 border-blue-700 hover:border-white text-sm w-1/2 mx-auto py-1 px-2 rounded-full"
             onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
               e.stopPropagation();
               setCreatePollForm(!createPollForm);
@@ -49,19 +49,21 @@ const Home: React.FC<FuncProps> = ({
         setPolls={setPolls}
       ></PollForm>
       {!createPollForm && (
-        <>
+        <div className="md:flex md:flex-row">
           <PollDisplay
             deletePoll={deletePoll}
             polls={polls}
             updateVote={updateVote}
           ></PollDisplay>
-          <FriendRequests
-            currentUser={currentUser}
-            setPolls={setPolls}
-            setCurrentUser={setCurrentUser}
-          ></FriendRequests>
-          <Friends currentUser={currentUser}></Friends>
-        </>
+          <div className="md:w-1/4 md:bg-white md:my-3 md:p-3 md:mr-7 text-center">
+            <FriendRequests
+              currentUser={currentUser}
+              setPolls={setPolls}
+              setCurrentUser={setCurrentUser}
+            ></FriendRequests>
+            <Friends currentUser={currentUser}></Friends>
+          </div>
+        </div>
       )}
     </>
   );
