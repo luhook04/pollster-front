@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { AuthContext } from '../context/context';
 import { Link } from 'react-router-dom';
 
@@ -15,6 +15,8 @@ const SearchBar: React.FC = () => {
   const { state } = useContext(AuthContext);
   const [users, setUsers] = useState<SearchUser[]>([]);
   const [filterText, setFilterText] = useState('');
+  const ref = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const getUsers = async () => {
       try {
@@ -34,16 +36,26 @@ const SearchBar: React.FC = () => {
         return err;
       }
     };
-
     getUsers();
+
+    document.addEventListener('click', handleClickOutside, true);
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
   }, [state]);
+
+  const handleClickOutside = (event: MouseEvent): void => {
+    if (ref.current && !ref.current.contains(event.target as Node)) {
+      setFilterText('');
+    }
+  };
 
   const filteredItems = users.filter((user: SearchUser) =>
     user.username.toLocaleLowerCase().includes(filterText)
   );
 
   return (
-    <div className="w-5/6 mx-auto mb-3">
+    <div className="w-5/6 mx-auto mb-3" ref={ref}>
       <input
         className="mx-auto w-full block px-1 rounded-sm"
         type="text"
