@@ -19,7 +19,7 @@ const FriendRequests: React.FC<FuncProps> = ({
 }) => {
   return (
     <>
-      <h3 className="mb-2">Friend Requests</h3>
+      <h2 className="mb-2">Friend Requests</h2>
       <div className="overflow-auto h-fit max-h-36 bg-blue-500 rounded text-white mb-2">
         {friendRequests.length > 0 ? (
           friendRequests.map((friendReq: User) => {

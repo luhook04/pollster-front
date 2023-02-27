@@ -22,7 +22,6 @@ const Home: React.FC<FuncProps> = ({
   createPollForm,
   setCreatePollForm,
   currentUser,
-  setCurrentUser,
   polls,
   setPolls,
 }) => {

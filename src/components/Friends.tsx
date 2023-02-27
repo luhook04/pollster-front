@@ -8,7 +8,7 @@ interface FuncProps {
 const Friends: React.FC<FuncProps> = ({ friends }) => {
   return (
     <>
-      <h3 className="mb-2">Friends</h3>
+      <h2 className="mb-2">Friends</h2>
       <div className="h-fit max-h-36 overflow-auto bg-blue-500 rounded text-white">
         {friends.length > 0 ? (
           friends.map((friend: User) => {
