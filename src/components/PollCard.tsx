@@ -23,10 +23,10 @@ const PollCard: React.FC<FuncProps> = ({ poll, deletePoll, updateVote }) => {
   }, [poll]);
 
   return (
-    <div className="poll-card">
-      {poll.author.username ? <p>{poll.author.username}</p> : null}
-      <p>{poll.question}</p>
-      <div className="answers">
+    <div className="bg-white my-3 p-3 w-11/12 mx-auto">
+      <p>{poll.author.username}</p>
+      <p className="mt-2">{poll.question}</p>
+      <div className="my-3 rounded-sm">
         {poll.answers.map((answer: Answer) => {
           return (
             <Vote

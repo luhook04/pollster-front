@@ -61,13 +61,30 @@ const Vote: React.FC<FuncProps> = ({
 
   return (
     <div>
-      <button onClick={vote}>
-        <span>{answer.answer}</span>
-        {(totalVotes.includes(state.user?._id) ||
-          poll.author._id === state.user?._id) && (
-          <span> - {answer.votes.length}</span>
-        )}
-      </button>
+      {totalVotes.includes(state.user?._id) ||
+      poll.author._id === state.user?._id ? (
+        <button
+          className="w-full py-2 px-3 rounded-sm mt-3 flex bg-slate-200"
+          onClick={vote}
+        >
+          <p>{answer.answer}</p>
+          {(totalVotes.includes(state.user?._id) ||
+            poll.author._id === state.user?._id) && (
+            <p className="ml-auto">{answer.votes.length}</p>
+          )}
+        </button>
+      ) : (
+        <button
+          className="w-full py-2 px-3 rounded-sm mt-3 flex bg-slate-200 hover:bg-blue-400 hover:text-white"
+          onClick={vote}
+        >
+          <p>{answer.answer}</p>
+          {(totalVotes.includes(state.user?._id) ||
+            poll.author._id === state.user?._id) && (
+            <p className="ml-auto">{answer.votes.length}</p>
+          )}
+        </button>
+      )}
     </div>
   );
 };
