@@ -13,25 +13,28 @@ const FriendRequests: React.FC<FuncProps> = ({
   setPolls,
   setCurrentUser,
 }) => {
+  console.log(currentUser.friendRequests);
   return (
-    <div className="overflow-auto">
+    <>
       <h3>Friend Requests</h3>
-      {currentUser.friendRequests ? (
-        currentUser.friendRequests.map((friendReq: User) => {
-          return (
-            <FriendReqCard
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
-              setPolls={setPolls}
-              friendReq={friendReq}
-              key={friendReq._id}
-            ></FriendReqCard>
-          );
-        })
-      ) : (
-        <p>No friend requests</p>
-      )}
-    </div>
+      <div className="overflow-auto h-fit max-h-64 min-h-40 bg-blue-500 rounded text-white mb-2">
+        {currentUser.friendRequests.length > 0 ? (
+          currentUser.friendRequests.map((friendReq: User) => {
+            return (
+              <FriendReqCard
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                setPolls={setPolls}
+                friendReq={friendReq}
+                key={friendReq._id}
+              ></FriendReqCard>
+            );
+          })
+        ) : (
+          <p className="text-white my-2">No friend requests</p>
+        )}
+      </div>
+    </>
   );
 };
 
