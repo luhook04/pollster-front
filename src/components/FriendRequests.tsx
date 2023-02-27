@@ -14,7 +14,7 @@ const FriendRequests: React.FC<FuncProps> = ({
   setCurrentUser,
 }) => {
   return (
-    <div className="friend-req-panel">
+    <div className="overflow-auto">
       <h3>Friend Requests</h3>
       {currentUser.friendRequests ? (
         currentUser.friendRequests.map((friendReq: User) => {
