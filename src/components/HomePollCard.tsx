@@ -5,14 +5,13 @@ import { Poll, Answer } from '../App';
 
 interface FuncProps {
   updateVote(poll: Poll, answer: Answer): void;
-  deletePoll?(pollId: string): Promise<void>;
-  deletePollFunc(pollId: string): void;
+  deletePoll(pollId: string): Promise<void>;
   poll: Poll;
 }
 
-const PollCard: React.FC<FuncProps> = ({
+const HomePollCard: React.FC<FuncProps> = ({
   poll,
-  deletePollFunc,
+  deletePoll,
   updateVote,
 }) => {
   const { state } = useContext(AuthContext);
@@ -50,7 +49,7 @@ const PollCard: React.FC<FuncProps> = ({
       {poll.author.username === state.user?.username ? (
         <button
           className="block bg-red-600 hover:bg-red-900 text-white mx-auto px-6 rounded-full"
-          onClick={() => deletePollFunc(poll._id)}
+          onClick={() => deletePoll(poll._id)}
         >
           Delete
         </button>
@@ -59,4 +58,4 @@ const PollCard: React.FC<FuncProps> = ({
   );
 };
 
-export default PollCard;
+export default HomePollCard;

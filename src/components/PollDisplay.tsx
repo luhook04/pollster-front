@@ -1,6 +1,6 @@
 import React from 'react';
 import { Poll, Answer } from '../App';
-import PollCard from './PollCard';
+import HomePollCard from './HomePollCard';
 
 interface FuncProps {
   updateVote(poll: Poll, answer: Answer): void;
@@ -15,20 +15,18 @@ const PollDisplay: React.FC<FuncProps> = ({
 }) => {
   return (
     <>
-      {polls ? (
-        <div className="md:grow">
-          {polls.map((poll: Poll) => {
-            return (
-              <PollCard
-                key={poll._id}
-                deletePoll={deletePoll}
-                poll={poll}
-                updateVote={updateVote}
-              ></PollCard>
-            );
-          })}
-        </div>
-      ) : null}
+      <div className="md:grow">
+        {polls.map((poll: Poll) => {
+          return (
+            <HomePollCard
+              key={poll._id}
+              deletePoll={deletePoll}
+              poll={poll}
+              updateVote={updateVote}
+            ></HomePollCard>
+          );
+        })}
+      </div>
     </>
   );
 };

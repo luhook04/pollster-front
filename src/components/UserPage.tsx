@@ -150,6 +150,12 @@ const UserPage: React.FC<FuncProps> = ({
     }
   };
 
+  const deletePollFunc = (pollId: string): void => {
+    deletePoll(pollId);
+    const newPolls = myPolls.filter((poll: Poll) => poll._id !== pollId);
+    setMyPolls(newPolls);
+  };
+
   return (
     <>
       {user.username !== '' && (
@@ -195,7 +201,7 @@ const UserPage: React.FC<FuncProps> = ({
                 <PollCard
                   key={poll._id}
                   poll={poll}
-                  deletePoll={deletePoll}
+                  deletePollFunc={deletePollFunc}
                   updateVote={updateVote}
                 ></PollCard>
               );
