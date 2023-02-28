@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../context/context';
 import PollCard from './PollCard';
 import { Poll, Answer, CurrentUser, User } from '../App';
+import LoaderContainer from './LoaderContainer';
 
 interface FuncProps {
   deletePoll(pollId: string): Promise<void>;
@@ -34,8 +35,10 @@ const UserPage: React.FC<FuncProps> = ({
   });
   const [myPolls, setMyPolls] = useState<Poll[]>([]);
   const [status, setStatus] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    setLoading(true);
     setUser({
       _id: '',
       username: '',
@@ -68,7 +71,7 @@ const UserPage: React.FC<FuncProps> = ({
         }
         setUser(resJson.user);
         setMyPolls(resJson.polls);
-        console.log(resJson);
+        setLoading(false);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -158,57 +161,63 @@ const UserPage: React.FC<FuncProps> = ({
 
   return (
     <>
-      {user.username !== '' && (
-        <div className="text-center bg-white mx-auto w-11/12 md:w-1/2 py-3">
-          {userId !== state.user?._id ? (
-            <div>
-              <h2 className="text-xl font-bold my-3">{user.username}</h2>
-              {status === 'friend' ? (
-                <button
-                  className=" text-white mb-3 bg-red-700 hover:bg-red-900 rounded px-4 py-1 text-sm"
-                  onClick={deleteFriend}
-                >
-                  Delete Friend
-                </button>
+      {!loading ? (
+        <>
+          {user.username !== '' && (
+            <div className="text-center bg-white mx-auto w-11/12 md:w-1/2 py-3">
+              {userId !== state.user?._id ? (
+                <div>
+                  <h2 className="text-xl font-bold my-3">{user.username}</h2>
+                  {status === 'friend' ? (
+                    <button
+                      className=" text-white mb-3 bg-red-700 hover:bg-red-900 rounded px-4 py-1 text-sm"
+                      onClick={deleteFriend}
+                    >
+                      Delete Friend
+                    </button>
+                  ) : (
+                    <button
+                      className="text-white mb-3 bg-green-700 hover:bg-green-900 rounded px-4 py-1 text-sm disabled:bg-slate-300 disabled:text-slate-800 disabled:border-slate-200"
+                      disabled={status === 'requested'}
+                      onClick={sendFriendReq}
+                    >
+                      Add Friend
+                    </button>
+                  )}
+                </div>
               ) : (
-                <button
-                  className="text-white mb-3 bg-green-700 hover:bg-green-900 rounded px-4 py-1 text-sm disabled:bg-slate-300 disabled:text-slate-800 disabled:border-slate-200"
-                  disabled={status === 'requested'}
-                  onClick={sendFriendReq}
-                >
-                  Add Friend
-                </button>
+                <div>
+                  <h2 className="text-xl font-bold my-3">{user.username}</h2>
+                  <button
+                    className=" text-white mb-3 bg-red-700 hover:bg-red-900 rounded px-4 py-1 text-sm"
+                    onClick={deleteAccount}
+                  >
+                    Delete Account
+                  </button>
+                </div>
               )}
             </div>
-          ) : (
-            <div>
-              <h2 className="text-xl font-bold my-3">{user.username}</h2>
-              <button
-                className=" text-white mb-3 bg-red-700 hover:bg-red-900 rounded px-4 py-1 text-sm"
-                onClick={deleteAccount}
-              >
-                Delete Account
-              </button>
-            </div>
           )}
-        </div>
+          {status !== 'requested' && status !== 'stranger' ? (
+            myPolls && user.username !== '' ? (
+              <div>
+                {myPolls.map((poll: Poll) => {
+                  return (
+                    <PollCard
+                      key={poll._id}
+                      poll={poll}
+                      deletePollFunc={deletePollFunc}
+                      updateVote={updateVote}
+                    ></PollCard>
+                  );
+                })}
+              </div>
+            ) : null
+          ) : null}
+        </>
+      ) : (
+        <LoaderContainer />
       )}
-      {status !== 'requested' && status !== 'stranger' ? (
-        myPolls && user.username !== '' ? (
-          <div>
-            {myPolls.map((poll: Poll) => {
-              return (
-                <PollCard
-                  key={poll._id}
-                  poll={poll}
-                  deletePollFunc={deletePollFunc}
-                  updateVote={updateVote}
-                ></PollCard>
-              );
-            })}
-          </div>
-        ) : null
-      ) : null}
     </>
   );
 };

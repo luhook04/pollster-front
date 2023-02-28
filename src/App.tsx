@@ -54,8 +54,10 @@ const App: React.FC = () => {
   const [homePolls, setHomePolls] = useState<Poll[]>([]);
   const { state } = useContext(AuthContext);
   const [createPollForm, setCreatePollForm] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    setLoading(true);
     const getPolls = async (): Promise<void> => {
       try {
         const res = await fetch(
@@ -72,6 +74,7 @@ const App: React.FC = () => {
         }
         const resJson = await res.json();
         setHomePolls(resJson.polls);
+        setLoading(false);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -101,7 +104,7 @@ const App: React.FC = () => {
       getPolls();
       getHomeUser();
     }
-  }, [state, homePolls]);
+  }, [state]);
 
   const deletePoll = async (pollId: string): Promise<void> => {
     try {
@@ -154,6 +157,7 @@ const App: React.FC = () => {
           element={
             state.isAuthenticated ? (
               <Home
+                loading={loading}
                 polls={homePolls}
                 setPolls={setHomePolls}
                 createPollForm={createPollForm}
