@@ -62,6 +62,7 @@ const Home: React.FC<FuncProps> = ({
               ></PollDisplay>
               <div className="md:w-1/4 mt-3 bg-white md:my-3 md:p-3 md:mr-7 text-center p-3 w-11/12 mx-auto">
                 <FriendRequests
+                  polls={polls}
                   setPolls={setPolls}
                   setCurrentUser={setCurrentUser}
                   currentUser={currentUser}

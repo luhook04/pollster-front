@@ -3,6 +3,7 @@ import { AuthContext } from '../context/context';
 import { User, Poll, CurrentUser } from '../App';
 
 interface FuncProps {
+  polls: Poll[];
   friendReq: User;
   setPolls: React.Dispatch<React.SetStateAction<Poll[]>>;
   setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUser>>;
@@ -12,6 +13,7 @@ interface FuncProps {
 const FriendReqCard: React.FC<FuncProps> = ({
   friendReq,
   setPolls,
+  polls,
   currentUser,
   setCurrentUser,
 }) => {
@@ -20,7 +22,7 @@ const FriendReqCard: React.FC<FuncProps> = ({
   const getNewPolls = async (): Promise<void> => {
     try {
       const res = await fetch(
-        'https://pollster-api-production.up.railway.app/api/polls',
+        `https://pollster-api-production.up.railway.app/api/users/${friendReq._id}`,
         {
           method: 'GET',
           headers: {
@@ -31,8 +33,10 @@ const FriendReqCard: React.FC<FuncProps> = ({
       if (!res.ok) {
         throw new Error('Network response error');
       }
-      const newPolls = await res.json();
-      setPolls(newPolls.polls);
+      const newPollJson = await res.json();
+      const newPolls = [...polls, ...newPollJson.polls];
+      const sortedPolls = newPolls.sort((a, b) => b.timestamp - a.timestamp);
+      setPolls(sortedPolls);
     } catch (error) {
       console.error('Error:', error);
     }

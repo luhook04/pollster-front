@@ -3,6 +3,7 @@ import FriendReqCard from './FriendReqCard';
 import { User, Poll, CurrentUser } from '../App';
 
 interface FuncProps {
+  polls: Poll[];
   setPolls: React.Dispatch<React.SetStateAction<Poll[]>>;
   setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUser>>;
   currentUser: CurrentUser;
@@ -10,6 +11,7 @@ interface FuncProps {
 
 const FriendRequests: React.FC<FuncProps> = ({
   setPolls,
+  polls,
   currentUser,
   setCurrentUser,
 }) => {
@@ -21,6 +23,7 @@ const FriendRequests: React.FC<FuncProps> = ({
           currentUser.friendRequests.map((friendReq: User) => {
             return (
               <FriendReqCard
+                polls={polls}
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
                 setPolls={setPolls}

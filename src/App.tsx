@@ -30,7 +30,7 @@ export interface User {
   profilePicUrl: string;
   friends: string[];
   friendRequests: string[];
-  polls: string[];
+  polls: Poll[];
 }
 
 export interface CurrentUser {
@@ -100,12 +100,13 @@ const App: React.FC = () => {
         console.error('Error:', error);
       }
     };
+
     if (state.isAuthenticated) {
       getPolls();
       getHomeUser();
     }
   }, [state]);
-
+  console.log(homePolls);
   const deletePoll = async (pollId: string): Promise<void> => {
     try {
       const newPollList = homePolls.filter((poll: Poll) => poll._id !== pollId);
