@@ -36,6 +36,14 @@ const UserPage: React.FC<FuncProps> = ({
   const [status, setStatus] = useState<string>('');
 
   useEffect(() => {
+    setUser({
+      _id: '',
+      username: '',
+      profilePicUrl: '',
+      friends: [],
+      friendRequests: [],
+      polls: [],
+    });
     const getUser = async (): Promise<void> => {
       try {
         const res = await fetch(
@@ -144,41 +152,43 @@ const UserPage: React.FC<FuncProps> = ({
 
   return (
     <>
-      <div className="text-center bg-white mx-auto w-11/12 md:w-1/2 py-3">
-        {userId !== state.user?._id ? (
-          <div>
-            <h2 className="text-xl font-bold my-3">{user.username}</h2>
-            {status === 'friend' ? (
+      {user.username !== '' && (
+        <div className="text-center bg-white mx-auto w-11/12 md:w-1/2 py-3">
+          {userId !== state.user?._id ? (
+            <div>
+              <h2 className="text-xl font-bold my-3">{user.username}</h2>
+              {status === 'friend' ? (
+                <button
+                  className=" text-white mb-3 bg-red-700 hover:bg-red-900 rounded px-4 py-1 text-sm"
+                  onClick={deleteFriend}
+                >
+                  Delete Friend
+                </button>
+              ) : (
+                <button
+                  className="text-white mb-3 bg-green-700 hover:bg-green-900 rounded px-4 py-1 text-sm disabled:bg-slate-300 disabled:text-slate-800 disabled:border-slate-200"
+                  disabled={status === 'requested'}
+                  onClick={sendFriendReq}
+                >
+                  Add Friend
+                </button>
+              )}
+            </div>
+          ) : (
+            <div>
+              <h2 className="text-xl font-bold my-3">{user.username}</h2>
               <button
                 className=" text-white mb-3 bg-red-700 hover:bg-red-900 rounded px-4 py-1 text-sm"
-                onClick={deleteFriend}
+                onClick={deleteAccount}
               >
-                Delete Friend
+                Delete Account
               </button>
-            ) : (
-              <button
-                className="text-white mb-3 bg-green-700 hover:bg-green-900 rounded px-4 py-1 text-sm disabled:bg-slate-300 disabled:text-slate-800 disabled:border-slate-200"
-                disabled={status === 'requested'}
-                onClick={sendFriendReq}
-              >
-                Add Friend
-              </button>
-            )}
-          </div>
-        ) : (
-          <div>
-            <h2 className="text-xl font-bold my-3">{user.username}</h2>
-            <button
-              className=" text-white mb-3 bg-red-700 hover:bg-red-900 rounded px-4 py-1 text-sm"
-              onClick={deleteAccount}
-            >
-              Delete Account
-            </button>
-          </div>
-        )}
-      </div>
+            </div>
+          )}
+        </div>
+      )}
       {status !== 'requested' && status !== 'stranger' ? (
-        myPolls ? (
+        myPolls && user.username !== '' ? (
           <div>
             {myPolls.map((poll: Poll) => {
               return (

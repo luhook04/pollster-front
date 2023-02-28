@@ -89,10 +89,10 @@ const FriendReqCard: React.FC<FuncProps> = ({
       if (!res.ok) {
         throw new Error('Network response error');
       }
-      const requestList = newReqList;
+
       setCurrentUser({
         ...currentUser,
-        friendRequests: requestList,
+        friendRequests: newReqList,
       });
     } catch (error) {
       console.error('Error:', error);
