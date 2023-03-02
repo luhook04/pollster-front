@@ -106,7 +106,7 @@ const App: React.FC = () => {
       getHomeUser();
     }
   }, [state]);
-  console.log(homePolls);
+
   const deletePoll = async (pollId: string): Promise<void> => {
     try {
       const newPollList = homePolls.filter((poll: Poll) => poll._id !== pollId);

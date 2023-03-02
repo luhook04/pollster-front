@@ -44,6 +44,7 @@ const Header: React.FC = () => {
       <div className="hidden justify-center align-center sm:flex sm:pr-20">
         <div className="mt-auto mb-0.5" ref={ref}>
           <button
+            title="menu-button"
             onClick={(): void => {
               setShowDropdown(!showDropdown);
             }}

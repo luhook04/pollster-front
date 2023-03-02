@@ -4,6 +4,7 @@ import { AuthContext } from '../context/context';
 import PollCard from './PollCard';
 import { Poll, Answer, CurrentUser, User } from '../App';
 import LoaderContainer from './LoaderContainer';
+import ProfilePicture from './ProfilePicture';
 
 interface FuncProps {
   deletePoll(pollId: string): Promise<void>;
@@ -187,6 +188,10 @@ const UserPage: React.FC<FuncProps> = ({
                 </div>
               ) : (
                 <div>
+                  <ProfilePicture
+                    currentUser={currentUser}
+                    setCurrentUser={setCurrentUser}
+                  ></ProfilePicture>
                   <h2 className="text-xl font-bold my-3">{user.username}</h2>
                   <button
                     className=" text-white mb-3 bg-red-700 hover:bg-red-900 rounded px-4 py-1 text-sm"

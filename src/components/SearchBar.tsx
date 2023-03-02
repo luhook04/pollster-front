@@ -78,10 +78,13 @@ const SearchBar: React.FC = () => {
           filterText &&
           filteredItems.map((item: SearchUser, index: number) => (
             <Link key={index} to={`/users/${item._id}`}>
-              <div className="bg-white border-b border-slate-400">
-                <p className="p-1 hover:bg-blue-400 hover:text-white">
-                  {item.username}
-                </p>
+              <div className="bg-white border-b border-slate-400 flex justify-start  hover:bg-blue-400 hover:text-white">
+                <img
+                  className="h-7 w-7 mx-auto rounded-full border-black border-2 my-auto ml-2 mr-0"
+                  alt="User profile avatar"
+                  src={`https://pollster-api-production.up.railway.app/img/${item.profilePicUrl}`}
+                ></img>
+                <p className="p-1">{item.username}</p>
               </div>
             </Link>
           ))}

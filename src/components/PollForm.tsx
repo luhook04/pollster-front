@@ -100,6 +100,7 @@ const PollForm: React.FC<FuncProps> = ({
         <div className="mx-auto w-11/12 flex flex-col text-center bg-blue-300 border-blue-400 border-2 py-5 rounded">
           <div className="text-right">
             <button
+              type="button"
               className="bg-red-700 hover:bg-red-900 text-white ml-auto px-2 rounded-full mr-5 sm:mr-10"
               onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
                 e.stopPropagation();
