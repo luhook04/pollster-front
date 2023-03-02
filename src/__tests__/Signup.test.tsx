@@ -1,5 +1,5 @@
 import React from 'react';
-import Signup from '../components/Signup';
+import Signup from '../components/Registration/Signup';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

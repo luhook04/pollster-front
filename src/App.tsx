@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './App.css';
-import Login from './components/Login';
+import Login from './components/Registration/Login';
 import Home from './components/Home';
 import { AuthContext } from './context/context';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
-import UserPage from './components/UserPage';
+import UserPage from './components/User/UserPage';
 import SearchBar from './components/SearchBar';
 
 export interface Answer {

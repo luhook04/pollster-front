@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, CurrentUser } from '../App';
+import { User, CurrentUser } from '../../App';
 
 interface FuncProps {
   currentUser: CurrentUser;

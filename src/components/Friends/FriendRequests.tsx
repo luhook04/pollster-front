@@ -1,6 +1,6 @@
 import React from 'react';
 import FriendReqCard from './FriendReqCard';
-import { User, Poll, CurrentUser } from '../App';
+import { User, Poll, CurrentUser } from '../../App';
 
 interface FuncProps {
   polls: Poll[];

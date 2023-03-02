@@ -1,5 +1,5 @@
 import React from 'react';
-import { Poll, Answer } from '../App';
+import { Poll, Answer } from '../../App';
 import HomePollCard from './HomePollCard';
 
 interface FuncProps {

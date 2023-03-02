@@ -1,10 +1,10 @@
 import React from 'react';
 import PollForm from './PollForm';
 import { CurrentUser, Poll, Answer } from '../App';
-import PollDisplay from './PollDisplay';
-import FriendRequests from './FriendRequests';
-import Friends from './Friends';
-import LoaderContainer from './LoaderContainer';
+import PollDisplay from './HomepagePolls/PollDisplay';
+import FriendRequests from './Friends/FriendRequests';
+import Friends from './Friends/Friends';
+import LoaderContainer from './Loader/LoaderContainer';
 
 interface FuncProps {
   loading: boolean;

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext } from 'react';
-import { AuthContext } from '../context/context';
-import { CurrentUser } from '../App';
+import { AuthContext } from '../../context/context';
+import { CurrentUser } from '../../App';
 import { useParams } from 'react-router-dom';
 
 interface FuncProps {

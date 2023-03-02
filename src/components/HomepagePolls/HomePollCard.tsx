@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../context/context';
-import Vote from './Vote';
-import { Poll, Answer } from '../App';
+import { AuthContext } from '../../context/context';
+import Vote from '../Vote';
+import { Poll, Answer } from '../../App';
 
 interface FuncProps {
   updateVote(poll: Poll, answer: Answer): void;

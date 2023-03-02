@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AuthContext } from '../context/context';
+import { AuthContext } from '../../context/context';
 import PollCard from './PollCard';
-import { Poll, Answer, CurrentUser, User } from '../App';
-import LoaderContainer from './LoaderContainer';
+import { Poll, Answer, CurrentUser, User } from '../../App';
+import LoaderContainer from '../Loader/LoaderContainer';
 import ProfilePicture from './ProfilePicture';
 
 interface FuncProps {
