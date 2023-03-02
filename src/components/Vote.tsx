@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from '../context/context';
 import { Answer, Poll } from '../App';
 
@@ -51,7 +51,6 @@ const Vote: React.FC<FuncProps> = ({
           updateVote(poll, answer);
           let newVoteArray = [...totalVotes, state.user?._id];
           setTotalVotes(newVoteArray);
-          console.log(totalVotes);
         }
       } catch (error) {
         console.error('Error:', error);

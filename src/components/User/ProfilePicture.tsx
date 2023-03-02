@@ -27,7 +27,6 @@ const ProfilePicture: React.FC<FuncProps> = ({
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const selectedFile = e.target.files ? e.target.files[0] : null;
     setFile(selectedFile);
-    console.log(file);
   };
 
   const handleSubmit = async (
@@ -38,7 +37,7 @@ const ProfilePicture: React.FC<FuncProps> = ({
     if (file) {
       formData.append('profilePic', file);
     }
-    console.log('fack');
+
     try {
       const res = await fetch(
         `https://pollster-api-production.up.railway.app/api/users/${userId}/image`,
@@ -55,7 +54,7 @@ const ProfilePicture: React.FC<FuncProps> = ({
       }
       const resJson = await res.json();
       setChangePic(false);
-      console.log(resJson);
+
       const newUrl = resJson.user.profilePicUrl;
       setCurrentUser({ ...currentUser, profilePicUrl: newUrl });
     } catch (error) {
