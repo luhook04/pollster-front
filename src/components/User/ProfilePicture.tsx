@@ -57,6 +57,7 @@ const ProfilePicture: React.FC<FuncProps> = ({
 
       const newUrl = resJson.user.profilePicUrl;
       setCurrentUser({ ...currentUser, profilePicUrl: newUrl });
+      window.location.reload();
     } catch (error) {
       console.error('Error:', error);
     }
