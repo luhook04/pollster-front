@@ -28,7 +28,15 @@ const HomePollCard: React.FC<FuncProps> = ({
 
   return (
     <div className="bg-white my-3 p-3 w-11/12 mx-auto">
-      <p>{poll.author.username}</p>
+      <div className="flex gap-2">
+        <img
+          className="h-8 w-8 rounded-full border-black border-2 my-auto"
+          src={`https://pollster-api-production.up.railway.app/img/${poll.author.profilePicUrl}`}
+          alt="Author avatar"
+        />
+        <p className="my-auto">{poll.author.username}</p>
+        <p className="my-auto ml-auto">{poll.date}</p>
+      </div>
       <p className="mt-2">{poll.question}</p>
       <div className="my-3 rounded-sm">
         {poll.answers.map((answer: Answer) => {
@@ -48,7 +56,7 @@ const HomePollCard: React.FC<FuncProps> = ({
       {error ? <p className="text-center mb-2">Error: {error}</p> : null}
       {poll.author.username === state.user?.username ? (
         <button
-          className="block bg-red-600 hover:bg-red-900 text-white mx-auto px-6 rounded-full"
+          className="block bg-red-700 hover:bg-red-900 rounded px-4 py-1 text-white mx-auto"
           onClick={() => deletePoll(poll._id)}
         >
           Delete
