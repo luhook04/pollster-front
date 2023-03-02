@@ -51,7 +51,7 @@ const App: React.FC = () => {
     friendRequests: [],
     polls: [],
   });
-  const [homePolls, setHomePolls] = useState<Poll[]>([]);
+  const [polls, setPolls] = useState<Poll[]>([]);
   const { state } = useContext(AuthContext);
   const [createPollForm, setCreatePollForm] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -73,7 +73,7 @@ const App: React.FC = () => {
           throw new Error('Network response error');
         }
         const resJson = await res.json();
-        setHomePolls(resJson.polls);
+        setPolls(resJson.polls);
         setLoading(false);
       } catch (error) {
         console.error('Error:', error);
@@ -109,7 +109,7 @@ const App: React.FC = () => {
 
   const deletePoll = async (pollId: string): Promise<void> => {
     try {
-      const newPollList = homePolls.filter((poll: Poll) => poll._id !== pollId);
+      const newPollList = polls.filter((poll: Poll) => poll._id !== pollId);
       const res = await fetch(
         `https://pollster-api-production.up.railway.app/api/polls/${pollId}`,
         {
@@ -122,14 +122,14 @@ const App: React.FC = () => {
       if (!res.ok) {
         throw new Error('Network response error');
       }
-      setHomePolls(newPollList);
+      setPolls(newPollList);
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
   const updateVote = (poll: Poll, answer: Answer): void => {
-    let updatedPoll = homePolls.find((element: Poll) => element === poll);
+    let updatedPoll = polls.find((element: Poll) => element === poll);
     if (updatedPoll === undefined) {
       throw new TypeError('The value should be there');
     }
@@ -137,12 +137,12 @@ const App: React.FC = () => {
       (element: any) => element === answer
     );
     updatedAnswer?.votes.push(state.user?._id);
-    let newArray = [...homePolls];
+    let newArray = [...polls];
     let index = newArray.indexOf(poll);
     if (index !== -1) {
       newArray.splice(index, 1, updatedPoll);
     }
-    setHomePolls(newArray);
+    setPolls(newArray);
   };
 
   return (
@@ -159,8 +159,8 @@ const App: React.FC = () => {
             state.isAuthenticated ? (
               <Home
                 loading={loading}
-                polls={homePolls}
-                setPolls={setHomePolls}
+                polls={polls}
+                setPolls={setPolls}
                 createPollForm={createPollForm}
                 setCreatePollForm={setCreatePollForm}
                 currentUser={currentUser}
@@ -178,8 +178,8 @@ const App: React.FC = () => {
           element={
             state.isAuthenticated ? (
               <UserPage
-                polls={homePolls}
-                setPolls={setHomePolls}
+                polls={polls}
+                setPolls={setPolls}
                 updateVote={updateVote}
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
