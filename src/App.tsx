@@ -129,12 +129,13 @@ const App: React.FC = () => {
   };
 
   const updateVote = (poll: Poll, answer: Answer): void => {
-    let updatedPoll = polls.find((element: Poll) => element === poll);
+    let updatedPoll = polls.find((element: Poll) => element._id === poll._id);
     if (updatedPoll === undefined) {
       throw new TypeError('The value should be there');
     }
+
     let updatedAnswer = updatedPoll!.answers.find(
-      (element: any) => element === answer
+      (element: Answer) => element._id === answer._id
     );
     updatedAnswer?.votes.push(state.user?._id);
     let newArray = [...polls];

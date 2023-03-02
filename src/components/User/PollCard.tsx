@@ -5,6 +5,7 @@ import { Poll, Answer } from '../../App';
 
 interface FuncProps {
   updateVote(poll: Poll, answer: Answer): void;
+  updateVoteUserPage(poll: Poll, answer: Answer): void;
   deletePoll?(pollId: string): Promise<void>;
   deletePollFunc(pollId: string): void;
   poll: Poll;
@@ -14,9 +15,11 @@ const PollCard: React.FC<FuncProps> = ({
   poll,
   deletePollFunc,
   updateVote,
+  updateVoteUserPage,
 }) => {
   const [totalVotes, setTotalVotes] = useState<string[]>([]);
   const [error, setError] = useState<string>('');
+  const { state } = useContext(AuthContext);
 
   useEffect(() => {
     const totalVoteArray: string[] = [];
@@ -49,17 +52,20 @@ const PollCard: React.FC<FuncProps> = ({
               setTotalVotes={setTotalVotes}
               answer={answer}
               updateVote={updateVote}
+              updateVoteUserPage={updateVoteUserPage}
             ></Vote>
           );
         })}
       </div>
       {error ? <p className="text-center mb-2">Error: {error}</p> : null}
-      <button
-        className="block bg-red-700 hover:bg-red-900 rounded px-4 py-1 text-white mx-auto"
-        onClick={() => deletePollFunc(poll._id)}
-      >
-        Delete
-      </button>
+      {state.user._id === poll.author._id ? (
+        <button
+          className="block bg-red-700 hover:bg-red-900 rounded px-4 py-1 text-white mx-auto"
+          onClick={() => deletePollFunc(poll._id)}
+        >
+          Delete
+        </button>
+      ) : null}
     </div>
   );
 };

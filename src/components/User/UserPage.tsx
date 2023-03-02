@@ -160,6 +160,24 @@ const UserPage: React.FC<FuncProps> = ({
     setMyPolls(newPolls);
   };
 
+  const updateVoteUserPage = (poll: Poll, answer: Answer): void => {
+    let updatedPoll = myPolls.find((element: Poll) => element._id === poll._id);
+    if (updatedPoll === undefined) {
+      throw new TypeError('The value should be there');
+    }
+
+    let updatedAnswer = updatedPoll!.answers.find(
+      (element: Answer) => element._id === answer._id
+    );
+    updatedAnswer?.votes.push(state.user?._id);
+    let newArray = [...myPolls];
+    let index = newArray.indexOf(poll);
+    if (index !== -1) {
+      newArray.splice(index, 1, updatedPoll);
+    }
+    setMyPolls(newArray);
+  };
+
   return (
     <>
       {!loading ? (
@@ -168,6 +186,11 @@ const UserPage: React.FC<FuncProps> = ({
             <div className="text-center bg-white mx-auto w-11/12 md:w-1/2 py-3">
               {userId !== state.user?._id ? (
                 <div>
+                  <img
+                    className="h-32 w-32 mx-auto rounded-full border-black border-2 "
+                    alt="Profile avatar"
+                    src={`https://pollster-api-production.up.railway.app/img/${user.profilePicUrl}`}
+                  ></img>
                   <h2 className="text-xl font-bold my-3">{user.username}</h2>
                   {status === 'friend' ? (
                     <button
@@ -213,6 +236,7 @@ const UserPage: React.FC<FuncProps> = ({
                       poll={poll}
                       deletePollFunc={deletePollFunc}
                       updateVote={updateVote}
+                      updateVoteUserPage={updateVoteUserPage}
                     ></PollCard>
                   );
                 })}

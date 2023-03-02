@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AuthContext } from '../context/context';
 import { Answer, Poll } from '../App';
 
@@ -9,6 +9,7 @@ interface FuncProps {
   answer: Answer;
   totalVotes: string[];
   setTotalVotes: React.Dispatch<React.SetStateAction<string[]>>;
+  updateVoteUserPage?(poll: Poll, answer: Answer): void;
 }
 
 const Vote: React.FC<FuncProps> = ({
@@ -18,6 +19,7 @@ const Vote: React.FC<FuncProps> = ({
   updateVote,
   totalVotes,
   setTotalVotes,
+  updateVoteUserPage,
 }) => {
   const { state } = useContext(AuthContext);
 
@@ -43,9 +45,13 @@ const Vote: React.FC<FuncProps> = ({
           throw new Error('Network response error');
         }
         if (res.status === 200) {
+          if (updateVoteUserPage !== undefined) {
+            updateVoteUserPage(poll, answer);
+          }
           updateVote(poll, answer);
           let newVoteArray = [...totalVotes, state.user?._id];
           setTotalVotes(newVoteArray);
+          console.log(totalVotes);
         }
       } catch (error) {
         console.error('Error:', error);
