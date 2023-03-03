@@ -151,7 +151,7 @@ const App: React.FC = () => {
       className="app bg-blue-500"
       onClick={(): void => setCreatePollForm(false)}
     >
-      {state.isAuthenticated && <Header />}
+      {state.isAuthenticated && <Header currentUser={currentUser} />}
       {state.isAuthenticated && !createPollForm && <SearchBar />}
       <Routes>
         <Route

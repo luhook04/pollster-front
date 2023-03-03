@@ -64,7 +64,6 @@ const Login = () => {
 
   const openSignup = (e: any) => {
     e.stopPropagation();
-
     setShowSignup(true);
   };
 
@@ -110,7 +109,7 @@ const Login = () => {
             </button>
           </div>
           <button
-            type="submit"
+            type="button"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-full"
             onClick={testUserLogin}
           >
