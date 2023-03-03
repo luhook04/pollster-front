@@ -13,9 +13,12 @@ const ProfilePicture: React.FC<FuncProps> = ({
   setCurrentUser,
 }) => {
   let { userId } = useParams();
+
   const { state } = useContext(AuthContext);
-  const [file, setFile] = useState<File | null>(null);
+
   const inputFile = useRef<HTMLInputElement | null>(null);
+
+  const [file, setFile] = useState<File | null>(null);
   const [changePic, setChangePic] = useState<boolean>(false);
 
   const onButtonClick = (e: React.MouseEvent<HTMLImageElement>) => {
@@ -54,7 +57,6 @@ const ProfilePicture: React.FC<FuncProps> = ({
       }
       const resJson = await res.json();
       setChangePic(false);
-
       const newUrl = resJson.user.profilePicUrl;
       setCurrentUser({ ...currentUser, profilePicUrl: newUrl });
       window.location.reload();
@@ -64,7 +66,7 @@ const ProfilePicture: React.FC<FuncProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form action="POST" onSubmit={handleSubmit}>
       <img
         onClick={onButtonClick}
         className="h-32 w-32 mx-auto rounded-full border-black border-2 "

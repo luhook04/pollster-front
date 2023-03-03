@@ -55,6 +55,13 @@ const Login = () => {
     }
   };
 
+  const testUserLogin = () => {
+    setUser({
+      username: 'testuser',
+      password: 'testuser',
+    });
+  };
+
   const openSignup = (e: any) => {
     e.stopPropagation();
 
@@ -102,6 +109,13 @@ const Login = () => {
               Create New Account
             </button>
           </div>
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-full"
+            onClick={testUserLogin}
+          >
+            Test User Login
+          </button>
           {error ? <div>{error}</div> : null}
         </form>
       </div>
