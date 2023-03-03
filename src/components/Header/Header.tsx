@@ -39,7 +39,7 @@ const Header: React.FC<FuncProps> = ({ currentUser }) => {
       <div className="hidden justify-center align-center sm:flex">
         <div className="mt-auto mb-0.5" ref={ref}>
           <button
-            className="h-12 w-12 rounded-full border-black border-2 absolute top-3 left-10"
+            className="h-12 w-12 rounded-full border-black border-2 absolute top-3 right-10"
             title="menu-button"
             onClick={(): void => {
               setShowDropdown(!showDropdown);
@@ -52,7 +52,7 @@ const Header: React.FC<FuncProps> = ({ currentUser }) => {
             />
           </button>
           {showDropdown !== false && (
-            <div className="sm:absolute left-10 text-center text-sm">
+            <div className="absolute right-4 text-center text-sm">
               <nav>
                 <ul>
                   <li
