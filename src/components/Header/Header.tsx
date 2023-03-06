@@ -39,14 +39,14 @@ const Header: React.FC<FuncProps> = ({ currentUser }) => {
       <div className="hidden justify-center align-center sm:flex">
         <div className="mt-auto mb-0.5" ref={ref}>
           <button
-            className="h-12 w-12 rounded-full border-black border-2 absolute top-3 right-10"
+            className="rounded-full border-black border-2 absolute top-3 right-10"
             title="menu-button"
             onClick={(): void => {
               setShowDropdown(!showDropdown);
             }}
           >
             <img
-              className="rounded-full"
+              className="rounded-full w-12 h-12 "
               src={`https://pollster-api-production.up.railway.app/img/${currentUser.profilePicUrl}`}
               alt="Profile avatar"
             />
