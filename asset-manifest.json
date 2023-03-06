@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/pollster-front/static/css/main.a88c4fcf.css",
-    "main.js": "/pollster-front/static/js/main.630e045f.js",
+    "main.js": "/pollster-front/static/js/main.bb19e4c6.js",
     "static/js/787.c1fbeb97.chunk.js": "/pollster-front/static/js/787.c1fbeb97.chunk.js",
     "static/media/fontawesome-webfont.svg?v=4.7.0": "/pollster-front/static/media/fontawesome-webfont.c1e38fd9e0e74ba58f7a.svg",
     "static/media/fontawesome-webfont.eot": "/pollster-front/static/media/fontawesome-webfont.8b43027f47b20503057d.eot",
@@ -10,11 +10,11 @@
     "static/media/fontawesome-webfont.woff2?v=4.7.0": "/pollster-front/static/media/fontawesome-webfont.20fd1704ea223900efa9.woff2",
     "index.html": "/pollster-front/index.html",
     "main.a88c4fcf.css.map": "/pollster-front/static/css/main.a88c4fcf.css.map",
-    "main.630e045f.js.map": "/pollster-front/static/js/main.630e045f.js.map",
+    "main.bb19e4c6.js.map": "/pollster-front/static/js/main.bb19e4c6.js.map",
     "787.c1fbeb97.chunk.js.map": "/pollster-front/static/js/787.c1fbeb97.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a88c4fcf.css",
-    "static/js/main.630e045f.js"
+    "static/js/main.bb19e4c6.js"
   ]
 }
