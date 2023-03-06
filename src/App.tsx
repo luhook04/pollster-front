@@ -74,7 +74,6 @@ const App: React.FC = () => {
         }
         const resJson = await res.json();
         setPolls(resJson.polls);
-        setLoading(false);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -104,6 +103,7 @@ const App: React.FC = () => {
     if (state.isAuthenticated) {
       getPolls();
       getHomeUser();
+      setLoading(false);
     }
   }, [state]);
 
