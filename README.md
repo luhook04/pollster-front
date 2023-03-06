@@ -4,6 +4,9 @@ This project is the front-end portion of a social media web application. The app
 
 [Live Preview](https://luhook04.github.io/pollster-front/)
 
+![image](https://user-images.githubusercontent.com/90109038/223198922-97f65f66-e045-4943-af92-f2aa0eef4cc9.png)
+
+
 # Technology 
   - React.js
   - TailWindCSS
