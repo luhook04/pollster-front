@@ -19,6 +19,7 @@ This project is the front-end portion of a social media web application. The app
   - Poll Deletion
   - Account Deletion
   - Loading Screen
+  - User Search
   
   
   
