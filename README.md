@@ -2,7 +2,7 @@
 
 This project is the front-end portion of a social media web application. The app allows users to vote on polls posted by their friends. The goal of this project was to take the skills I've learned to use and put them together to create a full-stack social media app. To improve this application, I would reorganize the state management to use Redux, so the app doesn't have so many props to pass between components.
 
-[Live Preview]('luhook04.github.io/pollster-front')
+[Live Preview](https://luhook04.github.io/pollster-front/)
 
 # Technology 
   - React.js
